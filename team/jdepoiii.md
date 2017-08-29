@@ -1,8 +1,8 @@
 # James DePoyster's Information
 
-**Name**: James DePoyster
-**Personality** Type: ISFJ
-**Teamwork Questionnaire**:
+**Name**: James DePoyster  
+**Personality** Type: ISFJ  
+**Teamwork Questionnaire**:  
 
 1. Mostly​ ​by​ ​text,​ ​during​ ​midday​ ​hours​ ​until​ ​evening​ ​hours.​ ​​ ​However,​ ​I​ ​do​ ​check​ ​my​ ​email everyday,​ ​several​ ​times​ ​during​ ​the​ ​day. 
 2. That​ ​we​ ​will​ ​learn​ ​the​ ​value​ ​of​ ​collaboration​ ​and​ ​teamwork​ ​in​ ​achieving​ ​a​ ​bigger​ ​goal than​ ​we​ ​have​ ​had​ ​before. 
