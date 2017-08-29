@@ -1,4 +1,4 @@
-#James DePoyster's Information
+#James DePoyster's Information#
 
 **Name**: James DePoyster
 **Personality** Type: ISFJ
