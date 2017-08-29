@@ -1,7 +1,6 @@
 # t15 - TIO
 
 * James DePoyster, jdepoiii, jhdepoiii, Depo
-* Next
 
 Sprint #      | Model - Data | Model - Itinerary | View - Server | View - Client |
  ------------ | :---------:  | :---------------: | :-----------: | :-----------: |
