@@ -1,4 +1,4 @@
-package edu.csu2017fa314.DTR15;
+package edu.csu2017fa314.T15;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
