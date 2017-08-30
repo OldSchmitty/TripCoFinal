@@ -1,6 +1,6 @@
-package edu.csu2017fa314.DTR15;
-import edu.csu2017fa314.DTR15.Model.*;
-import edu.csu2017fa314.DTR15.View.*;
+package edu.csu2017fa314.T15;
+import edu.csu2017fa314.T15.Model.*;
+import edu.csu2017fa314.T15.View.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import junit.framework.JUnit4TestAdapter;

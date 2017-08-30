@@ -1,4 +1,4 @@
-package edu.csu2017fa314.DTR15.View;
+package edu.csu2017fa314.T15.View;
 public class View
 {
    private int totalDistance;

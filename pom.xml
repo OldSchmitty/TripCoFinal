@@ -9,12 +9,12 @@
          </properties>
 
          <modelVersion>4.0.0</modelVersion>
-         <groupId>edu.csu2017fa314.DTR15</groupId>
-         <artifactId>DTR15</artifactId>
+         <groupId>edu.csu2017fa314.T15</groupId>
+         <artifactId>T15</artifactId>
          <packaging>jar</packaging>
          <version>0.0.1-SNAPSHOT</version>
-         <name>DTR15</name>
-         <url>https://github.com/csu2017fa314/DTR-15/</url>
+         <name>T15</name>
+         <url>https://github.com/csu2017fa314/T15/</url>
          <build>
                   <plugins>
                            <plugin>
@@ -25,7 +25,7 @@
                                              <archive>
                                                       <manifest>
                                                                <addClasspath>true</addClasspath>
-                                                               <mainClass>edu.csu2017fa314.DTR15</mainClass>
+                                                               <mainClass>edu.csu2017fa314.T15</mainClass>
                                                       </manifest>
                                              </archive>
                                     </configuration>
