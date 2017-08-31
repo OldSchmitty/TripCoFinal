@@ -1,4 +1,4 @@
-# t15 - TIO
+# t15 - Wolf Pack
 
 * James DePoyster, jdepoiii, jhdepoiii, Depo
 * Josiah May, josiahm, JosiahMay
