@@ -3,6 +3,7 @@
 * James DePoyster, jdepoiii, jhdepoiii, Depo
 * Josiah May, josiahm, JosiahMay
 * Mark Smith, markss, OldSchmitty
+* Andrew Dennis, awdenni, awdennis, Andy
 
   Sprint #  |   Model - Data   | Model - Itinerary |  View - Server    |   View - Client   |
   --------  | :--------------: | :---------------: | :---------------: | :---------------: |
