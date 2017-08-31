@@ -7,7 +7,7 @@
 
   Sprint #  |   Model - Data   | Model - Itinerary |  View - Server    |   View - Client   |
   --------  | :--------------: | :---------------: | :---------------: | :---------------: |
-   1        | James DePoyster  |                   |                   |                   |
+   1        | James DePoyster  |                   |    Mark Smith     |                   |
    2        |                  |                   |                   |                   |
    3        |                  |                   |                   |                   |
    4        |                  |                   |                   |                   |
