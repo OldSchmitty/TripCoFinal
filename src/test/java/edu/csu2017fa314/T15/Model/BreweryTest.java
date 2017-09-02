@@ -6,6 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests the methods of the Brewery class
+ * @author jmay
+ * @version 1.0 - 9/2/17
+ */
 public class BreweryTest {
 
   private Brewery b;
