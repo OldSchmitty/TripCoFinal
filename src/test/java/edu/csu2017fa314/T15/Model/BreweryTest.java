@@ -14,6 +14,10 @@ public class BreweryTest {
     b = new Brewery();
   }
 
+  /**
+   * Tests if Brewery was imported correctly
+   * @throws Exception - A problem importing brewery
+   */
   @Test
   public void testsImport() throws Exception {
     b = new Brewery();
