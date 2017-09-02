@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * Tests the methods of the Brewery class
  * @author jmay
- * @version 1.0 - 9/2/17
+ * @version 1.0 - 9/2/17 - initial
  */
 public class BreweryTest {
 

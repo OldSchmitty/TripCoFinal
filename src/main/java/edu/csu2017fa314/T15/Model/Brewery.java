@@ -2,6 +2,8 @@ package edu.csu2017fa314.T15.Model;
 
 /**
  * Class that holds all the info on a brewery
+ * @author jmay
+ * @version 1.0 - 9/2/17 initial
  */
 public class Brewery {
 
