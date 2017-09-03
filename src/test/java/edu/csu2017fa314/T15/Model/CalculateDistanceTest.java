@@ -41,4 +41,21 @@ public class CalculateDistanceTest {
     assertEquals(-106.24, CalculateDistance.stringToDoubleForCoordinate("106.24° W"), .000001);
     assertEquals(-106.24, CalculateDistance.stringToDoubleForCoordinate("-106.24"), .000001);
   }
+
+  /**
+   * Tests distance between to location
+   * @throws Exception - Unknown error
+   */
+  @Test
+  public void greatDistanceCalculation() throws Exception {
+    /*
+     * 40°24'28.9"N, 105°06'52.1"W and 38°56'31" N,105°9'28" W is 101 mile apart
+     */
+    assertEquals(101,
+        Math.round(CalculateDistance.greatDistanceCalculation(
+            CalculateDistance.stringToDoubleForCoordinate("40°24'28.9\"N"),
+            CalculateDistance.stringToDoubleForCoordinate("105°06'52.1\"W"),
+            CalculateDistance.stringToDoubleForCoordinate("38°56'31\" N"),
+            CalculateDistance.stringToDoubleForCoordinate("N,105°9'28\" W"))));
+  }
 }
