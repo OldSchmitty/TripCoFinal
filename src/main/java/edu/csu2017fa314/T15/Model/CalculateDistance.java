@@ -8,13 +8,12 @@ package edu.csu2017fa314.T15.Model;
 public class CalculateDistance {
 
   /**
-   * <p>Converts a string atitude or longitude into its decimal form</p>
-   * <p>Can read formants like 106°49'43.24" W, 106°49.24' W, 106.24° W, or -106.24</p>
-   *
+   * <p>Converts a string latitude or longitude into its decimal form</p>
+   * <p>Can read formats like 106°49'43.24" W, 106°49.24' W, 106.24° W, or -106.24</p>
    * @param coordinate -The coordinate string to read
    * @return - Decimal form of the coordinate
    */
-  public static double stringToDoubeForCoordinate (final String coordinate){
+  public static double stringToDoubleForCoordinate (final String coordinate){
 
     //Parse the string
     String str = coordinate.toLowerCase();
@@ -31,7 +30,7 @@ public class CalculateDistance {
     }
 
     //Find dec of coordinate
-    //If in form -x*y'z" need to change to postivie for adding minutes and seconds
+    //If in form -x*y'z" need to change to positive for adding minutes and seconds
     if(doubleElements[0] < 0){
       mod = -1;
       doubleElements[0] *= mod;

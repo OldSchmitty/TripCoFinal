@@ -33,12 +33,12 @@ public class CalculateDistanceTest {
    * @throws Exception - Not converted properly
    */
   @Test
-  public void stringToDoubeForCoordinate() throws Exception {
+  public void stringToDoubleForCoordinate() throws Exception {
     // Testing 106°49'43.24" W, 106°49.24' W, 106.24° W, -106.24
     // Should be -106.82867777777777, -106.82066666666667. -106.24, -106.24
-    assertEquals(-106.82867777777777, CalculateDistance.stringToDoubeForCoordinate("106°49'43.24\" W"), .000001);
-    assertEquals(-106.82066666666667, CalculateDistance.stringToDoubeForCoordinate("106°49.24' W"), .000001);
-    assertEquals(-106.24, CalculateDistance.stringToDoubeForCoordinate("106.24° W"), .000001);
-    assertEquals(-106.24, CalculateDistance.stringToDoubeForCoordinate("-106.24"), .000001);
+    assertEquals(-106.82867777777777, CalculateDistance.stringToDoubleForCoordinate("106°49'43.24\" W"), .000001);
+    assertEquals(-106.82066666666667, CalculateDistance.stringToDoubleForCoordinate("106°49.24' W"), .000001);
+    assertEquals(-106.24, CalculateDistance.stringToDoubleForCoordinate("106.24° W"), .000001);
+    assertEquals(-106.24, CalculateDistance.stringToDoubleForCoordinate("-106.24"), .000001);
   }
 }
