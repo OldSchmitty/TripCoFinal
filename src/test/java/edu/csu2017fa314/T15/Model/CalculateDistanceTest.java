@@ -27,4 +27,13 @@ public class CalculateDistanceTest {
   public void testsImport() throws Exception {
     cd = new CalculateDistance();
   }
+
+  /**
+   * Tests to see if strings were properly converted
+   * @throws Exception - Not converted properly
+   */
+  @Test
+  public void stringToDoubeForCoordinate() throws Exception {
+
+  }
 }
