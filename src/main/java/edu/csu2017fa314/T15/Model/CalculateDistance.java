@@ -43,4 +43,14 @@ public class CalculateDistance {
     }
     return rt*mod;
   }
+
+  public static int greatDistanceCalculation(final double lat1, final double log1,
+      final double lat2, final double log2){
+    double lat1Rad = Math.toRadians(lat1);
+    double log1Rad = Math.toRadians(log1);
+    double lat2Rad = Math.toRadians(lat2);
+    double log2Rad = Math.toRadians(log2);
+
+    return 0;
+  }
 }
