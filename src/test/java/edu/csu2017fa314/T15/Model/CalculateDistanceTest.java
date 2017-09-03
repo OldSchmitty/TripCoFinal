@@ -56,6 +56,6 @@ public class CalculateDistanceTest {
             CalculateDistance.stringToDoubleForCoordinate("40°24'28.9\"N"),
             CalculateDistance.stringToDoubleForCoordinate("105°06'52.1\"W"),
             CalculateDistance.stringToDoubleForCoordinate("38°56'31\" N"),
-            CalculateDistance.stringToDoubleForCoordinate("N,105°9'28\" W"))));
+            CalculateDistance.stringToDoubleForCoordinate("105°9'28\" W"))));
   }
 }
