@@ -7,12 +7,12 @@ package edu.csu2017fa314.T15.Model;
  
 public class Brewery { 
 
-	private String id, brewery, city, latitude, longitude, elevation;
+	private String id, name, city, latitude, longitude, elevation;
 
-   Brewery(String id, String brewery, String city, String latitude, String longitude, String elevation){
+   Brewery(String id, String name, String city, String latitude, String longitude, String elevation){
     
        this.id = id;
-       this.brewery = brewery;
+       this.name = name;
        this.city = city;
        this.latitude = latitude;
        this.longitude = longitude;
@@ -25,33 +25,36 @@ public class Brewery {
 
    }
    
-   public String getid(){
+   Brewery(){
+   }
+   
+   public String getId(){
         return id;   
     }
 
-    public String getbrewery(){
-        return brewery;   
+    public String getName(){
+        return name;   
     }
 
-    public String getcity(){
+    public String getCity(){
         return city;   
     }
 
-    public String getlatitude(){
+    public String getLatitude(){
         return latitude;   
     }
 
-    public String getlongitude(){
+    public String getLongitude(){
         return longitude;   
     }
 
-    public String getelevation(){
+    public String getElevation(){
         return elevation;   
     }
 	
 	public String toString(){
 		return "ID: " + id + '\n'
-			+ "Brewery: " + brewery + '\n'
+			+ "Name: " + name + '\n'
 			+ "City: " + city + '\n'
 			+ "Latitude: " + latitude + '\n'
 			+ "Longitude: " + longitude + '\n'
