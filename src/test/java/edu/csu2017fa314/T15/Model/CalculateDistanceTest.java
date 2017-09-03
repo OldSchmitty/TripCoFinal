@@ -57,5 +57,10 @@ public class CalculateDistanceTest {
             CalculateDistance.stringToDoubleForCoordinate("105°06'52.1\"W"),
             CalculateDistance.stringToDoubleForCoordinate("38°56'31\" N"),
             CalculateDistance.stringToDoubleForCoordinate("105°9'28\" W"))));
+    /**
+     * Sydney to Denver -33.868820, 151.209296 and 39.739236, -104.990251 is 8333
+     */
+    assertEquals(8333,
+        Math.round(CalculateDistance.greatDistanceCalculation(-33.868820, 151.209296, 39.739236, -104.990251)));
   }
 }
