@@ -9,15 +9,16 @@ public class CalculateDistance {
 
   public static double stringToDoubeForCoordinate (final String coordinate){
 
+    //Parse the string
     String str = coordinate.toLowerCase();
-    int mod = 1;
+    int mod = 1; // needed for adding minutes and seconds
     if(str.endsWith("s") || str.endsWith("w") ) {
       mod = -1;
     }
-
+    //Find all the doubles in the Coordinate
     String[] stringElements = str.replaceAll("[^-0-9\\.]+", " ").split(" ");
     Double[] doubleElements = new Double[stringElements.length];
-
+    //Convert strings to doubles
     for (int i = 0; i < stringElements.length; i++) {
       doubleElements[i] = Double.parseDouble(stringElements[i]);
     }
