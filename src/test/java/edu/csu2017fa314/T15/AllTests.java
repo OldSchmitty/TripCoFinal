@@ -10,7 +10,7 @@ import junit.framework.JUnit4TestAdapter;
 @Suite.SuiteClasses({
    TestTripCo.class,  // Add test classes here.
    TestModel.class,
-   TestView.class,
+   TestView.class, 
    BreweryTest.class,
    CalculateDistanceTest.class
 })
