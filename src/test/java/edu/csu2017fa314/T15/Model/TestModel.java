@@ -5,18 +5,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class TestModel 
+public class TestModel
 {
     private Model m;
 
     @Before
-    public void setUp() throws Exception 
+    public void setUp() throws Exception
     {
         m = new Model();
     }
 
-    @Test 
-    public void testGetNumbers() 
+    @Test
+    public void testGetNumbers()
     {
         assertArrayEquals(m.getNumbers(), new int[] {0, 1, 2, 3, 4, 5});
     }
