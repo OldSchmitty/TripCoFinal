@@ -17,13 +17,6 @@ public class Brewery {
        this.latitude = latitude;
        this.longitude = longitude;
        this.elevation = elevation;
-
-	/*
-      * TODO LATITIUDE- 40&deg; 35' 6.92" N, LONGITUDE - 105&deg; 5' 3.9084" W, ELVEVATION - 5007,
-      * TODO destination -"", distance - 0;
-      */
-
-   }
    
    Brewery(){
    }

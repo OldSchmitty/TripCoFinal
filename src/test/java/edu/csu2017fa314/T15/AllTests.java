@@ -11,7 +11,8 @@ import junit.framework.JUnit4TestAdapter;
    TestTripCo.class,  // Add test classes here.
    TestModel.class,
    TestView.class, 
-   BreweryTest.class
+   BreweryTest.class,
+   CalculateDistanceTest.class
 })
 
 public class AllTests
