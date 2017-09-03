@@ -17,6 +17,7 @@ public class Brewery {
        this.latitude = latitude;
        this.longitude = longitude;
        this.elevation = elevation;
+   }
    
    Brewery(){
    }
