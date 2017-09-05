@@ -58,14 +58,17 @@ public class CalculateDistance {
       final double lat2, final double log2){
     double lat1Rad = Math.toRadians(lat1);
     double lat2Rad = Math.toRadians(lat2);
-    double logDiff = Math.abs(Math.toRadians(log2)- Math.toRadians(log1));
+    double logDiff = Math.toRadians(Math.abs(log2 -log1));
+    double latDiff = Math.toRadians(Math.abs(lat1 - lat2));
 
     double dividendPart1 = Math.cos(lat2Rad)*Math.sin(logDiff);
     double dividendPart2 = Math.cos(lat1Rad)*Math.sin(lat2Rad) - Math.sin(lat1Rad)*Math.cos(lat2Rad)*Math.cos(logDiff) ;
     double divisor = Math.sin(lat1Rad)*Math.sin(lat2Rad) + Math.cos(lat1Rad)*Math.cos(lat2Rad)*Math.cos(logDiff);
+    //double a = Math.pow(Math.sin(latDiff/2), 2)+ Math.cos(lat1Rad)*Math.cos(lat2Rad)*Math.pow(Math.sin(logDiff/2),2);
 
-    double arcLength = Math.atan(Math.sqrt(Math.pow(dividendPart1,2)+Math.pow(dividendPart2,2))/divisor);
+    double arcLength = Math.atan2(Math.sqrt(Math.pow(dividendPart1,2)+Math.pow(dividendPart2,2)),divisor);
+    //arcLength = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-    return arcLength*3958.7613;// radius of earth in miles
+    return arcLength*6371.0088;// radius of earth in miles
   }
 }
