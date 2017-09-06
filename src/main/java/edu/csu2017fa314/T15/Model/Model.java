@@ -39,15 +39,15 @@ public class Model{
 	   
 	   // extracting the location of the relevant fields, used toUpperCase so that all scans are global as contains cannot ignore case
 	   for(int i = 0; i < inputData.length; i++) {
-		   if(inputData[i].toUpperCase().equals("ID"))
+		   if(inputData[i].toUpperCase().contains("ID"))
 			   fields[Data.ID.ordinal()] = i;
-		   if(inputData[i].toUpperCase().equals("NAME"))
+		   if(inputData[i].toUpperCase().contains("NAME"))
 			   fields[Data.NAME.ordinal()] = i;
-		   if(inputData[i].toUpperCase().equals("CITY"))
+		   if(inputData[i].toUpperCase().contains("CITY"))
 			   fields[Data.CITY.ordinal()] = i;
-		   if(inputData[i].toUpperCase().equals("LATITUDE"))
+		   if(inputData[i].toUpperCase().contains("LATITUDE"))
 			   fields[Data.LATITUDE.ordinal()] = i;
-		   if(inputData[i].toUpperCase().equals("LONGITUDE"))
+		   if(inputData[i].toUpperCase().contains("LONGITUDE"))
 			   fields[Data.LONGITUDE.ordinal()] = i;
 		   if(inputData[i].toUpperCase().contains("ELEVATION"))
 			   fields[Data.ELEVATION.ordinal()] = i;
@@ -57,6 +57,12 @@ public class Model{
 	   // get each line of the file and store the information as a new Brewery using storeInfo() function
 	   while(read.hasNextLine()) {
 		   inputData = read.nextLine().split(",");
+		   for(int i = 0; i < inputData.length; i++) {
+			   if(inputData[i].charAt(0) == ' ')
+				   inputData[i] = inputData[i].substring(1, inputData[i].length());
+			   if(inputData[i].charAt(inputData[i].length() - 1) == ' ')
+				   inputData[i] = inputData[i].substring(0, inputData[i].length() - 1);
+		   }
 		   storeInfo();
 	   }
 	   read.close();	   

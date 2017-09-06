@@ -19,12 +19,10 @@ public class TestModel
     @Test
     public void testReadAndStore() throws FileNotFoundException {
     	
-    	/* test file has 3 brewery entries, with 2 extra columns to test if model ignors irrelevant columns, gets the relevant columns
-    	 * and the information from the rows is correct, and that it correctly only gets 3 entries, and getNextBrewery() returns null
-    	 * when no more breweries exist -- test file found in: .
+    	/* test file has 3 brewery entries, with 2 extra columns to test if model ignors irrelevant columns, gets the    relevant columns and the information from the rows is correct, and that it correctly only gets 3 entries, and getNextBrewery() returns null when no more breweries exist
     	 */
     	
-    	m.readFile("./src/test/java/edu/csu2017fa314/T15/Test Files/testmodel.csv");
+    	m.readFile("./src/main/resources/testmodel.csv");
     	assertEquals(m.getSize(), 3);
 
     	String test0 = "ID: abee" + '\n'
