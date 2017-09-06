@@ -19,7 +19,7 @@ public class Brewery {
        this.elevation = elevation;
    }
    
-   Brewery(){
+   public Brewery(){
    }
    
    public String getId(){
