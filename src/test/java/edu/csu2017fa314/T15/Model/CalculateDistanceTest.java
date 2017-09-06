@@ -88,4 +88,16 @@ public class CalculateDistanceTest {
             "105°9'28\" W"));
   }
 
+  /**
+   * Test the distance from Brew classes
+   * @throws Exception - unexpected
+   */
+  @Test
+  public void findDistanceBetween1() throws Exception {
+    Brewery b1= new Brewery("abee","Two22 Brew", "Centennial","39°38'07\" N",
+        "104°45'32\" W", "5872" );
+    Brewery b2 = new Brewery("acwatson","Equinox Brewing", "Fort Collins","40°35'17\" N",
+        "105°4'26\" W", "4988");
+    assertEquals(68,CalculateDistance.findDistanceBetween(b1,b2));
+  }
 }
