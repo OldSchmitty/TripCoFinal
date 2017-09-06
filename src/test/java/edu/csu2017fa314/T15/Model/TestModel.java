@@ -15,13 +15,13 @@ public class TestModel
     {
         m = new Model();
     }
-	
+
     @Test
     public void testReadAndStore() throws FileNotFoundException {
-    	
+
     	/* test file has 3 brewery entries, with 2 extra columns to test if model ignors irrelevant columns, gets the    relevant columns and the information from the rows is correct, and that it correctly only gets 3 entries, and getNextBrewery() returns null when no more breweries exist
     	 */
-    	
+
     	m.readFile("./src/main/resources/testmodel.csv");
     	assertEquals(m.getSize(), 3);
 
