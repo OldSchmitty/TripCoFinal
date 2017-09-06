@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import Dropzone from 'react-dropzone'
 
 class Home extends React.Component {
+    
     render() {
-        let total = 0; //update the total here
+        
         return <div className="home-container">
             <div className="inner">
+                <h1>T15 - Wolf Pack</h1>
                 <h3>Itinerary</h3>
                 <Dropzone className="dropzone-style" onDrop={this.drop.bind(this)}>
                     <button>Open JSON File</button>
@@ -15,14 +17,14 @@ class Home extends React.Component {
                     <tbody>
                         <tr>
                             <td colSpan="2">Total:</td>
-                            <td>{total}</td>
+                            <td>{this.props.totalDistance}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     }
-
+    
     drop(acceptedFiles) {
         console.log("Accepting drop");
         acceptedFiles.forEach(file => {
