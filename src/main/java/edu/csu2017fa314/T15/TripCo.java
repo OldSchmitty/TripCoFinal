@@ -1,33 +1,31 @@
 package edu.csu2017fa314.T15;
+
 public class TripCo
 {
 
-   private String name = "";
-
-   public String getName()
-   {
-      return name;
-   }
-
-   public String getMessage()
-   {
-      if (name == "")
-      {
-         return "Hello!";
-      }
-      else
-      {
-         return "Hello " + name + "!";
-      }
-   }
-
-   public void setName(String name)
-   {
-      this.name = name;
-   }
-
+	private static Model m;
+	private static CalculateDistance calc;
+	//private static JSONWriter jw;
+	
+	
    public static void main(String[] args) {
-       System.out.println("Welcome to TripCo");
+	   m = new Model();
+	   m.readFile(args[0]);
+	   
+	   Brewery first, second;
+	   int distance;
+	   
+	   for(int i = 0; i < m.getSize(); i++) {
+		   if(i == 0)
+			   first = m.getNextBrewery();
+		   else
+			   first = second;
+		   second = m.getNextBrewery();
+		   distance = findDistanceBetween(first, second);
+		   //jw.add(first.getId(), second.getId(), distance);
+	   }
+	   
+	   //jw.write(); jw.close();
    }
 
 }
