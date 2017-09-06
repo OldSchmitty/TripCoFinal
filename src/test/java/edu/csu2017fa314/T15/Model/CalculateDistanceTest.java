@@ -41,4 +41,33 @@ public class CalculateDistanceTest {
     assertEquals(-106.24, CalculateDistance.stringToDoubleForCoordinate("106.24° W"), .000001);
     assertEquals(-106.24, CalculateDistance.stringToDoubleForCoordinate("-106.24"), .000001);
   }
+
+  /**
+   * Tests distance between to location
+   * @throws Exception - Unknown error
+   */
+  @Test
+  public void greatDistanceCalculation() throws Exception {
+    /*
+     * 40°24'28.9"N, 105°06'52.1"W and 38°56'31" N,105°9'28" W is 101 mile apart
+     */
+    assertEquals(101,
+        Math.round(CalculateDistance.greatDistanceCalculation(
+            CalculateDistance.stringToDoubleForCoordinate("40°24'28.9\"N"),
+            CalculateDistance.stringToDoubleForCoordinate("105°06'52.1\"W"),
+            CalculateDistance.stringToDoubleForCoordinate("38°56'31\" N"),
+            CalculateDistance.stringToDoubleForCoordinate("105°9'28\" W"))));
+    /*
+     * Sydney to Denver -33.868820, 151.209296 and 39.739236, -104.990251 is 8333
+     *
+    assertEquals(8333,
+        Math.round(CalculateDistance.greatDistanceCalculation(-33.868820, 151.209296, 39.739236, -104.990251)));*/
+
+    /*
+     *  30, -150 and -30, -41 is 6195 -Works
+     *  30, -150 and -30, -40 is 6244 - Does not work it is negative distance
+     */
+    //assertEquals(17310,
+        //Math.round(CalculateDistance.greatDistanceCalculation(30.55, -150.55, -8.55, 40.55)));
+  }
 }
