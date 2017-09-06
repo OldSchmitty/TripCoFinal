@@ -58,10 +58,7 @@ public class Model{
 	   while(read.hasNextLine()) {
 		   inputData = read.nextLine().split(",");
 		   for(int i = 0; i < inputData.length; i++) {
-			   if(inputData[i].charAt(0) == ' ')
-				   inputData[i] = inputData[i].substring(1, inputData[i].length());
-			   if(inputData[i].charAt(inputData[i].length() - 1) == ' ')
-				   inputData[i] = inputData[i].substring(0, inputData[i].length() - 1);
+			   inputData[i] = inputData[i].trim();
 		   }
 		   storeInfo();
 	   }
