@@ -72,7 +72,7 @@ public class CalculateDistance {
 
   /**
    * <p>Find the distance between two latitude and longitude strings by using the
-   * great circle distance formula</p>
+   * great circle distance formula in miles</p>
    * <p>Formula found at https://en.wikipedia.org/wiki/Great-circle_distance</p>
    * @param lat1 - latitude of first location
    * @param log1 - longitude of the first location
@@ -91,7 +91,9 @@ public class CalculateDistance {
   }
 
   /**
-   * Find the distance between two breweries in miles
+   * <p>Find the distance between two latitude and longitude strings by using the
+   * great circle distance formula in miles</p>
+   * <p>Formula found at https://en.wikipedia.org/wiki/Great-circle_distance</p>
    * @param brew1 - Start
    * @param brew2 - End
    * @return - distance in miles
