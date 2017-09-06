@@ -89,4 +89,16 @@ public class CalculateDistance {
         stringToDoubleForCoordinate(lat2),
         stringToDoubleForCoordinate(log2));
   }
+
+  /**
+   * Find the distance between two breweries in miles
+   * @param brew1 - Start
+   * @param brew2 - End
+   * @return - distance in miles
+   */
+  public static long findDistanceBetween(final Brewery brew1, final Brewery brew2){
+     return findDistanceBetween(
+         brew1.getLatitude(), brew1.getLongitude(),
+         brew2.getLatitude(), brew2.getLongitude());
+  }
 }
