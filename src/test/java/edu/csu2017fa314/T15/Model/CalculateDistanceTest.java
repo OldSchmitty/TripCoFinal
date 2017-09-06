@@ -70,4 +70,22 @@ public class CalculateDistanceTest {
     //assertEquals(17310,
         //Math.round(CalculateDistance.greatDistanceCalculation(30.55, -150.55, -8.55, 40.55)));
   }
+
+  /**
+   * Test string to Lat longitude to distance
+   * @throws Exception - bad string
+   */
+  @Test
+  public void findDistanceBetween() throws Exception {
+    /*
+     * 40°24'28.9"N, 105°06'52.1"W and 38°56'31" N,105°9'28" W is 101 mile apart
+     */
+    assertEquals(101,
+        CalculateDistance.findDistanceBetween(
+            "40°24'28.9\"N",
+            "105°06'52.1\"W",
+            "38°56'31\" N",
+            "105°9'28\" W"));
+  }
+
 }

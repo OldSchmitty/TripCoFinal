@@ -45,7 +45,7 @@ public class CalculateDistance {
   }
 
   /**
-   * <p>Find the distnace between two latitude and longitude buy uses the
+   * <p>Find the distance between two latitude and longitude by using the
    * great circle distance formula</p>
    * <p>Formula found at https://en.wikipedia.org/wiki/Great-circle_distance</p>
    * @param lat1 - latitude of first location
@@ -68,5 +68,25 @@ public class CalculateDistance {
     double arcLength = Math.atan2(Math.sqrt(Math.pow(dividendPart1,2)+Math.pow(dividendPart2,2)),divisor);
 
     return Math.round(arcLength*earthRadiusMiles);// radius of earth in miles
+  }
+
+  /**
+   * <p>Find the distance between two latitude and longitude strings by using the
+   * great circle distance formula</p>
+   * <p>Formula found at https://en.wikipedia.org/wiki/Great-circle_distance</p>
+   * @param lat1 - latitude of first location
+   * @param log1 - longitude of the first location
+   * @param lat2 - latitude of second location
+   * @param log2 - longitude of second location
+   * @return - The distance between the two rounded
+   */
+   public static long findDistanceBetween(final String lat1, final String log1,
+      final String lat2, final String log2){
+
+    return greatDistanceCalculation(
+        stringToDoubleForCoordinate(lat1),
+        stringToDoubleForCoordinate(log1),
+        stringToDoubleForCoordinate(lat2),
+        stringToDoubleForCoordinate(log2));
   }
 }
