@@ -57,10 +57,13 @@ public class Model{
 	   // get each line of the file and store the information as a new Brewery using storeInfo() function
 	   while(read.hasNextLine()) {
 		   inputData = read.nextLine().split(",");
-		   for(int i = 0; i < inputData.length; i++) {
-			   inputData[i] = inputData[i].trim();
-		   }
-		   storeInfo();
+		   if(inputData.length != 1) {
+
+				 for (int i = 0; i < inputData.length; i++) {
+					 inputData[i] = inputData[i].trim();
+				 }
+				 storeInfo();
+			 }
 	   }
 	   read.close();	   
    }
