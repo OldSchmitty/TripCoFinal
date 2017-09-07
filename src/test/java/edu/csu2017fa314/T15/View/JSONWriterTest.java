@@ -27,7 +27,7 @@ public class JSONWriterTest {
             isEqual = FileUtils.contentEquals(file1, file2);
         }
         catch (IOException e) {
-                isEqual = false;
+            isEqual = false;
         }
         assert(isEqual);
     }

@@ -1,6 +1,5 @@
 package edu.csu2017fa314.T15.View;
 import org.json.*;
-
 import java.nio.charset.StandardCharsets;
 import java.io.OutputStreamWriter;
 import java.io.FileOutputStream;
