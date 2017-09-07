@@ -12,7 +12,8 @@ import junit.framework.JUnit4TestAdapter;
    TestModel.class,
    TestView.class, 
    BreweryTest.class,
-   CalculateDistanceTest.class
+   CalculateDistanceTest.class,
+   JSONWriterTest.class
 })
 
 public class AllTests
