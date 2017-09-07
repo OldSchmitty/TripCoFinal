@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.FileNotFoundException;
+import java.io.File;
 
 
 public class TestModel
@@ -22,7 +23,7 @@ public class TestModel
     	/* test file has 3 brewery entries, with 2 extra columns to test if model ignors irrelevant columns, gets the    relevant columns and the information from the rows is correct, and that it correctly only gets 3 entries, and getNextBrewery() returns null when no more breweries exist
     	 */
     	
-    	m.readFile("./src/main/resources/testmodel.csv");
+    	m.readFile("."+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"testmodel.csv");
     	assertEquals(m.getSize(), 3);
 
     	String test0 = "ID: abee" + '\n'
