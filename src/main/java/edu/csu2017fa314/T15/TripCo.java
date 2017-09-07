@@ -21,7 +21,7 @@ public class TripCo
 	   Brewery second = new Brewery();
 	   long distance;
 	   
-	   for(int i = 0; i < m.getSize(); i++) {
+	   for(int i = 0; i < m.getSize()-1; i++) {
 		   if(i == 0)
 			   first = m.getNextBrewery();
 		   else
