@@ -9,6 +9,6 @@
   --------  | :--------------: | :---------------: | :---------------: | :---------------: |
    1        | James DePoyster  |    Joisah May     |    Mark Smith     |   Andrew Dennis   |
    2        |                  |                   |                   |  James DePoyster  |
-   3        |                  |                   |                   |                   |
-   4        |                  |                   |                   |                   |
+   3        |                  |  James DePoyster  |                   |                   |
+   4        |                  |                   |  James DePoyster  |                   |
    5        |                  |                   |                   |                   |
