@@ -8,7 +8,7 @@
   Sprint #  |   Model - Data   | Model - Itinerary |  View - Server    |   View - Client   |
   --------  | :--------------: | :---------------: | :---------------: | :---------------: |
    1        | James DePoyster  |    Joisah May     |    Mark Smith     |   Andrew Dennis   |
-   2        |                  |                   |                   |  James DePoyster  |
-   3        |                  |  James DePoyster  |                   |                   |
-   4        |                  |                   |  James DePoyster  |                   |
+   2        |    Mark Smith    |   Andrew Dennis   |    Joisah May     |  James DePoyster  |
+   3        |    Josiah May    |  James DePoyster  |   Andrew Dennis   |    Mark Smith     |
+   4        |  Andrew Dennis   |    Mark Smith     |  James DePoyster  |    Josiah May     |
    5        |                  |                   |                   |                   |
