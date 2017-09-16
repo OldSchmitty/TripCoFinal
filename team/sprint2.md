@@ -1,4 +1,4 @@
-# Sprint 2 - *T99* - *teamname*
+# Sprint 2 - *T15* - *WolfPack*
 
 ## Goal
 
@@ -25,43 +25,37 @@
 
 ## Plan 
 
-User stories (epics) in the Sprint Backlog: *#8, #9, #10, #12, #11, #14*.  
+User stories (epics) in the Sprint Backlog: #91, #93, #97. #99, #101
 
-Total planned tasks / issues in the Sprint Backlog: *99* 
+Total planned tasks / issues in the Sprint Backlog: 45
 
 ## Daily Scrums
 
 Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 :--- | :--- | :--- | :--- | :---
-*Sep 14* | Dave *#27, #28* | Dave *#30* | *None* | *High*
+ | | | | 
  | | | | 
  | | | | 
 
 ## Review
 
 #### Completed user stories (epics) in Sprint Backlog 
-* *#8:  comments*
-* *#9*
-* *#10:  comments*
-* *#12*
-* *#11*
 
-Completed *99* tasks / issues associated with these user stories.
 
 #### Incomplete user stories / epics in Sprint Backlog 
-* *#14*: *Explanation...*
+
 
 #### What went well
-* *something*
+
 
 #### Problems encountered and resolutions
-* *something*
+
 
 ## Retrospective
 
 Topic | Teamwork | Process | Tools
 :--- | :--- | :--- | :---
-What we will change this time |  |  | 
+What we will change this time | We set up a Discord channel to be able to communicate whenever we can reach a computer. | More effective use of issues on github. Ex: Not making an issue for each method, but instead an issue for each problem or request. | Every group member is creating a linux environment.
 What we did well |  |  | 
 What we need to work on |  |  |
 What we will change next time |  |  | 
