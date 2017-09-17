@@ -1,4 +1,5 @@
 package edu.csu2017fa314.T15.View;
+import java.util.HashMap;
 import org.json.*;
 import java.nio.charset.StandardCharsets;
 import java.io.OutputStreamWriter;
@@ -17,6 +18,15 @@ public class JSONWriter {
         }
         list = new JSONArray();
     }
+
+  /**
+   * Adds a HashMap with keys and values of any hashmap
+   * @param item - String key, Object for String or long
+   */
+  public void add(HashMap<String, Object> item){
+    JSONObject newItem = new JSONObject(item);
+    list.put(newItem);
+  }
 
     public void add(String id1, String id2, long distance)
     {
