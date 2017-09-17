@@ -17,7 +17,7 @@ public class TripCo
 	
    public static void main(String[] args) throws FileNotFoundException {
 	   m = new Model();
-	   jw = new JSONWriter("." + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "BreweryItinerary.json");
+	   jw = new JSONWriter("." + File.separator + "data" + File.separator + "BreweryItinerary.json");
 	   m.readFile(args[0]);
 	   
 	   Brewery first = new Brewery();
