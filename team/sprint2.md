@@ -33,8 +33,8 @@ Total planned tasks / issues in the Sprint Backlog: 45
 
 Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 :--- | :--- | :--- | :--- | :---
- | | | | 
- | | | | 
+9-18 | Josiah #117, #122 | Josiah #131,| | high |
+| | Andrew| Andrew #104, #109 | health | medium
  | | | | 
 
 ## Review
