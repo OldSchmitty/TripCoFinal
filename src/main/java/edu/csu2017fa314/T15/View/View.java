@@ -9,15 +9,21 @@ public class View
 {
   private HashMap<String, Brewery> dest;
   private ArrayList<Edge> edge;
+  private String path;
 
   public View (final HashMap<String, Brewery> dest, final ArrayList<Edge> edge, final String path){
     this.dest = dest;
     this.edge = edge;
+    this.path = path;
     run();
   }
 
   public View(){
   }
+
+  /**
+   * Runs logic
+   */
   private void run(){
 
   }
