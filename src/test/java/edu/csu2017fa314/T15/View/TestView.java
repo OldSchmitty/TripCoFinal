@@ -28,6 +28,9 @@ public class TestView
       assertTrue(v.getTotalDistance() == -4);
   }
 
+  /**
+   * <p>Tests constructor for sprint 2</p>
+   */
   @Test
   public void testConstructor(){
     v = new View(new HashMap<String, Brewery>(), new ArrayList<Edge>(), "Test");
