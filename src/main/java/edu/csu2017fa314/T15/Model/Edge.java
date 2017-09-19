@@ -15,9 +15,6 @@ public class Edge {
         this.distance = distance;
     }
 
-    public Edge(){
-    }
-
     public String getDestinationID(){
         return destinationID;
     }

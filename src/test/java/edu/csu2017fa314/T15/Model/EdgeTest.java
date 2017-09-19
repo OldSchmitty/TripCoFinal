@@ -11,7 +11,7 @@ public class EdgeTest {
     private Edge e;
     @Before
     public void setup() throws Exception {
-        e = new Edge();
+        e = new Edge ("1111", "2222", 1000);
     }
 
     /**
@@ -19,30 +19,22 @@ public class EdgeTest {
      * @throws Exception - A problem
      */
 
-    @Test
-    public void testsImport() throws Exception {
-        e = new Edge();
-    }
-
     /**
      * Tests getters
      * JUnit tests
      */
     @Test
     public void testsgetDestinationID(){
-        e = new Edge ("1111", "2222", 1000);
         assertEquals(e.getDestinationID(), "2222");
     }
 
     @Test
     public void testsgetSourceID(){
-        e = new Edge ("1111", "2222", 1000);
         assertEquals(e.getSourceID(), "1111");
     }
 
     @Test
     public void testsgetDistance(){
-        e = new Edge ("1111", "2222", 1000);
         assertEquals(e.getDistance(), 1000);
     }
 }
