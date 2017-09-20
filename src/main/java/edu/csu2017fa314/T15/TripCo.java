@@ -2,7 +2,7 @@ package edu.csu2017fa314.T15;
 
 import edu.csu2017fa314.T15.Model.Model;
 import edu.csu2017fa314.T15.Model.CalculateDistance;
-import edu.csu2017fa314.T15.Model.Brewery;
+import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.View.JSONWriter;
 
 import java.io.FileNotFoundException;
@@ -20,8 +20,8 @@ public class TripCo
 	   jw = new JSONWriter("." + File.separator + "data" + File.separator + "BreweryItinerary.json");
 	   m.readFile(args[0]);
 	   
-	   Brewery first = new Brewery();
-	   Brewery second = new Brewery();
+	   Destination first = new Destination();
+	   Destination second = new Destination();
 	   long distance;
 	   
 	   for(int i = 0; i < m.getSize()-1; i++) {
