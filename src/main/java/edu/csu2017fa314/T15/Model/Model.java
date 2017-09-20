@@ -3,13 +3,12 @@ package edu.csu2017fa314.T15.Model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Model{
 	
    private String[] inputData;   
-   private ArrayList<Brewery> breweries;
+   private ArrayList<Destination> breweries;
    
    /* fields will allow the order and position of the relevant field columns to be determined dynamically, and will be used to extract the necassary data, 
     i.e. fields[0] will represent ID, and might be in position 2, thus fields[0] = 2; */  
@@ -25,7 +24,7 @@ public class Model{
 
    public Model()
    {
-	   breweries = new ArrayList<Brewery>(0);
+	   breweries = new ArrayList<Destination>(0);
    }
 
    public void readFile(String filename) throws FileNotFoundException{
@@ -54,7 +53,7 @@ public class Model{
 	   }
 	   
 	   
-	   // get each line of the file and store the information as a new Brewery using storeInfo() function
+	   // get each line of the file and store the information as a new Destination using storeInfo() function
 	   while(read.hasNextLine()) {
 		   inputData = read.nextLine().split(",");
 		   if(inputData.length != 1) {
@@ -69,18 +68,18 @@ public class Model{
    }
 
 private void storeInfo(){
-	   Brewery temp;
+	   Destination temp;
 	   
 	   // extract the required info from a line of data in the specific index corresponding to a particular field
-	   temp = new Brewery(inputData[fields[Data.ID.ordinal()]], inputData[fields[Data.NAME.ordinal()]], 
+	   temp = new Destination(inputData[fields[Data.ID.ordinal()]], inputData[fields[Data.NAME.ordinal()]],
 			inputData[fields[Data.CITY.ordinal()]], inputData[fields[Data.LATITUDE.ordinal()]], 
 			inputData[fields[Data.LONGITUDE.ordinal()]], inputData[fields[Data.ELEVATION.ordinal()]]);
 	   breweries.add(temp);
    }
    
-   public Brewery getNextBrewery(){
+   public Destination getNextBrewery(){
 	   if(nextBreweryIndex < breweries.size()) {
-		   Brewery brew = breweries.get(nextBreweryIndex);
+		   Destination brew = breweries.get(nextBreweryIndex);
 		   nextBreweryIndex += 1;
 		   return brew;
 	   }   

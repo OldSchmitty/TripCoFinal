@@ -98,7 +98,7 @@ public class CalculateDistance {
    * @param brew2 - End
    * @return - distance in miles
    */
-  public static long findDistanceBetween(final Brewery brew1, final Brewery brew2){
+  public static long findDistanceBetween(final Destination brew1, final Destination brew2){
      return findDistanceBetween(
          brew1.getLatitude(), brew1.getLongitude(),
          brew2.getLatitude(), brew2.getLongitude());
