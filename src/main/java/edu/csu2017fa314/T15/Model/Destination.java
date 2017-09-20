@@ -5,11 +5,11 @@ package edu.csu2017fa314.T15.Model;
  * @version 1 - 9/2/17 initial
  */
  
-public class Brewery { 
+public class Destination {
 
 	private String id, name, city, latitude, longitude, elevation;
 
-   Brewery(String id, String name, String city, String latitude, String longitude, String elevation){
+   Destination(String id, String name, String city, String latitude, String longitude, String elevation){
     
        this.id = id;
        this.name = name;
@@ -19,7 +19,7 @@ public class Brewery {
        this.elevation = elevation;
    }
    
-   public Brewery(){
+   public Destination(){
    }
    
    public String getId(){
