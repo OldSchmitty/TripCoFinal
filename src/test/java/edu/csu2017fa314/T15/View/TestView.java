@@ -1,7 +1,7 @@
 package edu.csu2017fa314.T15.View;
 import static org.junit.Assert.*;
 
-import edu.csu2017fa314.T15.Model.Brewery;
+import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.Model.Edge;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ public class TestView
    */
   @Test
   public void testConstructor(){
-    v = new View(new HashMap<String, Brewery>(), new ArrayList<Edge>(), "Test");
+    v = new View(new HashMap<String, Destination>(), new ArrayList<Edge>(), "Test");
   }
 
 

@@ -1,13 +1,13 @@
 package edu.csu2017fa314.T15.View;
 
-import edu.csu2017fa314.T15.Model.Brewery;
+import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.Model.Edge;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class View
 {
-  private HashMap<String, Brewery> dest;  // All the destinations
+  private HashMap<String, Destination> dest;  // All the destinations
   private ArrayList<Edge> edge;           // The current route
   private String path;                    // Dir to make the files
 
@@ -17,7 +17,7 @@ public class View
    * @param edge List of the path to take
    * @param path Dir where files will be made
    */
-  public View (final HashMap<String, Brewery> dest, final ArrayList<Edge> edge, final String path){
+  public View (final HashMap<String, Destination> dest, final ArrayList<Edge> edge, final String path){
     this.dest = dest;
     this.edge = edge;
     this.path = path;
