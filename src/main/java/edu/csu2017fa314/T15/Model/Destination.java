@@ -23,7 +23,7 @@ public class Destination {
     }
 
     public Destination(String[] keys, String[] values){
-        map = map = new HashMap<String,String>();
+        map = new HashMap<String,String>();
         for (int i =0; i<keys.length; i++ )
         {
             map.put(keys[i], values[i]);
