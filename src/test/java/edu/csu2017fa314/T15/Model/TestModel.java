@@ -43,4 +43,14 @@ public class TestModel
     	assertEquals(m.getNextBrewery().toString(), test1);
     	assertEquals(m.getNextBrewery(), null);
     }
+
+    @Test
+	public void testReadIntoMap(){
+		m = new Model("."+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"testmodel.csv");
+		Destination test =m.getDestination(m.getFirstItem());
+		assertEquals(test.getId(), "abee");
+		assertEquals("39°38'07\"N", test.getLatitude());
+		assertEquals("104°45'32\"W", test.getLongitude());
+		assertEquals(68, CalculateDistance.findDistanceBetween(m.getDestination("abee"),m.getDestination("acwatson")));
+    }
 }

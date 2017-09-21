@@ -23,12 +23,12 @@ public class Model {
 	private long[][] distanceTable;			//Calculations will be stored here from readIntoMap()
 	public  String[] keys;				//A string array of all available data points
     private String firstItem;
-
+    private HashMap<String, Destination> map;
 
 	public enum Data {
 		ID, NAME, CITY, LATITUDE, LONGITUDE, ELEVATION
 	}
-	private HashMap<String, Destination> map;
+
 
 	public Model() {
 
@@ -36,6 +36,7 @@ public class Model {
 	}
 
 	public Model(String fileName){
+	    map = new HashMap<String, Destination>();
 		readIntoMap(fileName);
 	}
 
@@ -80,8 +81,33 @@ public class Model {
 		read.close();
 	}
 
-	public void readIntoMap(String filename) {       //new function to read in data
-        
+	public void readIntoMap(String fileName) {       //new function to read in data
+        int inputCounter = 0;       //keeps track of which input order, needed for distance table
+        String[] values;
+        String nextLine;
+        Destination current;
+
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
+            keys = reader.readLine().replaceAll("\\s+","").toLowerCase().split(",");
+
+            if((nextLine=reader.readLine()) != null){
+                values = nextLine.replaceAll("\\s+","").split(",");
+                current = new Destination(keys, values);
+                firstItem = current.getId();
+                map.put(current.getId(),current);
+            }
+            while ((nextLine=reader.readLine()) != null){
+                values = nextLine.replaceAll("\\s+","").split(",");
+                current = new Destination(keys, values);
+                map.put(current.getId(), current);
+            }
+            reader.close();
+        }
+        catch (java.io.IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 	private void storeInfo() {
@@ -107,6 +133,9 @@ public class Model {
 		return breweries.size();
 	}
 	public HashMap<String, Destination> getMap(){ return map; }
+	public Destination getDestination(String id){
+	    return map.get(id);
+    }
 	public long getDistance(){ return 0; }	//returns the distance from the table between 2 destinations
     public String getFirstItem(){ return firstItem; }
 }
