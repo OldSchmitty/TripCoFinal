@@ -1,5 +1,5 @@
 package edu.csu2017fa314.T15.Model;
-
+import java.util.HashMap;
 /**
  * Class that holds all the info on a brewery
  * @version 1 - 9/2/17 initial
@@ -7,51 +7,45 @@ package edu.csu2017fa314.T15.Model;
  
 public class Destination {
 
-	private String id, name, city, latitude, longitude, elevation;
+    private HashMap<String, String> map;
 
-   Destination(String id, String name, String city, String latitude, String longitude, String elevation){
-    
-       this.id = id;
-       this.name = name;
-       this.city = city;
-       this.latitude = latitude;
-       this.longitude = longitude;
-       this.elevation = elevation;
-   }
-   
-   public Destination(){
-   }
-   
-   public String getId(){
-        return id;   
+    Destination(String id, String name, String city, String latitude, String longitude, String elevation){
+       map = new HashMap<String, String>();
+       map.put("id", id);
+       map.put("name", name);
+       map.put("city", city);
+       map.put("latitude", latitude);
+       map.put("longitude", longitude);
+       map.put("elevation", elevation);
+    }
+    public Destination(){
+       map = new HashMap<String,String>();
     }
 
-    public String getName(){
-        return name;   
-    }
+    public void setValue(String key, String value){ map.put(key,value); }
+
+    public String get(String key){ return map.get(key); }
+
+    public String getId(){ return map.get("id"); }
+
+    public String getName(){ return map.get("name"); }
 
     public String getCity(){
-        return city;   
+        return map.get("city");
     }
 
-    public String getLatitude(){
-        return latitude;   
-    }
+    public String getLatitude(){ return map.get("latitude"); }
 
-    public String getLongitude(){
-        return longitude;   
-    }
+    public String getLongitude() { return map.get("longitude"); }
 
-    public String getElevation(){
-        return elevation;   
-    }
+    public String getElevation() { return map.get("elevation"); }
 	
-	public String toString(){
-		return "ID: " + id + '\n'
-			+ "Name: " + name + '\n'
-			+ "City: " + city + '\n'
-			+ "Latitude: " + latitude + '\n'
-			+ "Longitude: " + longitude + '\n'
-			+ "Elevation: " + elevation;
-	}
+    public String toString(){
+        return "ID: " + getId() + '\n'
+            + "Name: " + getName() + '\n'
+            + "City: " + getCity() + '\n'
+            + "Latitude: " + getLatitude() + '\n'
+            + "Longitude: " + getLongitude() + '\n'
+            + "Elevation: " + getElevation();
+    }
 }
