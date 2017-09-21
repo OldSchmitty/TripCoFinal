@@ -20,7 +20,6 @@ public class Model {
 	// global fields size, changeable if we require more than the 6 fields
 	private static final int numberFields = 6;
 	private int nextBreweryIndex = 0;
-	private long[][] distanceTable;			//Calculations will be stored here from readIntoMap()
 	public  String[] keys;				//A string array of all available data points
     private String firstItem;
     private HashMap<String, Destination> map;
@@ -82,7 +81,6 @@ public class Model {
 	}
 
 	public void readIntoMap(String fileName) {       //new function to read in data
-        int inputCounter = 0;       //keeps track of which input order, needed for distance table
         String[] values;
         String nextLine;
         Destination current;
@@ -136,7 +134,6 @@ public class Model {
 	public Destination getDestination(String id){
 	    return map.get(id);
     }
-	public long getDistance(){ return 0; }	//returns the distance from the table between 2 destinations
     public String getFirstItem(){ return firstItem; }
 }
 
