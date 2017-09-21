@@ -22,6 +22,13 @@ public class Destination {
        map = new HashMap<String,String>();
     }
 
+    public Destination(String[] keys, String[] values){
+        for (int i =0; i<keys.length; i++ )
+        {
+            map.put(keys[i], values[i]);
+        }
+    }
+
     public void setValue(String key, String value){ map.put(key,value); }
 
     public String get(String key){ return map.get(key); }
