@@ -41,6 +41,9 @@ public class TestView
     assertNotNull(v);
   }
 
+  /**
+   * <p>Tests to see if error is thrown when no path is set</p>
+   */
   @Test
   public void testMakeItineraryNoPath(){
     v =new View();
@@ -54,6 +57,10 @@ public class TestView
       assertEquals("View path not set", e.getMessage());
     }
   }
+
+  /**
+   * <p>Test to see if Itinerart JSON made correctly. Copies JSONWriter test.</p>
+   */
   @Test
   public void testMakeItinerary(){
     ArrayList<Edge> edges = new ArrayList<>();
