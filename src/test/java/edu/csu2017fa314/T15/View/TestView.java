@@ -42,6 +42,19 @@ public class TestView
   }
 
   @Test
+  public void testMakeItineraryNoPath(){
+    v =new View();
+    try{
+      ArrayList<Edge> edges = new ArrayList<>();
+      v.makeItinerary(edges);
+      assertFalse(true); // no error thrown
+    }
+    catch (Exception e)
+    {
+      assertEquals("View path not set", e.getMessage());
+    }
+  }
+  @Test
   public void testMakeItinerary(){
     ArrayList<Edge> edges = new ArrayList<>();
     edges.add(new Edge("start name 1", "end name 2", 10000));
