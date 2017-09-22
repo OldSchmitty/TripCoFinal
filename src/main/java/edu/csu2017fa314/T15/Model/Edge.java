@@ -9,7 +9,7 @@ public class Edge {
     private String sourceID, destinationID;
     private long distance;
 
-    Edge(String sourceID, String destinationID, long distance){
+    public Edge(String sourceID, String destinationID, long distance){
         this.sourceID = sourceID;
         this.destinationID = destinationID;
         this.distance = distance;

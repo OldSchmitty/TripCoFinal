@@ -58,7 +58,7 @@ public class TestView
     catch (IOException e) {
       isEqual = false;
     }
-    assert(isEqual);
+    assertTrue(isEqual);
   }
 
 
