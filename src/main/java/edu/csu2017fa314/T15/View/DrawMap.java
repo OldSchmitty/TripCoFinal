@@ -34,7 +34,7 @@ public class DrawMap {
    * Draws the boundaries of Colorado
    */
   public void drawColorado(){
-
+    //<rect id="svg_5" height="708.68515" width="991.4014" y="37.4016" x="37.52397" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="none"/>
   }
 
   /**
