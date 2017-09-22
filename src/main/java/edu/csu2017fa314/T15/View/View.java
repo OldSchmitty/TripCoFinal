@@ -37,9 +37,18 @@ public class View
 
   /**
    * <p>Makes the Itinerary JSON file using Edge list provided</p>
+   * @param route - A list in order of the route
    */
   public void makeItinerary(ArrayList<Edge> route){
+    if(path == null)
+      throw new RuntimeException("View path not set");
 
+    JSONWriter jw = new JSONWriter(path + "Itinerary.json");
+    for (Edge e: route) {
+      jw.add(e.getSourceID(),e.getDestinationID(),e.getDistance());
+    }
+    jw.write();
+    jw.close();
   }
 
   /**

@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.Model.Edge;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.junit.Before;
@@ -16,7 +17,8 @@ public class TestView
   @Before
   public void setUp() throws Exception
   {
-      v = new View();
+      v = new View("."+ File.separator+"data"+
+          File.separator+"ViewItineraryWriterTest.json");
   }
 
   @Test
@@ -33,7 +35,7 @@ public class TestView
    */
   @Test
   public void testConstructor(){
-    v = new View(new HashMap<String, Destination>(), new ArrayList<Edge>(), "Test");
+
   }
 
 
