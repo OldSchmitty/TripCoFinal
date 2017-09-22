@@ -15,7 +15,7 @@ import org.junit.Test;
 public class TestView
 {
   final private String path = "."+ File.separator+"data"+
-      File.separator+"ViewItineraryWriterTest.json";
+      File.separator;
   private View v;
 
   @Before
@@ -49,7 +49,9 @@ public class TestView
     edges.add(new Edge("start name 3", "end name 4", 30000));
     edges.add(new Edge("start name 4", "end name 4", 40000));
 
-    File file1 = new File(path);
+    v.makeItinerary(edges);
+
+    File file1 = new File(path+ "Itinerary.json");
     File file2 = new File("."+File.separator+"web"+File.separator+"Sample1.json");
     boolean isEqual;
     try {
