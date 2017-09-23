@@ -37,15 +37,17 @@ public class DrawMapTest {
   }
 
   @Test
-  public void addPoint() throws Exception {
+  public void addPathPoint() throws Exception {
     try{
-      d.addPoint("39.76185", "-104.881105");
-      worked = true;
+      d = new DrawMap(path + "TestDrawPath.svg");
+      d.addPathPoint("50", "50");
+      d.addPathPoint("70", "70");
+      d.write();
     }
-    catch (Exception e){
-      //
+    catch (RuntimeException e){
+      assertFalse("Write Failed to run", true);
     }
-    assertTrue(worked);
+    assertTrue(new File(path+ "TestDrawPath.svg").exists());
   }
 
   @Test
