@@ -24,26 +24,25 @@ public class DrawMap {
     svgHeader();
   }
 
+  /**
+   * Sets the SVG header
+   */
   private void svgHeader(){
-    String header = new String("<?xml version=\"1.0\"?>\n"
-        + "<svg width=\"1066.6073\" height=\"783.0824\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+    String header ="<?xml version=\"1.0\"?>\n<svg width=\"1066.6073\" "
+        + "height=\"783.0824\" xmlns=\"http://www.w3.org/2000/svg\">\n";
     elements.add(header);
   }
   /**
    * Draws the boundaries of Colorado
    */
   public void drawColorado(){
-
-
-    String mapElem = new String(" <g>\n  <title>ColoradoBorders</title>\n" +
-        "  <!-- Draw Colorado -->\n");
+    String mapElem = " <g>\n  <title>ColoradoBorders</title>\n  <!-- Draw Colorado -->\n";
     //All Code from https://svg-edit.github.io/svgedit
     mapElem += "<rect id=\"Colorado\" height=\"708.68515\" width=\"991.4014\" y=\"37.4016\" "
         + "x=\"37.52397\" stroke-linecap=\"null\" stroke-linejoin=\"null\" "
         + "stroke-dasharray=\"null\" stroke-width=\"5\" stroke=\"#000000\" fill=\"none\"/>";
     mapElem += " </g>";
     elements.add(mapElem);
-
   }
 
   /**
@@ -85,10 +84,7 @@ public class DrawMap {
 
     } catch (java.io.IOException e ) {
       throw new RuntimeException("Error in DrawMap.write() opening file", e);
-
     }
-
-
   }
 
   /**

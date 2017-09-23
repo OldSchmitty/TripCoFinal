@@ -20,9 +20,11 @@ public class DrawMapTest {
   }
 
 
-
+  /**
+   *Draws an empty map of Colorado
+   */
   @Test
-  public void drawColorado() throws Exception {
+  public void drawColorado(){
     try{
       d = new DrawMap(path + "TestDrawColo.svg");
       d.drawColorado();
@@ -31,7 +33,6 @@ public class DrawMapTest {
     catch (RuntimeException e){
       assertFalse("Write Failed to run", true);
     }
-
     assertTrue(new File(path+ "TestDrawColo.svg").exists());
   }
 
