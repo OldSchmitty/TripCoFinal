@@ -34,8 +34,9 @@ public class DrawMap {
    */
   public void drawColorado(){
 
+
     String mapElem = new String(" <g>\n  <title>ColoradoBorders</title>\n" +
-        "  <!-- Draw Colorado --->\n");
+        "  <!-- Draw Colorado -->\n");
     //All Code from https://svg-edit.github.io/svgedit
     mapElem += "<rect id=\"Colorado\" height=\"708.68515\" width=\"991.4014\" y=\"37.4016\" "
         + "x=\"37.52397\" stroke-linecap=\"null\" stroke-linejoin=\"null\" "
@@ -75,7 +76,10 @@ public class DrawMap {
     {
       BufferedWriter writer = Files.newBufferedWriter( Paths.get(path),
           charset);
-      writer.write(elements.get(0));
+      for (String elm : elements){
+        writer.write(elm);
+      }
+
       writer.write("\n</svg>");
       writer.close();
 
