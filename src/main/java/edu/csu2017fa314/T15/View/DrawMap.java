@@ -12,6 +12,8 @@ public class DrawMap {
   private String path; // Dir to make file
   private ArrayList<String> elements; // What to write
   private int edgeLoc = 0; //What element[i] the edges are at
+  private double xOffSet = (1066.6073 - 37.52397)/(-109 -102);
+  private double yOffSet = (783.0824 - 37.4016)/(41 -37);
 
   /**
    * <p>Initializes elements to draw SVG</p>
@@ -59,8 +61,9 @@ public class DrawMap {
       elements.add(edgeLoc, pathSetup);
     }
     String add = elements.get(edgeLoc);
-    add += "l"+CalculateDistance.stringToDoubleForCoordinate(lat) + ","
-        + CalculateDistance.stringToDoubleForCoordinate(lon);
+    double ShiftLat = (-109 - CalculateDistance.stringToDoubleForCoordinate(lat)) * xOffSet;
+    double ShiftLon = (-41 - CalculateDistance.stringToDoubleForCoordinate(lon)) * yOffSet;
+    add += "l"+ShiftLat + "," + ShiftLon;
     elements.set(edgeLoc,add);
   }
 
