@@ -19,7 +19,6 @@ public class DrawMapTest {
     worked = false;
   }
 
-
   /**
    *Draws an empty map of Colorado
    */
@@ -36,8 +35,11 @@ public class DrawMapTest {
     assertTrue(new File(path+ "TestDrawColo.svg").exists());
   }
 
+  /**
+   * Draws a path from Fort Collins - Denver - Limon - Fort Collins
+   */
   @Test
-  public void addEdge() throws Exception {
+  public void addEdge(){
     try{
       d = new DrawMap(path + "TestDrawPath.svg");
       d.addEdge("40°33′33″N", "105°4′41″W", "39°45′43″N", "104°52′52″W"); //Fort Collins-Denver
@@ -51,6 +53,9 @@ public class DrawMapTest {
     assertTrue(new File(path+ "TestDrawPath.svg").exists());
   }
 
+  /**
+   * Draws a path straight across
+   */
   @Test
   public void addEdgeHorizonatal() {
     try{
@@ -64,6 +69,9 @@ public class DrawMapTest {
     assertTrue(new File(path+ "TestDrawPath.svg").exists());
   }
 
+  /**
+   * Draws a path straight down
+   */
   @Test
   public void addEdgeVertical(){
     try{

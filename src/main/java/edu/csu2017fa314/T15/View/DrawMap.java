@@ -14,8 +14,6 @@ public class DrawMap {
   private int edgeLoc = 0; //What element[i] the edges are at
   private double xOffSet = (1066.6073 - 37.52397)/(-109 +102);
   private double yOffSet = (783.0824 - 37.4016)/(41 -37);
-  private double lastY = 0;
-  private double lastX = 0;
 
   /**
    * <p>Initializes elements to draw SVG</p>
@@ -31,6 +29,7 @@ public class DrawMap {
    * Sets the SVG header
    */
   private void svgHeader(){
+    //SVG Code template from https://svg-edit.github.io/svgedit
     String header ="<?xml version=\"1.0\"?>\n<svg width=\"1066.6073\" "
         + "height=\"783.0824\" xmlns=\"http://www.w3.org/2000/svg\">\n";
     elements.add(header);
@@ -40,7 +39,7 @@ public class DrawMap {
    */
   public void drawColorado(){
     String mapElem = "  <title>ColoradoBorders</title>\n  <!-- Draw Colorado -->\n";
-    //All SVG Code from https://svg-edit.github.io/svgedit
+    //SVG Code template from https://svg-edit.github.io/svgedit
     mapElem += "  <rect id=\"Colorado\" height=\"708.68515\" width=\"991.4014\" y=\"37.4016\" "
         + "x=\"37.52397\" stroke-linecap=\"null\" stroke-linejoin=\"null\" "
         + "stroke-dasharray=\"null\" stroke-width=\"5\" stroke=\"#000000\" fill=\"none\"/>";
@@ -48,7 +47,7 @@ public class DrawMap {
   }
 
   /**
-   * Adds a destination on the route on the map
+   * Adds a edge on the route on the map
    * @param latStart  Latitude of start destination
    * @param longStart  Longitude of start destination
    * @param latEnd  Latitude of start destination
@@ -56,13 +55,14 @@ public class DrawMap {
    */
   public void addEdge(final String latStart, final String longStart,
       final String latEnd, final String longEnd){
-    //All SVG Code from https://svg-edit.github.io/svgedit
-    if(edgeLoc == 0) // add start of path logic
+    // SVG Code template from https://svg-edit.github.io/svgedit
+    if(edgeLoc == 0) // add start info for path
     {
       edgeLoc = elements.size();
       String pathSetup = "  <title>RoutePath</title>\n  <!-- Draw The path -->\n";
       elements.add(edgeLoc, pathSetup);
     }
+
     String add = elements.get(edgeLoc);
     add += "\n  <line x1=\"" +convertLongToX(longStart) + "\" y1=\"" + convertLatToY(latStart) +
         "\" x2=\""+ convertLongToX(longEnd) +"\" y2=\""+ convertLatToY(latEnd) +
@@ -70,9 +70,20 @@ public class DrawMap {
     elements.set(edgeLoc,add);
   }
 
+  /**
+   * Converts a latitude to a Y coordinate
+   * @param lat Latitude to convert
+   * @return The Y coordinate
+   */
   private int convertLatToY(final String lat){
     return (int)Math.round((41 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet);
   }
+
+  /**
+   * Converts a longitude to a X coordinate
+   * @param lon Longitude to convert
+   * @return The Y coordinate
+   */
   private int convertLongToX(final String lon){
     return (int)Math.round((-109 - CalculateDistance.stringToDoubleForCoordinate(lon)) * xOffSet);
   }
