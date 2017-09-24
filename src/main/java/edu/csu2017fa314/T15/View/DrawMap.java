@@ -12,7 +12,7 @@ public class DrawMap {
   private String path; // Dir to make file
   private ArrayList<String> elements; // What to write
   private int edgeLoc = 0; //What element[i] the edges are at
-  private double xOffSet = (1066.6073 - 37.52397)/(-109 -102);
+  private double xOffSet = (1066.6073 - 37.52397)/(-109 +102);
   private double yOffSet = (783.0824 - 37.4016)/(41 -37);
 
   /**
@@ -52,6 +52,7 @@ public class DrawMap {
    */
   public void addPathPoint(final String lat, final String lon){
     //All SVG Code from https://svg-edit.github.io/svgedit
+    String moveType = "l";
     if(edgeLoc == 0) // add start of path logic
     {
       edgeLoc = elements.size();
@@ -59,11 +60,12 @@ public class DrawMap {
       pathSetup += "  <path id=\"svg_3\" fill=\"none\" stroke=\"#00007f\" stroke-width=\"3\" "
           + "stroke-dasharray=\"null\" stroke-linejoin=\"null\" stroke-linecap=\"null\" d=\"";
       elements.add(edgeLoc, pathSetup);
+      moveType = "m";
     }
     String add = elements.get(edgeLoc);
-    double ShiftLat = (-109 - CalculateDistance.stringToDoubleForCoordinate(lat)) * xOffSet;
-    double ShiftLon = (-41 - CalculateDistance.stringToDoubleForCoordinate(lon)) * yOffSet;
-    add += "l"+ShiftLat + "," + ShiftLon;
+    double ShiftLon = (-109 - CalculateDistance.stringToDoubleForCoordinate(lon)) * xOffSet;
+    double ShiftLat = (41 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet;
+    add += moveType + Math.floor(ShiftLon) + " " + Math.floor(ShiftLat) +" ";
     elements.set(edgeLoc,add);
   }
 

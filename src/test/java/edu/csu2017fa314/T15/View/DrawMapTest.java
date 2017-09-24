@@ -40,8 +40,10 @@ public class DrawMapTest {
   public void addPathPoint() throws Exception {
     try{
       d = new DrawMap(path + "TestDrawPath.svg");
-      d.addPathPoint("50", "50");
-      d.addPathPoint("70", "70");
+      d.addPathPoint("40°33′33″N", "105°4′41″W"); //Fort Collins
+      d.addPathPoint("39°45′43″N", "104°52′52″W"); //Denver
+      d.addPathPoint("39°15′50″N", "103°41′32″W"); //Limon
+      d.addPathPoint("40°33′33″N", "105°4′41″W"); //Fort Collins
       d.write();
     }
     catch (RuntimeException e){
