@@ -7,21 +7,15 @@ import java.util.HashMap;
 
 public class View
 {
-  private HashMap<String, Destination> dest;  // All the destinations
-  private ArrayList<Edge> edge;           // The current route
   private String path;                    // Dir to make the files
 
   /**
-   * <p>Constructor to build the destination and edges JSONs and map SVG automatically.</p>
-   * @param dest Map of all the destinations on the trip
-   * @param edge List of the path to take
+   * <p>Set path dir to build the destination and edges JSONs and map SVG.</p>
+   *
    * @param path Dir where files will be made
    */
-  public View (final HashMap<String, Destination> dest, final ArrayList<Edge> edge, final String path){
-    this.dest = dest;
-    this.edge = edge;
+  public View (final String path){
     this.path = path;
-    run();
   }
 
   public View(){
@@ -43,9 +37,18 @@ public class View
 
   /**
    * <p>Makes the Itinerary JSON file using Edge list provided</p>
+   * @param route - A list in order of the route
    */
-  private void makeItinerary(){
+  public void makeItinerary(ArrayList<Edge> route){
+    if(path == null)
+      throw new RuntimeException("View path not set");
 
+    JSONWriter jw = new JSONWriter(path + "Itinerary.json");
+    for (Edge e: route) {
+      jw.add(e.getSourceID(),e.getDestinationID(),e.getDistance());
+    }
+    jw.write();
+    jw.close();
   }
 
   /**
