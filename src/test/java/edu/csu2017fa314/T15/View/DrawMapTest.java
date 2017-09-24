@@ -57,16 +57,19 @@ public class DrawMapTest {
     assertTrue(worked);
   }
 
+  /**
+   * Tests to see if empty svg file is made
+   */
   @Test
-  public void write() throws Exception {
+  public void write(){
     try{
       d.write();
-      worked =true;
     }
-    catch (Exception e){
-      //
+    catch (RuntimeException e){
+      assertFalse("Write Failed to run", true);
     }
-    assertTrue(worked);
+
+    assertTrue(new File(path).exists());
   }
 
   @Test
