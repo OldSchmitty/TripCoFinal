@@ -14,6 +14,8 @@ public class DrawMap {
   private int edgeLoc = 0; //What element[i] the edges are at
   private double xOffSet = (1066.6073 - 37.52397)/(-109 +102);
   private double yOffSet = (783.0824 - 37.4016)/(41 -37);
+  private double lastY = 0;
+  private double lastX = 0;
 
   /**
    * <p>Initializes elements to draw SVG</p>
@@ -47,32 +49,32 @@ public class DrawMap {
 
   /**
    * Adds a destination on the route on the map
-   * @param lat - Latitude of destination
-   * @param lon - Longitude of destination
+   * @param latStart  Latitude of start destination
+   * @param longStart  Longitude of start destination
+   * @param latEnd  Latitude of start destination
+   * @param longEnd  Longitude of start destination
    */
-  public void addPathPoint(final String lat, final String lon){
+  public void addEdge(final String latStart, final String longStart,
+      final String latEnd, final String longEnd){
     //All SVG Code from https://svg-edit.github.io/svgedit
-    String moveType = "l";
     if(edgeLoc == 0) // add start of path logic
     {
       edgeLoc = elements.size();
       String pathSetup = "  <title>RoutePath</title>\n  <!-- Draw The path -->\n";
-      pathSetup += "  <path id=\"svg_3\" fill=\"none\" stroke=\"#00007f\" stroke-width=\"3\" "
-          + "stroke-dasharray=\"null\" stroke-linejoin=\"null\" stroke-linecap=\"null\" d=\"";
       elements.add(edgeLoc, pathSetup);
-      moveType = "m";
     }
     String add = elements.get(edgeLoc);
-    double ShiftLon = (-109 - CalculateDistance.stringToDoubleForCoordinate(lon)) * xOffSet;
-    double ShiftLat = (41 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet;
-    add += moveType + Math.floor(ShiftLon) + " " + Math.floor(ShiftLat) +" ";
+    add += "\n  <line x1=\"" +convertLongToX(longStart) + "\" y1=\"" + convertLatToY(latStart) +
+        "\" x2=\""+ convertLongToX(longEnd) +"\" y2=\""+ convertLatToY(latEnd) +
+        "\" stroke-width=\"3\" stroke=\"#00007f\"/>";
     elements.set(edgeLoc,add);
   }
 
-  private void finishPath(){
-    if (edgeLoc !=0){
-      elements.set(edgeLoc, elements.get(edgeLoc) +"\"/>");
-    }
+  private int convertLatToY(final String lat){
+    return (int)Math.round((41 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet);
+  }
+  private int convertLongToX(final String lon){
+    return (int)Math.round((-109 - CalculateDistance.stringToDoubleForCoordinate(lon)) * xOffSet);
   }
 
   /**
@@ -96,8 +98,6 @@ public class DrawMap {
     {
       BufferedWriter writer = Files.newBufferedWriter( Paths.get(path),
           charset);
-
-      finishPath();
 
       writer.write(elements.get(0)); // Header file
       // Write all elements

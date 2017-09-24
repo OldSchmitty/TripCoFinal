@@ -37,13 +37,12 @@ public class DrawMapTest {
   }
 
   @Test
-  public void addPathPoint() throws Exception {
+  public void addEdge() throws Exception {
     try{
       d = new DrawMap(path + "TestDrawPath.svg");
-      d.addPathPoint("40°33′33″N", "105°4′41″W"); //Fort Collins
-      d.addPathPoint("39°45′43″N", "104°52′52″W"); //Denver
-      d.addPathPoint("39°15′50″N", "103°41′32″W"); //Limon
-      d.addPathPoint("40°33′33″N", "105°4′41″W"); //Fort Collins
+      d.addEdge("40°33′33″N", "105°4′41″W", "39°45′43″N", "104°52′52″W"); //Fort Collins-Denver
+      d.addEdge("39°45′43″N", "104°52′52″W", "39°15′50″N", "103°41′32″W"); //Denver-Limon
+      d.addEdge("39°15′50″N", "103°41′32″W", "40°33′33″N", "105°4′41″W"); //Limon-FC
       d.write();
     }
     catch (RuntimeException e){
@@ -53,15 +52,29 @@ public class DrawMapTest {
   }
 
   @Test
-  public void addPoint1() throws Exception {
+  public void addEdgeHorizonatal() {
     try{
-      d.addPoint("39.76185", "-104.881105", "Denver");
-      worked = true;
+      d = new DrawMap(path + "TestDrawPathHoriz.svg");
+      d.addEdge("40°33′33″N", "105°4′41″W","40°33′33″N", "102°4′41″W"); //Fort Collins
+      d.write();
     }
-    catch (Exception e){
-      //
+    catch (RuntimeException e){
+      assertFalse("Write Failed to run", true);
     }
-    assertTrue(worked);
+    assertTrue(new File(path+ "TestDrawPath.svg").exists());
+  }
+
+  @Test
+  public void addEdgeVertical(){
+    try{
+      d = new DrawMap(path + "TestDrawPathVert.svg");
+      d.addEdge("40°33′33″N", "105°4′41″W","30°33′33″N", "105°4′41″W");
+      d.write();
+    }
+    catch (RuntimeException e){
+      assertFalse("Write Failed to run", true);
+    }
+    assertTrue(new File(path+ "TestDrawPath.svg").exists());
   }
 
   /**
