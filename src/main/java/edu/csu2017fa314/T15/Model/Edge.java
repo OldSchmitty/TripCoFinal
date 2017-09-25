@@ -26,7 +26,7 @@ public class Edge {
         return sourceID;
     }
 
-    public double getDistance(){
+    public long getDistance(){
         return distance;
     }
 

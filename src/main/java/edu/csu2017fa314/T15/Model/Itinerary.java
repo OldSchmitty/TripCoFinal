@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Itinerary {
 
     private ArrayList<Edge> path;
-    private double pathDistance;
+    private long pathDistance;
     private ArrayList<String> keys;
     private Table edgeTable;
     private boolean test;
@@ -77,7 +77,7 @@ public class Itinerary {
      * @param currentPath
      */
     private void isShorter(ArrayList<Edge> currentPath){
-        double distance = pathDistance(currentPath);
+        long distance = pathDistance(currentPath);
 
         if (pathDistance < 0 || distance < pathDistance) {
 
@@ -98,8 +98,8 @@ public class Itinerary {
      * @param currentPath
      * @return
      */
-    private double pathDistance(ArrayList<Edge> currentPath){
-        double distance = 0;
+    private long pathDistance(ArrayList<Edge> currentPath){
+        long distance = 0;
 
         for (int i = 0; i < currentPath.size(); i++) {
             if (test) {
