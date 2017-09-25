@@ -13,7 +13,7 @@ public class JSONWriterTest {
 
     @Test
     public void add() throws Exception {
-        JSONWriter writer = new JSONWriter("."+File.separator+"web"+
+        JSONWriter writer = new JSONWriter("."+File.separator+"data"+
             File.separator+"JSONWriterTest.json");
         HashMap<String, Object> input1= new HashMap<>();
         input1.put("start", "start name 1");
