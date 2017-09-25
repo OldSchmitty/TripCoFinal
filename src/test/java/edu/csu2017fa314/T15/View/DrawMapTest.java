@@ -9,28 +9,31 @@ import org.junit.Test;
 public class DrawMapTest {
 
   private String path = "."+ File.separator+"src"+File.separator+"main"+
-      File.separator+"resources"+File.separator+"test.svg";
+      File.separator+"resources"+File.separator;
   private DrawMap d;
   private boolean worked;
 
   @Before
   public void initialize(){
-    d = new DrawMap(path);
+    d = new DrawMap(path+"test.svg");
     worked = false;
   }
 
 
-
+  /**
+   *Draws an empty map of Colorado
+   */
   @Test
-  public void drawColorado() throws Exception {
+  public void drawColorado(){
     try{
+      d = new DrawMap(path + "TestDrawColo.svg");
       d.drawColorado();
-      worked = true;
+      d.write();
     }
-    catch (Exception e){
-      //
+    catch (RuntimeException e){
+      assertFalse("Write Failed to run", true);
     }
-    assertTrue(worked);
+    assertTrue(new File(path+ "TestDrawColo.svg").exists());
   }
 
   @Test
@@ -69,7 +72,7 @@ public class DrawMapTest {
       assertFalse("Write Failed to run", true);
     }
 
-    assertTrue(new File(path).exists());
+    assertTrue(new File(path+"test.svg").exists());
   }
 
   @Test
