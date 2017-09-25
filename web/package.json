@@ -25,7 +25,8 @@
     "express": "^4.15.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-dropzone": "^4.1.0"
+    "react-dropzone": "^4.1.0",
+    "selectly": "^0.5.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

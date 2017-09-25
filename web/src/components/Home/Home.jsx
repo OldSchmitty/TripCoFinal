@@ -1,30 +1,41 @@
 import React, {Component} from 'react';
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
 
 class Home extends React.Component {
-    
+
     render() {
-        
+
         return <div className="home-container">
             <div className="inner">
+
                 <h1>T15 - Wolf Pack</h1>
-                <h3>Itinerary</h3>
+                <h3>TripCo Itinerary</h3>
+
                 <Dropzone className="dropzone-style" onDrop={this.drop.bind(this)}>
-                    <button>Open JSON File</button>
+                    <button>Load an Itinerary</button>
                 </Dropzone>
-                <table className="pair-table">
-                    {this.props.pairs}
-                    <tbody>
-                        <tr>
+
+                <div className="wrapper">
+                    <div className='table'>
+                     <table className="pair-table">
+                        {this.props.pairs}
+                        <tbody>
+                         <tr>
                             <td colSpan="2">Total:</td>
                             <td>{this.props.totalDistance}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                         </tr>
+                        </tbody>
+                     </table>
+                    </div>
+
+                    <div className='map'>
+                      <img src={this.props.svgFile} />
+                    </div>
+                </div>
         </div>
+    </div>
     }
-    
+
     drop(acceptedFiles) {
         console.log("Accepting drop");
         acceptedFiles.forEach(file => {
@@ -41,7 +52,8 @@ class Home extends React.Component {
 
             fr.readAsText(file);
         });
-    }
-}
 
+    }
+
+}
 export default Home

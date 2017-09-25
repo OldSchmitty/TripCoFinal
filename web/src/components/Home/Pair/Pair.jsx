@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
-let Pair = ({start, end, dist}) => <tbody
-    className="pair">
+let Pair = ({start, end, dist}) =>
+<tbody className="pair">
     <tr>
         <td>
             <h5>{start}</h5>
