@@ -8,8 +8,7 @@ import org.junit.Test;
 
 public class DrawMapTest {
 
-  private String path = "."+ File.separator+"src"+File.separator+"main"+
-      File.separator+"resources"+File.separator+"test.svg";
+  private String path = "."+ File.separator+"data" + File.separator + "colorado.svg";
   private DrawMap d;
   private boolean worked;
 
