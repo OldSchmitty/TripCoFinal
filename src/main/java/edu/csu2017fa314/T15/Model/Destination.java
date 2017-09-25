@@ -1,5 +1,6 @@
 package edu.csu2017fa314.T15.Model;
 import java.util.HashMap;
+import java.util.Set;
 /**
  * Class that holds all the info on a brewery
  * @version 1 - 9/2/17 initial
@@ -38,15 +39,18 @@ public class Destination {
 
     public String getName(){ return map.get("name"); }
 
-    public String getCity(){
-        return map.get("city");
-    }
+    public String getCity(){ return map.get("city"); }
 
     public String getLatitude(){ return map.get("latitude"); }
 
-    public String getLongitude() { return map.get("longitude"); }
+    public String getLongitude(){ return map.get("longitude"); }
 
-    public String getElevation() { return map.get("elevation"); }
+    public String getElevation(){ return map.get("elevation"); }
+
+    public HashMap<String, String> getMap(){ return map; }
+
+    public Set<String> getKeys(){ return map.keySet(); }
+
 	
     public String toString(){
         return "ID: " + getId() + '\n'
