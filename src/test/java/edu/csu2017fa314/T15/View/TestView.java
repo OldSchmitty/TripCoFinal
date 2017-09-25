@@ -72,7 +72,7 @@ public class TestView
     v.makeItinerary(edges);
 
     File file1 = new File(path+ "Itinerary.json");
-    File file2 = new File("."+File.separator+"web"+File.separator+"Sample1.json");
+    File file2 = new File(path +"Sample1.json");
     boolean isEqual;
     try {
       isEqual = FileUtils.contentEquals(file1, file2);

@@ -23,7 +23,7 @@ public class TestModel
     	/* test file has 3 brewery entries, with 2 extra columns to test if model ignors irrelevant columns, gets the    relevant columns and the information from the rows is correct, and that it correctly only gets 3 entries, and getNextBrewery() returns null when no more breweries exist
     	 */
     	
-    	m.readFile("."+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"testmodel.csv");
+    	m.readFile("."+File.separator+"data"+File.separator+"testmodel.csv");
     	assertEquals(m.getSize(), 3);
 
     	String test0 = "ID: abee" + '\n'
@@ -46,7 +46,7 @@ public class TestModel
 
     @Test
 	public void testReadIntoMap(){
-		m = new Model("."+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"testmodel.csv");
+		m = new Model("."+File.separator+"data"+File.separator+"testmodel.csv");
 		Destination test =m.getDestination(m.getFirstItem());
 		assertEquals(test.getId(), "abee");
 		assertEquals("39°38'07\"N", test.getLatitude());
