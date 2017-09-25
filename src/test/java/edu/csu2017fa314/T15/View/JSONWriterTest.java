@@ -56,7 +56,7 @@ public class JSONWriterTest {
 
     @Test
     public void writeJSONFile() {
-        JSONWriter writer = new JSONWriter("."+File.separator+"web"+File.separator+"JSONWriterTest.json");
+        JSONWriter writer = new JSONWriter("."+File.separator+"data"+File.separator+"JSONWriterTest.json");
         writer.add("start name 1", "end name 2", 10000);
         writer.add("start name 2", "end name 3", 20000);
         writer.add("start name 3", "end name 4", 30000);
@@ -64,8 +64,8 @@ public class JSONWriterTest {
         writer.write();
         writer.close();
 
-        File file1 = new File("."+File.separator+"web"+File.separator+"JSONWriterTest.json");
-        File file2 = new File("."+File.separator+"web"+File.separator+"Sample1.json");
+        File file1 = new File("."+File.separator+"data"+File.separator+"JSONWriterTest.json");
+        File file2 = new File("."+File.separator+"data"+File.separator+"Sample1.json");
         boolean isEqual;
         try {
             isEqual = FileUtils.contentEquals(file1, file2);
