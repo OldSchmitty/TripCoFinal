@@ -94,9 +94,9 @@ public class CalculateDistanceTest {
    */
   @Test
   public void findDistanceBetween1() throws Exception {
-    Brewery b1= new Brewery("abee","Two22 Brew", "Centennial","39°38'07\" N",
+    Destination b1= new Destination("abee","Two22 Brew", "Centennial","39°38'07\" N",
         "104°45'32\" W", "5872" );
-    Brewery b2 = new Brewery("acwatson","Equinox Brewing", "Fort Collins","40°35'17\" N",
+    Destination b2 = new Destination("acwatson","Equinox Brewing", "Fort Collins","40°35'17\" N",
         "105°4'26\" W", "4988");
     assertEquals(68,CalculateDistance.findDistanceBetween(b1,b2));
   }
