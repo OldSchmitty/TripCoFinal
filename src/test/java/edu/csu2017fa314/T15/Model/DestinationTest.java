@@ -19,7 +19,7 @@ public class DestinationTest {
   private Destination b;
   @Before
   public void setUp() throws Exception {
-    b = new Destination();
+	b = new Destination();
   }
 
 
@@ -33,11 +33,11 @@ public class DestinationTest {
   public void testsImport() throws Exception {
 	  b = new Destination();
   }
-  
+
   @Test
   public void testsgetters(){
 	  b = new Destination("0", "Test Destination", "Test City", "01", "02", "1000");
-	  
+
 	  assertEquals(b.getId(), "0");
 	  assertEquals(b.getName(), "Test Destination");
 	  assertEquals(b.getCity(), "Test City");
@@ -45,19 +45,24 @@ public class DestinationTest {
 	  assertEquals(b.getLongitude(), "02");
 	  assertEquals(b.getElevation(), "1000");
   }
-  
+
   @Test
-  public void teststoString() {	  
+  public void teststoString() {
 	  b = new Destination("0", "Test Destination", "Test City", "01", "02", "1000");
-  
+
 	  String test = "ID: 0" + '\n'
 				+ "Name: Test Destination" + '\n'
 				+ "City: Test City" + '\n'
 				+ "Latitude: 01" + '\n'
 				+ "Longitude: 02" + '\n'
 				+ "Elevation: 1000";
-	  
+
 	  assertEquals(b.toString(),test);
   }
-  
+  @Test
+  public void testGetKeys(){
+  	b = new Destination("0", "Test Destination", "Test City", "01", "02", "1000");
+	assertEquals(b.getKeys().toString(), "[elevation, city, latitude, name, id, longitude]");
+  }
+
 }
