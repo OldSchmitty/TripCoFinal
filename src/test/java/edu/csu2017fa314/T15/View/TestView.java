@@ -14,8 +14,7 @@ import org.junit.Test;
 
 public class TestView
 {
-  final private String path = "."+ File.separator+"data"+
-      File.separator;
+  final private String path = "."+ File.separator+"data"+File.separator;
   private View v;
 
   @Before
