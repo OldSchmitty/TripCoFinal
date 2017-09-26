@@ -91,13 +91,13 @@ public class Model {
             keys = reader.readLine().replaceAll("\\s+","").toLowerCase().split(",");
 
             if((nextLine=reader.readLine()) != null){
-                values = nextLine.replaceAll("\\s+","").split(",");
+                values = nextLine.split(",");
                 current = new Destination(keys, values);
                 firstItem = current.getId();
                 map.put(current.getId(),current);
             }
             while ((nextLine=reader.readLine()) != null){
-                values = nextLine.replaceAll("\\s+","").split(",");
+                values = nextLine.split(",");
                 current = new Destination(keys, values);
                 map.put(current.getId(), current);
             }
