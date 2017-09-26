@@ -54,7 +54,16 @@ public class View
   /**
    * <p>Makes the Destination JSON file with the Destination map</p>
    */
-  private void makeDestination(){
+  public void makeDestination(HashMap<String, Destination> des){
+    if(path == null)
+      throw new RuntimeException("View path not set");
+
+    JSONWriter jw = new JSONWriter(path + "Destinations.json");
+    for (String key: des.keySet()) {
+      jw.add(des.get(key).getMap());
+    }
+    jw.write();
+    jw.close();
 
   }
 

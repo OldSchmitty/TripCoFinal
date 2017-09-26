@@ -23,7 +23,7 @@ public class JSONWriter {
    * Adds a HashMap with keys and values of any hashmap
    * @param item - String key, Object for String or long
    */
-  public void add(final HashMap<String, Object> item){
+  public void add(final HashMap<String, String> item){
     JSONObject newItem = new JSONObject(item);
     list.put(newItem);
   }
