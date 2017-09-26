@@ -14,14 +14,47 @@ import org.junit.Test;
 
 public class TestView
 {
-  final private String path = "."+ File.separator+"data"+
-      File.separator;
-  private View v;
 
+  final private String path = "."+ File.separator+"data"+ File.separator;
+  private View v;
+  private HashMap<String, Destination> des;
+
+  /**
+   * Sets up View class and HashMap for tests
+   * @throws Exception
+   */
   @Before
   public void setUp() throws Exception
   {
-      v = new View(path);
+    des = new HashMap<>();
+    v = new View(path);
+    // Set up Hash Map
+    String[] key = {"id", "name", "latitude", "longitude"};
+    String[] value1 = {"1", "Fort Collins", "40°33′33″N", "105°4′41″W" };
+    String[] value2 = {"2", "Denver", "39°45′43″N", "104°52′52″W" };
+    String[] value3 = {"3", "Limon", "39°15′50″N", "103°41′32″W" };
+
+    des.put("1", new Destination(key,value1));
+    des.put("2", new Destination(key,value2));
+    des.put("3", new Destination(key,value3));
+
+  }
+
+  /**
+   * Test building Destination json
+   */
+  @Test
+  public void makeDestination() {
+    try {
+      v.makeDestination(des);
+    }
+    catch (Exception e)
+    {
+      System.out.println(e.toString());
+      assertTrue(false);
+    }
+
+    assertTrue(new File(path+"Destinations.json").exists());
   }
 
   @Test
