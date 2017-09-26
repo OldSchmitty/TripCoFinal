@@ -35,7 +35,7 @@ public class View
    * @param des All the destinations in the route
    * @param edges The route we take
    */
-  private void drawMap(HashMap<String, Destination> des, ArrayList<Edge> edges){
+  public void drawMap(HashMap<String, Destination> des, ArrayList<Edge> edges){
     DrawMap map = new DrawMap(imagePath + "map.svg");
     for (Edge e: edges) {
 

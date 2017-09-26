@@ -18,14 +18,13 @@ public class TestView
   final private String path = "."+ File.separator+"data"+ File.separator;
   private View v;
   private HashMap<String, Destination> des;
+  private ArrayList<Edge> edges;
 
   /**
-   * Sets up View class and HashMap for tests
-   * @throws Exception
+   * Sets up View class, HashMap, and edges for tests
    */
   @Before
-  public void setUp() throws Exception
-  {
+  public void setUp() {
     des = new HashMap<>();
     v = new View(path);
     // Set up Hash Map
@@ -38,13 +37,31 @@ public class TestView
     des.put("2", new Destination(key,value2));
     des.put("3", new Destination(key,value3));
 
+    // Set up edges
+    edges = new ArrayList<>();
+    edges.add(new Edge("1", "2", 10000));
+    edges.add(new Edge("2", "3", 20000));
+    edges.add(new Edge("3", "1", 30000));
+  }
+
+  @Test
+  public void testDrawMap(){
+    try {
+      v.drawMap(des,edges);
+    }
+    catch (Exception e){
+      System.out.println(e.toString());
+      assertTrue(false);
+    }
+    assertTrue(new File( "."+ File.separator+"web" + File.separator
+        + "images" + File.separator + "map.svg").exists());
   }
 
   /**
    * Test building Destination json
    */
   @Test
-  public void makeDestination() {
+  public void testMakeDestination() {
     try {
       v.makeDestination(des);
     }
