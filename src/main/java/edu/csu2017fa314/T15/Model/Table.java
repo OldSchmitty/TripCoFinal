@@ -27,10 +27,10 @@ public class Table {
                 long distance = cd.findDistanceBetween(map.get(key1), map.get(key2));
 
                 Edge e1 = new Edge(key1, key2, distance);
-                table.put(key1+key2, e1);
+                table.put(key1 + " " + key2, e1);
 
                 Edge e2 = new Edge(key2, key1, distance);
-                table.put(key2+key1, e2);
+                table.put(key2 + " " + key1, e2);
             }
         }
     }
@@ -42,6 +42,6 @@ public class Table {
      * @return
      */
     public Edge getEdge(String id1, String id2){
-        return table.get(id1+id2);
+        return table.get(id1 + " " + id2);
     }
 }
