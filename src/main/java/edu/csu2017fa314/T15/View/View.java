@@ -2,12 +2,14 @@ package edu.csu2017fa314.T15.View;
 
 import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.Model.Edge;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class View
 {
   private String path;                    // Dir to make the files
+  private String imagePath = "."+ File.separator+"web" + File.separator + "images" + File.separator;
 
   /**
    * <p>Set path dir to build the destination and edges JSONs and map SVG.</p>
@@ -30,9 +32,19 @@ public class View
 
   /**
    * <p>Draws the map using the Destinations map and Edges list</p>
+   * @param des All the destinations in the route
+   * @param edges The route we take
    */
-  private void drawMap(){
+  public void drawMap(HashMap<String, Destination> des, ArrayList<Edge> edges){
+    DrawMap map = new DrawMap(imagePath + "map.svg");
+    for (Edge e: edges) {
 
+      map.addEdge(des.get(e.getSourceID()).getLatitude(),
+          des.get(e.getSourceID()).getLongitude(),
+          des.get(e.getDestinationID()).getLatitude(),
+          des.get(e.getDestinationID()).getLongitude());
+    }
+    map.write();
   }
 
   /**
