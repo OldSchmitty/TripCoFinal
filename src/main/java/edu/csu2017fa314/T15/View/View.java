@@ -53,6 +53,7 @@ public class View
 
   /**
    * <p>Makes the Destination JSON file with the Destination map</p>
+   * @param des All the destinations in the route
    */
   public void makeDestination(HashMap<String, Destination> des){
     if(path == null)
