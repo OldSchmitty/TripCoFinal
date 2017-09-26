@@ -1,7 +1,11 @@
 package edu.csu2017fa314.T15.View;
 
 import edu.csu2017fa314.T15.Model.CalculateDistance;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.nio.charset.Charset;
@@ -14,6 +18,9 @@ public class DrawMap {
   private int edgeLoc = 0; //What element[i] the edges are at
   private double xOffSet = (1066.6073 - 37.52397)/(-109 +102);
   private double yOffSet = (783.0824 - 37.4016)/(41 -37);
+  private String baseFile = "." + File.separator+"data" +
+      File.separator + "USA_Colorado_location_map.svg";
+  private BufferedWriter writer;
 
   /**
    * <p>Initializes elements to draw SVG</p>
@@ -98,6 +105,29 @@ public class DrawMap {
 
   }
 
+  public void addFromFile() {
+    String line;
+    try {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(
+          new FileInputStream(baseFile), "UTF-8"));
+      for (int i = 0; i < 9; i++) {
+        reader.readLine(); // Skip Header info
+      }
+      writer.write("<!-- Following code provided by CS314 Instructors -->\n");
+      writer.write("<!-- Created with Inkscape (http://www.inkscape.org/) -->\n");
+      line=reader.readLine();
+      while(!line.equalsIgnoreCase("</svg>")) //stop at last line
+      {
+        writer.write(line + "\n");
+        line=reader.readLine();
+
+      }
+      writer.write("<!-- T15 code -->\n");
+      reader.close();
+    } catch (java.io.IOException e) {
+      throw new RuntimeException("Error opening file " + baseFile + ".", e);
+    }
+  }
   /**
    * Writes the data to the svg file
    */
@@ -107,10 +137,13 @@ public class DrawMap {
 
     try
     {
-      BufferedWriter writer = Files.newBufferedWriter( Paths.get(path),
+      writer = Files.newBufferedWriter( Paths.get(path),
           charset);
 
       writer.write(elements.get(0)); // Header file
+      if(baseFile != null){
+        addFromFile();
+      }
       // Write all elements
       for (int i = 1; i < elements.size(); i++){
         writer.write( " <g>\n");
