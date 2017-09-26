@@ -69,6 +69,8 @@ public class Itinerary {
                 currentPath.add(currentEdge);
                 remainingKeys.remove(remainingKeys.indexOf(currentID));
             }
+
+            isShorter(currentPath);
         }
     }
 
