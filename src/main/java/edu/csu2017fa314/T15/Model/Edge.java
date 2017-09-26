@@ -1,5 +1,6 @@
 package edu.csu2017fa314.T15.Model;
 
+
 /**
  * Class to hold relevent information for edges between nodes
  * @version 1 - 9/19/2017 initial
@@ -14,6 +15,8 @@ public class Edge {
         this.destinationID = destinationID;
         this.distance = distance;
     }
+
+    public Edge() {}
 
     public String getDestinationID(){
         return destinationID;

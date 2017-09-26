@@ -15,11 +15,6 @@ public class EdgeTest {
     }
 
     /**
-     * Tests if Edge was imported correctly
-     * @throws Exception - A problem
-     */
-
-    /**
      * Tests getters
      * JUnit tests
      */
