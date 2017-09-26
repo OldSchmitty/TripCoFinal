@@ -11,32 +11,33 @@ import org.apache.commons.io.FileUtils;
 
 public class JSONWriterTest {
 
+
     @Test
     public void add() throws Exception {
         JSONWriter writer = new JSONWriter("."+File.separator+"data"+
             File.separator+"JSONWriterTest.json");
-        HashMap<String, Object> input1= new HashMap<>();
+        HashMap<String, String> input1= new HashMap<>();
         input1.put("start", "start name 1");
         input1.put("end", "end name 2");
-        input1.put("distance", 10000);
+        input1.put("distance", "10000");
         writer.add(input1);
 
-        HashMap<String, Object> input2= new HashMap<>();
+        HashMap<String, String> input2= new HashMap<>();
         input2.put("start", "start name 2");
         input2.put("end", "end name 3");
-        input2.put("distance", 20000);
+        input2.put("distance", "20000");
         writer.add(input2);
 
-        HashMap<String, Object> input3= new HashMap<>();
+        HashMap<String, String> input3= new HashMap<>();
         input3.put("start", "start name 3");
         input3.put("end", "end name 4");
-        input3.put("distance", 30000);
+        input3.put("distance", "30000");
         writer.add(input3);
 
-        HashMap<String, Object> input4= new HashMap<>();
+        HashMap<String, String> input4= new HashMap<>();
         input4.put("start", "start name 4");
         input4.put("end", "end name 4");
-        input4.put("distance", 40000);
+        input4.put("distance", "40000");
         writer.add(input4);
         writer.write();
         writer.close();
