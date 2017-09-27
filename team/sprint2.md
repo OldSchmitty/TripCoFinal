@@ -40,10 +40,11 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 | |Andrew #104| Andrew #?|health||
 9-25 | Josiah #158, #157, #155, #154 | Josiah #114, #147, #125 | | high
 | | Andrew #162, #150, #149, #118, #116, #109 | Andrew #173, #170 | | high
-| | Mark | Mark #152 | | medium 
+| | Mark #111,#113,#143 | Mark #152 | | medium 
 | | James SVG Rendiering | James Checkboxes | javascript | medium
 9-27 | Josiah #114, #147, #125 | Josiah #177, #178 | | high
 | | Andrew #173, #170 | Andrew #179 | | high
+| | Mark #152 | Mark #93 | | low
 
 ## Review
 
