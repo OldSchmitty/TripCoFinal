@@ -70,6 +70,11 @@ public class Itinerary {
                 remainingKeys.remove(remainingKeys.indexOf(currentID));
             }
 
+            // Edge from last destination back to start, completing the roundtrip
+            String startID = currentPath.get(0).getSourceID();
+            String endID = currentPath.get(currentPath.size()-1).getDestinationID();
+            currentPath.add(edgeTable.getEdge(endID, startID));
+
             isShorter(currentPath);
         }
     }
@@ -126,5 +131,9 @@ public class Itinerary {
             }
         }
         return path;
+    }
+
+    public long getDistance(){
+        return pathDistance;
     }
 }
