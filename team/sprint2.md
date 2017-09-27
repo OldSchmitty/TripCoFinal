@@ -38,6 +38,12 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
  |9-20 |Mark |Mark #111 #113 #143 | Laptop NIC |medium |
 | |Josiah #131, #129, #137| Josiah #141, #132| New to SVGs | medium|
 | |Andrew #104| Andrew #?|health||
+9-25 | Josiah #158, #157, #155, #154 | Josiah #114, #147, #125 | | high
+| | Andrew #162, #150, #149, #118, #116, #109 | Andrew #173, #170 | | high
+| | Mark | Mark #152 | | medium 
+| | James SVG Rendiering | James Checkboxes | javascript | medium
+9-27 | Josiah #114, #147, #125 | Josiah #177, #178 | | high
+| | Andrew #173, #170 | Andrew #179 | | high
 
 ## Review
 
