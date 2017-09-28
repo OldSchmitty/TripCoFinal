@@ -32,8 +32,21 @@ public class DrawMap {
     svgHeader();
   }
 
+  /**
+   * Sets the base map to draw on
+   * @param newBase SVG file to use
+   */
+  public void setBaseFile(String newBase){
+    baseFile = newBase;
+  }
 
-
+  /**
+   * Returns the map base path
+   * @return The current file to used as a base map
+   */
+  public final String getBaseFile(){
+    return baseFile;
+  }
   /**
    * Sets the SVG header
    */
