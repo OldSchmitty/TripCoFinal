@@ -16,6 +16,8 @@ public class TestView
 {
 
   final private String path = "."+ File.separator+"data"+File.separator;
+  final private String mapPath = "."+ File.separator+
+      "data"+File.separator+ "USA_Colorado_location_map.svg";
   private View v;
   private HashMap<String, Destination> des;
   private ArrayList<Edge> edges;
@@ -26,7 +28,7 @@ public class TestView
   @Before
   public void setUp() {
     des = new HashMap<>();
-    v = new View(path);
+    v = new View(path, mapPath);
     // Set up Hash Map
     String[] key = {"id", "name", "latitude", "longitude"};
     String[] value1 = {"1", "Fort Collins", "40°33′33″N", "105°4′41″W" };
