@@ -92,12 +92,18 @@ public class Model {
 
             if((nextLine=reader.readLine()) != null){
                 values = nextLine.split(",");
+                for (int i = 0; i < values.length; i++){
+                	values[i]= values[i].trim();
+				}
                 current = new Destination(keys, values);
                 firstItem = current.getId();
                 map.put(current.getId(),current);
             }
             while ((nextLine=reader.readLine()) != null){
                 values = nextLine.split(",");
+				for (int i = 0; i < values.length; i++){
+					values[i]= values[i].trim();
+				}
                 current = new Destination(keys, values);
                 map.put(current.getId(), current);
             }

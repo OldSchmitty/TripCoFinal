@@ -51,6 +51,6 @@ public class TestModel
 		assertEquals(test.getId(), "abee");
 		assertEquals("39°38'07\" N", test.getLatitude());
 		assertEquals("104°45'32\" W", test.getLongitude());
-		assertEquals(68, CalculateDistance.findDistanceBetween(m.getDestination("abee"),m.getDestination(" acwatson ")));
+		assertEquals(68, CalculateDistance.findDistanceBetween(m.getDestination("abee"),m.getDestination("acwatson")));
     }
 }
