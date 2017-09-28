@@ -47,7 +47,7 @@ public class Model {
 
 		// get the first line that details the columns and process it, searching for the positions of the relevant fields and storing them in fields array
 		String firstLine = read.nextLine();
-		inputData = firstLine.split(",");
+		inputData = firstLine.split(",", -1);
 
 		// extracting the location of the relevant fields, used toUpperCase so that all scans are global as contains cannot ignore case
 		for (int i = 0; i < inputData.length; i++) {
@@ -68,11 +68,13 @@ public class Model {
 
 		// get each line of the file and store the information as a new Destination using storeInfo() function
 		while (read.hasNextLine()) {
-			inputData = read.nextLine().split(",");
+			inputData = read.nextLine().split(",", -1);
 			if (inputData.length != 1) {
 
 				for (int i = 0; i < inputData.length; i++) {
-					inputData[i] = inputData[i].trim();
+						System.out.println("string: " + inputData[i]);
+						inputData[i] = inputData[i].trim();
+
 				}
 				storeInfo();
 			}
@@ -91,7 +93,7 @@ public class Model {
             keys = reader.readLine().replaceAll("\\s+","").toLowerCase().split(",");
 
             if((nextLine=reader.readLine()) != null){
-                values = nextLine.split(",");
+                values = nextLine.split(",", -1);
                 for (int i = 0; i < values.length; i++){
                 	values[i]= values[i].trim();
 				}
@@ -100,7 +102,7 @@ public class Model {
                 map.put(current.getId(),current);
             }
             while ((nextLine=reader.readLine()) != null){
-                values = nextLine.split(",");
+                values = nextLine.split(",", -1);
 				for (int i = 0; i < values.length; i++){
 					values[i]= values[i].trim();
 				}
