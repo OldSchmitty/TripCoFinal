@@ -72,9 +72,7 @@ public class Model {
 			if (inputData.length != 1) {
 
 				for (int i = 0; i < inputData.length; i++) {
-						System.out.println("string: " + inputData[i]);
-						inputData[i] = inputData[i].trim();
-
+					inputData[i] = inputData[i].trim();
 				}
 				storeInfo();
 			}
