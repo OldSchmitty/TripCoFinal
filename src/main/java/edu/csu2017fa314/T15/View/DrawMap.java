@@ -16,8 +16,8 @@ public class DrawMap {
   private String path; // Dir to make file
   private ArrayList<String> elements; // What to write
   private int edgeLoc = 0; //What element[i] the edges are at
-  private double xOffSet = (1066.6073 - 37.52397)/(-109 +102);
-  private double yOffSet = (783.0824 - 37.4016)/(41 -37);
+  private double xOffSet = (991.4014 - 37.52397)/(-109 +102);
+  private double yOffSet = (708.0824 - 37.4016)/(41 -37);
   private String baseFile = "." + File.separator+"data" +
       File.separator + "USA_Colorado_location_map.svg";
   private BufferedWriter writer;
@@ -32,6 +32,21 @@ public class DrawMap {
     svgHeader();
   }
 
+  /**
+   * Sets the base map to draw on
+   * @param newBase SVG file to use
+   */
+  public void setBaseFile(String newBase){
+    baseFile = newBase;
+  }
+
+  /**
+   * Returns the map base path
+   * @return The current file to used as a base map
+   */
+  public final String getBaseFile(){
+    return baseFile;
+  }
   /**
    * Sets the SVG header
    */
@@ -83,7 +98,7 @@ public class DrawMap {
    * @return The Y coordinate
    */
   private int convertLatToY(final String lat){
-    return (int)Math.round((41 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet);
+    return (int)Math.round((41 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet) +37;
   }
 
   /**
@@ -92,7 +107,7 @@ public class DrawMap {
    * @return The Y coordinate
    */
   private int convertLongToX(final String lon){
-    return (int)Math.round((-109 - CalculateDistance.stringToDoubleForCoordinate(lon)) * xOffSet);
+    return (int)Math.round((-109 - CalculateDistance.stringToDoubleForCoordinate(lon)) * xOffSet) +37;
   }
 
   /**
