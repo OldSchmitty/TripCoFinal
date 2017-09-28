@@ -2,8 +2,21 @@ import React, {Component} from 'react';
 import Dropzone from 'react-dropzone';
 
 class Home extends React.Component {
+    constructor() {
+        super();
 
-    render() {
+        this.state = {
+            modalIsOpen: false,
+            itenFile: "",
+            destFile: "",
+            test: false,
+            svgFile: ""
+        };
+    }
+
+
+    render()
+    {
 
         return <div className="home-container">
             <div className="inner">
@@ -12,47 +25,75 @@ class Home extends React.Component {
                 <h3>TripCo Itinerary</h3>
 
                 <Dropzone className="dropzone-style" onDrop={this.drop.bind(this)}>
-                    <button>Load an Itinerary</button>
+                    <button>Load your Itinerary here</button>
+                </Dropzone>
+                <Dropzone className="dropzone-style" onDrop={this.drop2.bind(this)}>
+                    <button>Load extra information about destinations here</button>
+                </Dropzone>
+                <Dropzone className="dropzone-style" onDrop={this.drop3.bind(this)}>
+                    <button>Click here to load your map</button>
                 </Dropzone>
 
-                <div className="wrapper">
-                    <div className='table'>
-                     <table className="pair-table">
-                        {this.props.pairs}
-                        <tbody>
-                         <tr>
-                            <td colSpan="2">Total:</td>
-                            <td>{this.props.totalDistance}</td>
-                         </tr>
-                        </tbody>
-                     </table>
-                    </div>
+                <table className="pair-table">
+                    {this.props.pairs}
+                    <tbody>
+                    <tr>
+                        <td colSpan="2">Total:</td>
+                        <td>{this.props.totalDistance}</td>
+                    </tr>
+                    </tbody>
+                </table>
 
-                    <div className='map'>
-                      <img src={this.props.svgFile} />
-                    </div>
-                </div>
+                <img src={this.state.svgFile.preview} alt='load a map!'/>
+            </div>
         </div>
-    </div>
     }
 
-    drop(acceptedFiles) {
-        console.log("Accepting drop");
+    drop(acceptedFiles)
+    {
+
         acceptedFiles.forEach(file => {
             console.log("Filename:", file.name, "File:", file);
             console.log(JSON.stringify(file));
             let fr = new FileReader();
             fr.onload = (function () {
                 return function (e) {
-                    let JsonObj = JSON.parse(e.target.result);
-                    console.log(JsonObj);
-                    this.props.browseFile(JsonObj);
+                    this.setState({itenFile: JSON.parse(e.target.result)});
+                    this.setState({gotItenFile: true})
+                    this.props.browseFile(this.state.itenFile);
+                    if(this.state.gotItenFile && this.state.gotDestFile){
+                        this.props.getData(this.state.itenFile, this.state.destFile)
+                    }
                 };
             })(file).bind(this);
 
             fr.readAsText(file);
         });
 
+    }
+    drop2(acceptedFiles)
+    {
+        acceptedFiles.forEach(file => {
+            console.log("Filename:", file.name, "File:", file);
+            console.log(JSON.stringify(file));
+            let fr = new FileReader();
+            fr.onload = (function () {
+                return function (e) {
+                    this.setState({destFile: JSON.parse(e.target.result)});
+                    this.setState({gotDestFile: true});
+                    this.props.browseFile2(this.state.destFile);
+                    if(this.state.gotItenFile && this.state.gotDestFile){
+                        this.props.getData(this.state.itenFile, this.state.destFile)
+                    }
+                };
+            })(file).bind(this);
+
+            fr.readAsText(file);
+        });
+    }
+    drop3(acceptedFiles)
+    {
+        this.setState({svgFile:acceptedFiles[0]});
     }
 
 }
