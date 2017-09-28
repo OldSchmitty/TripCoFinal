@@ -16,8 +16,9 @@ public class View
    *
    * @param path Dir where files will be made
    */
-  public View (final String path){
+  public View (final String path, final String imagePath){
     this.path = path;
+    this.imagePath = imagePath;
   }
 
   public View(){
@@ -36,7 +37,11 @@ public class View
    * @param edges The route we take
    */
   public void drawMap(HashMap<String, Destination> des, ArrayList<Edge> edges){
-    DrawMap map = new DrawMap(imagePath + "map.svg");
+    if(path == null)
+      throw new RuntimeException("View path not set");
+
+    DrawMap map = new DrawMap(path + "map.svg");
+    map.setBaseFile(imagePath);
     for (Edge e: edges) {
 
       map.addEdge(des.get(e.getSourceID()).getLatitude(),
