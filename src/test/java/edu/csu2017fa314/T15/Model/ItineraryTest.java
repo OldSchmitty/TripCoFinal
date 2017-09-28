@@ -21,13 +21,11 @@ public class ItineraryTest {
         map  = new HashMap<String, Destination>();
         Destination b1 = new Destination("0", "Destination 1", "Test City 1", "02", "00", "1000");
         Destination b2 = new Destination("1", "Destination 2", "Test City 2", "04", "00", "1000");
-        Destination b3 = new Destination("2", "Destination 3", "Test City 3", "16", "00", "1000");
         Destination b4 = new Destination("3", "Destination 4", "Test City 4", "01", "00", "1000");
         Destination b5 = new Destination("4", "Destination 5", "Test City 5", "08", "00", "1000");
 
         map.put("0", b1);
         map.put("1", b2);
-        map.put("2", b3);
         map.put("3", b4);
         map.put("4", b5);
 
@@ -37,9 +35,36 @@ public class ItineraryTest {
 
     @Test
     public void test1() {
-        String[] answers = {"2", "4", "1", "0", "3"};
+        String[] answers = {"0", "3", "1", "4"};
         for (int i=0;  i < path.size(); i++){
             assertEquals(path.get(i).getSourceID(), answers[i]);
         }
+    }
+
+    @Test
+    public void test2() {
+        String path =System.getProperty("user.dir") + "/data/COrand50.csv";
+        Model m = new Model(path);
+        Itinerary i = new Itinerary(m.getMap());
+        ArrayList<Edge> a = i.getShortestPath();
+        assertEquals(i.getDistance(), 1834);
+    }
+
+    @Test
+    public void test3() {
+        String path =System.getProperty("user.dir") + "/data/COrand75.csv";
+        Model m = new Model(path);
+        Itinerary i = new Itinerary(m.getMap());
+        ArrayList<Edge> a = i.getShortestPath();
+        assertEquals(i.getDistance(), 2454);
+    }
+
+    @Test
+    public void test4() {
+        String path =System.getProperty("user.dir") + "/data/CO14ers.csv";
+        Model m = new Model(path);
+        Itinerary i = new Itinerary(m.getMap());
+        ArrayList<Edge> a = i.getShortestPath();
+        assertEquals(i.getDistance(), 817);
     }
 }
