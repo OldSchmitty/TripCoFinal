@@ -16,7 +16,7 @@ public class DrawMap {
   private String path; // Dir to make file
   private ArrayList<String> elements; // What to write
   private int edgeLoc = 0; //What element[i] the edges are at
-  private double xOffSet = (991 - 37.52397)/(-109 +102);
+  private double xOffSet = (991.4014 - 37.52397)/(-109 +102);
   private double yOffSet = (708.0824 - 37.4016)/(41 -37);
   private String baseFile = "." + File.separator+"data" +
       File.separator + "USA_Colorado_location_map.svg";
@@ -31,6 +31,8 @@ public class DrawMap {
     this.elements = new ArrayList<>();
     svgHeader();
   }
+
+
 
   /**
    * Sets the SVG header
