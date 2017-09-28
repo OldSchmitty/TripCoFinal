@@ -67,4 +67,13 @@ public class ItineraryTest {
         ArrayList<Edge> a = i.getShortestPath();
         assertEquals(i.getDistance(), 817);
     }
+
+    @Test
+    public void test5() {
+        String path =System.getProperty("user.dir") + "/data/ski.csv";
+        Model m = new Model(path);
+        Itinerary i = new Itinerary(m.getMap());
+        ArrayList<Edge> a = i.getShortestPath();
+        assertEquals(i.getDistance(), 668);
+    }
 }
