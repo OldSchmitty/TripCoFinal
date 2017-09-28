@@ -19,6 +19,23 @@ public class DrawMapTest {
   }
 
   /**
+   * Tests the setBaseFile method
+   */
+  @Test
+  public void setBaseFile() {
+    d.setBaseFile("TEST.svg");
+    assertEquals(d.getBaseFile(),"TEST.svg"  );
+  }
+
+  /**
+   * Test the gets base map path
+   */
+  @Test
+  public void getBaseFile(){
+    assertEquals(d.getBaseFile(), "." + File.separator+"data" +
+        File.separator + "USA_Colorado_location_map.svg");
+  }
+  /**
    *Draws an empty map of Colorado
    */
   @Test
