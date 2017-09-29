@@ -49,22 +49,23 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 ## Review
 
 #### Completed user stories (epics) in Sprint Backlog 
-
+#91, #97. #101
 
 #### Incomplete user stories / epics in Sprint Backlog 
-
+#93, #99
 
 #### What went well
-
+Shortest path, svg files, and everything in Java. 
 
 #### Problems encountered and resolutions
-
+We have a very poor understanding of JavaScript, specifically with react. We started to try and learn javascript as a team.
+We also had minor bugs, but were easily fixed through teamwork.
 
 ## Retrospective
 
 Topic | Teamwork | Process | Tools
 :--- | :--- | :--- | :---
 What we will change this time | We set up a Discord channel to be able to communicate whenever we can reach a computer. | More effective use of issues on github. Ex: Not making an issue for each method, but instead an issue for each problem or request. | Every group member is creating a linux environment.
-What we did well |  |  | 
-What we need to work on |  |  |
-What we will change next time |  |  | 
+What we did well | We have very productive meetings, and good planning | We use zenhub well and Master never broke  | Mastered intellij, and every group member has a linux environment
+What we need to work on | Communicating changes in design implementations| We need to be better at dealing with merge conflicts, use our .gitignore better. | We need to learn react, get a better IDE for javascript
+What we will change next time | Use discord more for communication. Be more proactive in scrum meetings | Organize our directories and edit our .gitignore | learn react by end of next sprint for all team members
