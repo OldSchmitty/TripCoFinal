@@ -20,8 +20,9 @@
 *.log
 
 # output files #
-**/data/output/
-**/data/test_output
+**/data/output/*.json
+**/data/test_output/*.json
+**/data/test_output/*.svg
 
 # OS generated files #
 .DS_Store
