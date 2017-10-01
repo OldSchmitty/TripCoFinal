@@ -19,11 +19,6 @@
 # Logs #
 *.log
 
-# output files #
-**/data/output/*.json
-**/data/test_output/*.json
-**/data/test_output/*.svg
-
 # OS generated files #
 .DS_Store
 .DS_Store?
