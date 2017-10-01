@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class DrawMapTest {
 
-  private String path = "."+ File.separator+"web" + File.separator + "images" + File.separator + "colorado.svg";
+  private String path = "."+ File.separator+"data" + File.separator + "test_output" + File.separator;
   private DrawMap d;
   private boolean worked;
 
@@ -33,7 +33,7 @@ public class DrawMapTest {
   @Test
   public void getBaseFile(){
     assertEquals(d.getBaseFile(), "." + File.separator+"data" +
-        File.separator + "USA_Colorado_location_map.svg");
+        File.separator + "resources" + File.separator + "colorado.svg");
   }
   /**
    *Draws an empty map of Colorado

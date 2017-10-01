@@ -19,7 +19,7 @@ public class DrawMap {
   private double xOffSet = (991.4014 - 37.52397)/(-109 +102);
   private double yOffSet = (708.0824 - 37.4016)/(41 -37);
   private String baseFile = "." + File.separator+"data" +
-      File.separator + "USA_Colorado_location_map.svg";
+      File.separator + "resources" + File.separator + "colorado.svg";
   private BufferedWriter writer;
 
   /**
