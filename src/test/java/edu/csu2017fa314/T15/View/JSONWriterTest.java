@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 public class JSONWriterTest {
 
     private String path = "."+File.separator+"data" + File.separator+ "test_output" + File.separator;
+    private String samplePath = "."+File.separator+"data" + File.separator+ "resources" + File.separator;
 
 
     @Test
@@ -44,7 +45,7 @@ public class JSONWriterTest {
         writer.close();
 
         File file1 = new File(path + "JSONWriterTest.json");
-        File file2 = new File(path + "Sample.json");
+        File file2 = new File(samplePath + "Sample.json");
 
         boolean isEqual;
         try {
@@ -67,7 +68,7 @@ public class JSONWriterTest {
         writer.close();
 
         File file1 = new File(path + "JSONWriterTest.json");
-        File file2 = new File(path + "Sample.json");
+        File file2 = new File(samplePath + "Sample.json");
         boolean isEqual;
         try {
             isEqual = FileUtils.contentEquals(file1, file2);
