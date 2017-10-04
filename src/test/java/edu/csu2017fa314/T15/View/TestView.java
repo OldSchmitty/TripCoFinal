@@ -15,9 +15,10 @@ import org.junit.Test;
 public class TestView
 {
 
-  final private String path = "."+ File.separator+"data"+File.separator;
+  final private String path = "."+ File.separator+"data"+ File.separator + "test_output" + File.separator;
+  private String samplePath = "."+File.separator+"data" + File.separator+ "resources" + File.separator;
   final private String mapPath = "."+ File.separator+
-      "data"+File.separator+ "USA_Colorado_location_map.svg";
+      "data"+File.separator+ "resources" + File.separator + "colorado.svg";
   private View v;
   private HashMap<String, Destination> des;
   private ArrayList<Edge> edges;
@@ -55,8 +56,8 @@ public class TestView
       System.out.println(e.toString());
       assertTrue(false);
     }
-    assertTrue(new File( "."+ File.separator+"web" + File.separator
-        + "images" + File.separator + "map.svg").exists());
+    assertTrue(new File( "."+ File.separator+"data" + File.separator
+        + "test_output" + File.separator + "map.svg").exists());
   }
 
   /**
@@ -111,7 +112,7 @@ public class TestView
   }
 
   /**
-   * <p>Test to see if Itinerart JSON made correctly. Copies JSONWriter test.</p>
+   * <p>Test to see if Itinerary JSON made correctly. Copies JSONWriter test.</p>
    */
   @Test
   public void testMakeItinerary(){
@@ -123,8 +124,8 @@ public class TestView
 
     v.makeItinerary(edges);
 
-    File file1 = new File(path+ "Itinerary.json");
-    File file2 = new File(path +"Sample1.json");
+    File file1 = new File(path + "Itinerary.json");
+    File file2 = new File(samplePath + "Sample.json");
     boolean isEqual;
     try {
       isEqual = FileUtils.contentEquals(file1, file2);

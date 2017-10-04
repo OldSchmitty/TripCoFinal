@@ -43,7 +43,7 @@ public class ItineraryTest {
 
     @Test
     public void test2() {
-        String path =System.getProperty("user.dir") + "/data/COrand50.csv";
+        String path =System.getProperty("user.dir") + "/data/input/COrand50.csv";
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
@@ -52,7 +52,7 @@ public class ItineraryTest {
 
     @Test
     public void test3() {
-        String path =System.getProperty("user.dir") + "/data/COrand75.csv";
+        String path =System.getProperty("user.dir") + "/data/input/COrand75.csv";
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
@@ -61,7 +61,7 @@ public class ItineraryTest {
 
     @Test
     public void test4() {
-        String path =System.getProperty("user.dir") + "/data/CO14ers.csv";
+        String path =System.getProperty("user.dir") + "/data/input/CO14ers.csv";
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
@@ -70,7 +70,7 @@ public class ItineraryTest {
 
     @Test
     public void test5() {
-        String path =System.getProperty("user.dir") + "/data/ski.csv";
+        String path =System.getProperty("user.dir") + "/data/input/ski.csv";
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();

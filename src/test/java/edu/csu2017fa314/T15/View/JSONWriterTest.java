@@ -11,39 +11,39 @@ import org.apache.commons.io.FileUtils;
 
 public class JSONWriterTest {
 
+    private String path = "."+File.separator+"data" + File.separator+ "test_output" + File.separator;
+    private String samplePath = "."+File.separator+"data" + File.separator+ "resources" + File.separator;
+
 
     @Test
     public void add() throws Exception {
-        JSONWriter writer = new JSONWriter("."+File.separator+"data"+
-            File.separator+"JSONWriterTest.json");
+        JSONWriter writer = new JSONWriter(path + "JSONWriterHashMapTest.json");
         HashMap<String, String> input1= new HashMap<>();
-        input1.put("start", "start name 1");
-        input1.put("end", "end name 2");
-        input1.put("distance", "10000");
+        input1.put("latitude", "40°33\u203233\u2033N");
+        input1.put("name", "Fort Collins");
+        input1.put("id", "1");
+        input1.put("longitude", "105°4\u203241\u2033W");
         writer.add(input1);
 
         HashMap<String, String> input2= new HashMap<>();
-        input2.put("start", "start name 2");
-        input2.put("end", "end name 3");
-        input2.put("distance", "20000");
+        input2.put("latitude", "39°45\u203243\u2033N");
+        input2.put("name", "Denver");
+        input2.put("id", "2");
+        input2.put("longitude", "104°52\u203252\u2033W");
         writer.add(input2);
 
         HashMap<String, String> input3= new HashMap<>();
-        input3.put("start", "start name 3");
-        input3.put("end", "end name 4");
-        input3.put("distance", "30000");
+        input3.put("latitude", "39°15\u203250\u2033N");
+        input3.put("name", "Limon");
+        input3.put("id", "3");
+        input3.put("longitude", "103°41\u203232\u2033W");
         writer.add(input3);
 
-        HashMap<String, String> input4= new HashMap<>();
-        input4.put("start", "start name 4");
-        input4.put("end", "end name 4");
-        input4.put("distance", "40000");
-        writer.add(input4);
         writer.write();
         writer.close();
 
-        File file1 = new File("."+File.separator+"web"+File.separator+"JSONWriterTest.json");
-        File file2 = new File("."+File.separator+"web"+File.separator+"Sample1.json");
+        File file1 = new File(path + "JSONWriterHashMapTest.json");
+        File file2 = new File(samplePath + "DestinationsSample.json");
 
         boolean isEqual;
         try {
@@ -57,7 +57,7 @@ public class JSONWriterTest {
 
     @Test
     public void writeJSONFile() {
-        JSONWriter writer = new JSONWriter("."+File.separator+"data"+File.separator+"JSONWriterTest.json");
+        JSONWriter writer = new JSONWriter(path + "JSONWriterTest.json");
         writer.add("start name 1", "end name 2", 10000);
         writer.add("start name 2", "end name 3", 20000);
         writer.add("start name 3", "end name 4", 30000);
@@ -65,8 +65,8 @@ public class JSONWriterTest {
         writer.write();
         writer.close();
 
-        File file1 = new File("."+File.separator+"data"+File.separator+"JSONWriterTest.json");
-        File file2 = new File("."+File.separator+"data"+File.separator+"Sample1.json");
+        File file1 = new File(path + "JSONWriterTest.json");
+        File file2 = new File(samplePath + "Sample.json");
         boolean isEqual;
         try {
             isEqual = FileUtils.contentEquals(file1, file2);
@@ -76,7 +76,4 @@ public class JSONWriterTest {
         }
         assert(isEqual);
     }
-
-
-
 }
