@@ -36,7 +36,6 @@ Total planned tasks / issues in the Sprint Backlog: *number of issues in backlog
 
 Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 :--- | :--- | :--- | :--- | :---
-*date* | *issue numbers only* | *issue numbers only* | *None* | *High*
  10-5 | none | #186, #206, #210 | JavaScript Knowledge | Medium
  
 
@@ -67,4 +66,4 @@ Topic | Teamwork | Process | Tools
 What we will change this time |  |  | 
 What we did well |  |  | 
 What we need to work on |  |  |
-What we will change next time |  |  | 
+What we will change next time |Use discord more for communication. Be more proactive in scrum meetings | Organize our directories and edit our .gitignore | learn react by end of next sprint for all team members
