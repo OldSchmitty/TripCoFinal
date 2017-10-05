@@ -1,4 +1,4 @@
-# Sprint 3 - *your team number* - *your team name*
+# Sprint 3 - T15 - Wolf Pack
 
 ## Goal
 
@@ -27,16 +27,17 @@
 
 ## Plan 
 
-User stories (epics) in the Sprint Backlog: *list the epics in your sprint backlog here*.  
+User stories (epics) in the Sprint Backlog: *list the epics in your sprint backlog here*. 
+#93, #99, #204, #205
 
 Total planned tasks / issues in the Sprint Backlog: *number of issues in backlog at start* 
-
+9
 ## Daily Scrums
 
 Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 :--- | :--- | :--- | :--- | :---
 *date* | *issue numbers only* | *issue numbers only* | *None* | *High*
- | | | | 
+ 10-5 | none | #186, #206, #210 | JavaScript Knowledge | Medium
  
 
 ## Review
