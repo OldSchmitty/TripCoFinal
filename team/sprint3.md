@@ -63,7 +63,7 @@ Completed *number of issues completed* issues associated with these user stories
 
 Topic | Teamwork | Process | Tools
 :--- | :--- | :--- | :---
-What we will change this time |  |  | 
+What we will change this time |Use discord more for communication. Be more proactive in scrum meetings | Organize our directories and edit our .gitignore | learn react by end of next sprint for all team members  
 What we did well |  |  | 
 What we need to work on |  |  |
-What we will change next time |Use discord more for communication. Be more proactive in scrum meetings | Organize our directories and edit our .gitignore | learn react by end of next sprint for all team members
+What we will change next time ||  | 
