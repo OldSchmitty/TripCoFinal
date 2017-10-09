@@ -7,16 +7,22 @@ import java.sql.ResultSet;
 
 public class SearchSQLDatabase {
 
-  String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
-  String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
-  Connection conn;
+  private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
+  private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
+  private Connection conn;
 
   public SearchSQLDatabase(String[] loginInfo){
     try{
       Class.forName(myDriver);
+      conn = DriverManager.getConnection(myUrl, loginInfo[0], loginInfo[1]);
     }
     catch (ClassNotFoundException e){
-      System.out.printf("myDriver: %s not found\n", myDriver );
+      System.err.printf("myDriver: %s not found\n", myDriver );
+      System.err.println(e.getMessage());
+
+    } catch (SQLException e) {
+      System.err.printf("Can not connect to server %s", myUrl);
+      System.err.println(e.getMessage());
     }
   }
 }
