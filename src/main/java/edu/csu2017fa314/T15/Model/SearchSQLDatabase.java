@@ -24,7 +24,7 @@ public class SearchSQLDatabase {
       System.err.println(e.getMessage());
 
     } catch (SQLException e) {
-      System.err.printf("Can not connect to server %s", myUrl);
+      System.err.printf("Can not connect to server %s\n", myUrl);
       System.err.println(e.getMessage());
     }
   }

@@ -4,3 +4,5 @@ jdk:
   - oraclejdk8
 services:
   - mysql
+addons:
+  mariadb: '10.2'
