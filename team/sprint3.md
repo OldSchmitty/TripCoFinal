@@ -37,6 +37,7 @@ Total planned tasks / issues in the Sprint Backlog: *number of issues in backlog
 Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 :--- | :--- | :--- | :--- | :---
  10-5 | none | #186, #206, #210 | JavaScript Knowledge | Medium
+ 10-9 | #186 | #212 | Other classes | Medium 
  
 
 ## Review
