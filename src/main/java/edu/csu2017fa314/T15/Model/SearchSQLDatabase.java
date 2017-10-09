@@ -12,6 +12,9 @@ public class SearchSQLDatabase {
   private Connection conn;
 
   public SearchSQLDatabase(String[] loginInfo){
+    this(loginInfo,"jdbc:mysql://faure.cs.colostate.edu/cs314");
+  }
+  public SearchSQLDatabase(String[] loginInfo, String myUrl){
     try{
       Class.forName(myDriver);
       conn = DriverManager.getConnection(myUrl, loginInfo[0], loginInfo[1]);
@@ -23,6 +26,15 @@ public class SearchSQLDatabase {
     } catch (SQLException e) {
       System.err.printf("Can not connect to server %s", myUrl);
       System.err.println(e.getMessage());
+    }
+  }
+
+  public void closeConnection(){
+    try {
+      conn.close();
+    } catch (SQLException e) {
+      System.err.printf("Can not close connections:\n%s\n", e.getMessage());
+      //e.printStackTrace();
     }
   }
 }
