@@ -6,11 +6,10 @@ class Home extends React.Component {
         super();
 
         this.state = {
-            modalIsOpen: false,
             itenFile: "",
             destFile: "",
             test: false,
-            svgFile: ""
+            svgFile: "",
         };
     }
 
@@ -33,7 +32,8 @@ class Home extends React.Component {
                 <Dropzone className="dropzone-style" onDrop={this.drop3.bind(this)}>
                     <button>Click here to load your map</button>
                 </Dropzone>
-
+                <h3>{this.props.info}</h3>
+                {this.props.checkBoxes}
                 <table className="pair-table">
                     {this.props.pairs}
                     <tbody>
@@ -49,6 +49,8 @@ class Home extends React.Component {
         </div>
     }
 
+
+
     drop(acceptedFiles)
     {
 
@@ -59,10 +61,10 @@ class Home extends React.Component {
             fr.onload = (function () {
                 return function (e) {
                     this.setState({itenFile: JSON.parse(e.target.result)});
-                    this.setState({gotItenFile: true})
+                    this.setState({gotItenFile: true});
                     this.props.browseFile(this.state.itenFile);
                     if(this.state.gotItenFile && this.state.gotDestFile){
-                        this.props.getData(this.state.itenFile, this.state.destFile)
+                        this.props.getData(this.state.itenFile, this.state.destFile);
                     }
                 };
             })(file).bind(this);
