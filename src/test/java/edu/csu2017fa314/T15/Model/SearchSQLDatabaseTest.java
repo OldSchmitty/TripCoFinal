@@ -14,7 +14,7 @@ import org.junit.Test;
 public class SearchSQLDatabaseTest {
 
   private SearchSQLDatabase sql;
-  private static final String url = "\"jdbc:mysql://127.0.0.1:";
+  private static final String url = "jdbc:mysql://127.0.0.1";
   private static final String[] login = {"travis", ""};
 
   @BeforeClass
