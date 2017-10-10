@@ -6,6 +6,7 @@ import edu.csu2017fa314.T15.Model.Model;
 import edu.csu2017fa314.T15.Model.CalculateDistance;
 import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.View.JSONWriter;
+import edu.csu2017fa314.T15.View.Server.Server;
 
 import edu.csu2017fa314.T15.View.View;
 import java.io.FileNotFoundException;
@@ -41,6 +42,9 @@ public class TripCo
 			path = "";
 		}
    	baseMap = args[1];
+
+	   Server s = new Server();
+	   s.serve();
 
 	   m = new Model(args[0]);
 
