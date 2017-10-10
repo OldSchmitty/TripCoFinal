@@ -49,12 +49,13 @@ public class SearchSQLDatabaseTest {
 
   @Before
   public void setup(){
-    sql = new SearchSQLDatabase(login, url);
+    sql = new SearchSQLDatabase(login, url + "/TestDatabase");
   }
 
   @Test
   public void testSetup(){
     assertTrue(sql != null);
+    sql.close();
   }
 
   @AfterClass

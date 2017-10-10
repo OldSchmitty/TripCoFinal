@@ -29,7 +29,7 @@ public class SearchSQLDatabase {
     }
   }
 
-  public void closeConnection(){
+  public void close(){
     try {
       conn.close();
     } catch (SQLException e) {
