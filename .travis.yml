@@ -2,7 +2,5 @@ sudo: required
 language: java
 jdk:
   - oraclejdk8
-services:
-  - mysql
 addons:
   mariadb: '10.2'

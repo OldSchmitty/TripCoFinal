@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 public class SearchSQLDatabase {
 
-  private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
+  private String myDriver="com.mysql.cj.jdbc.Driver"; // add dependencies in pom.xml
   private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
   private Connection conn;
 
