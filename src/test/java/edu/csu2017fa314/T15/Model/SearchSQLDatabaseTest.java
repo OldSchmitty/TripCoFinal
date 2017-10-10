@@ -2,7 +2,10 @@ package edu.csu2017fa314.T15.Model;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,6 +23,8 @@ public class SearchSQLDatabaseTest {
   private static final String[] login = {"root", ""};
   private static Statement st;
   private static Connection conn;
+  private static String testData = "."+ File.separator+"data" + File.separator +
+      "test_input" + File.separator + "DataBaseSetup.csv";
 
   @BeforeClass
   public static void setupDatabase(){
@@ -27,19 +32,47 @@ public class SearchSQLDatabaseTest {
       Class.forName("com.mysql.cj.jdbc.Driver");
       conn = DriverManager.getConnection(url, login[0], login[1] );
       st = conn.createStatement();
-      st.executeUpdate("DROP DATABASE IF EXISTS TestDatabase");
-      st.executeUpdate("CREATE DATABASE TestDatabase");
-      st.executeUpdate("USE TestDatabase");
+      st.executeUpdate("DROP DATABASE IF EXISTS TestDatabase314");
+      st.executeUpdate("CREATE DATABASE TestDatabase314");
+      st.executeUpdate("USE TestDatabase314");
       st.executeUpdate("DROP TABLE IF EXISTS destinations");
       st.executeUpdate("CREATE TABLE destinations " +
-          "(id INTEGER not NULL,"
-          + " name VARCHAR(225),"
-          + " PRIMARY KEY ( id ))");
+          "(inx INTEGER not NULL,"
+          + " id VARCHAR(1000),"
+          + " type VARCHAR(1000),"
+          + " name VARCHAR(1000),"
+          + " latitude VARCHAR(1000),"
+          + " longitude VARCHAR(1000),"
+          + " elevation VARCHAR(1000),"
+          + " municipality VARCHAR(1000),"
+          + " home_link VARCHAR(1000),"
+          + " wikipedia_link VARCHAR(1000),"
+          + " PRIMARY KEY ( inx ))");
 
-      st.executeUpdate("INSERT INTO destinations " + "VALUES(1, 'test')");
-      ResultSet r = st.executeQuery("select * from destinations");
-      r.next();
-      System.out.println(r.getString("name"));
+      BufferedReader reader = new BufferedReader(
+          new InputStreamReader(new FileInputStream(testData)));
+      String line;
+      String[] values;
+      reader.readLine();
+      int i = 1;
+      while((line=reader.readLine()) != null){
+        values = line.split(",", -1);
+
+        for (String v:values) {
+          if(v.equals(""))
+          {
+            v="NULL";
+          }
+        }
+        String entry = "INSERT INTO destinations VALUES( " + i++ + ", '"+ values[0] + "', '" +
+            values[1] + "', '" + values[2] + "', '" + values[3] + "', '" + values[4] + "', '" +
+            values[5] + "', '" + values[6] + "', '" + values[7] + "', '" + values[8] + "')";
+        st.executeUpdate(entry);
+      }
+      /*ResultSet r = st.executeQuery("select * from destinations");
+      while(r.next()){
+        System.out.println(r.getString("name"));
+      }*/
 
     } catch (Exception e) {
       System.err.println(e.getMessage());
@@ -49,7 +82,7 @@ public class SearchSQLDatabaseTest {
 
   @Before
   public void setup(){
-    sql = new SearchSQLDatabase(login, url + "/TestDatabase");
+    sql = new SearchSQLDatabase(login, url + "/TestDatabase314");
   }
 
   @Test
@@ -61,7 +94,7 @@ public class SearchSQLDatabaseTest {
   @AfterClass
   public static void deleteDatabase(){
     try {
-      st.executeUpdate("DROP DATABASE IF EXISTS TestDatabase");
+      st.executeUpdate("DROP DATABASE IF EXISTS TestDatabase314");
       st.close();
       conn.close();
     } catch (SQLException e) {
