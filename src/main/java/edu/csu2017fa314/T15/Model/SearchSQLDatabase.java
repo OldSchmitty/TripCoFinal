@@ -11,9 +11,21 @@ public class SearchSQLDatabase {
   private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
   private Connection conn;
 
+  /**
+   * Constructor for connecting to the CS314 sql database.
+   * @param loginInfo [0] - eid
+   *                  [1] - student number
+   */
   public SearchSQLDatabase(String[] loginInfo){
     this(loginInfo,"jdbc:mysql://faure.cs.colostate.edu/cs314");
   }
+
+  /**
+   * Constructor for connecting to sql databases.
+   * @param loginInfo [0] - eid
+   *                  [1] - student number
+   * @param myUrl     Ip address and socket of sql database
+   */
   public SearchSQLDatabase(String[] loginInfo, String myUrl){
     try{
       Class.forName(myDriver);
@@ -22,19 +34,25 @@ public class SearchSQLDatabase {
     catch (ClassNotFoundException e){
       System.err.printf("myDriver: %s not found\n", myDriver );
       System.err.println(e.getMessage());
+      throw new RuntimeException(e);
 
     } catch (SQLException e) {
       System.err.printf("Can not connect to server %s\n", myUrl);
       System.err.println(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 
+  /**
+   * Closes the connection to sql database
+   */
   public void close(){
     try {
       conn.close();
     } catch (SQLException e) {
       System.err.printf("Can not close connections:\n%s\n", e.getMessage());
-      //e.printStackTrace();
+      e.printStackTrace();
+      throw new RuntimeException(e);
     }
   }
 }
