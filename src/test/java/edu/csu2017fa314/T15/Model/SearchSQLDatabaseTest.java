@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -93,6 +94,7 @@ public class SearchSQLDatabaseTest {
   @Before
   public void setup(){
     sql = new SearchSQLDatabase(login, url + "/TestDatabase314");
+    sql.setTable("destinations");
   }
 
   /**
@@ -102,6 +104,86 @@ public class SearchSQLDatabaseTest {
   public void testSetup(){
     assertTrue(sql != null);
     sql.close();
+  }
+
+  /**
+   * Tests searching everything in the database
+   */
+  @Test
+  public void query(){
+    //String[] find = {"Salida"};
+    //HashMap<String, Destination> rt = sql.query(find);
+    //assertTrue(rt.size() == 1);
+    //assertTrue("Harriet Alexander Field".equals(rt.get("KANK").getName()));
+  }
+
+  /**
+   * Tests searching in selected columns
+   */
+  @Test
+  public void query1(){
+
+  }
+
+  /**
+   * Checks making query statement for all of table
+   */
+  @Test
+  public void makeQueryStatment1(){
+    try {
+      String[] s = {"Salida"};
+      String[] i = {"*"};
+      String rt = sql.makeQueryStatment(s,i);
+      //System.out.println(rt);
+      ResultSet r = st.executeQuery(rt);
+      r.last();
+      assertEquals(1, r.getRow());
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+      assertTrue(false);
+    }
+  }
+
+  /**
+   * Check making query statement for one column
+   */
+  @Test
+  public void makeQueryStatment2(){
+
+    try {
+      String[] s = {"KTAD", "KSTK", "CD02", "KSBS" ,"KANK"};
+      String[] i = {"id"};
+      String rt = sql.makeQueryStatment(s,i);
+      //System.out.println(rt);
+      ResultSet r = st.executeQuery(rt);
+      r.last();
+      assertEquals(5, r.getRow());
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+      assertTrue(false);
+    }
+  }
+
+  /**
+   * Test to see invalid prams cause errors
+   */
+  @Test
+  public void makeQueryStatment3(){
+    String[] s = {};
+    String[] i = {};
+    try {
+      sql.makeQueryStatment(s,i);
+      assertTrue(false);
+    }catch (RuntimeException e) {
+      assertEquals(e.getMessage(), "No items to search for\n");
+    }
+    String[] s2 = {"NO"};
+    try {
+      sql.makeQueryStatment(s2,i);
+      assertTrue(false);
+    }catch (RuntimeException e) {
+      assertEquals(e.getMessage(), "No Columns to search for\n");
+    }
   }
 
   /**
