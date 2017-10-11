@@ -1,0 +1,21 @@
+id,type,name,latitude,longitude,elevation_ft,municipality,home_link,wikipedia_link
+KTAD,small_airport,Perry Stokes Airport,37.25939941,-104.3410034,5762,Trinidad,,http://en.wikipedia.org/wiki/Perry_Stokes_Airport
+KSTK,small_airport,Sterling Municipal Airport,40.61529922,-103.2649994,4040,Sterling,https://www.codot.gov/programs/aeronautics/colorado-airport-system/general-aviation-airports/ga-airports-r-y/STK,
+CD02,small_airport,Skyote Airport,40.75799942,-106.9720001,8200,Steamboat Springs,,
+KSBS,small_airport,Steamboat Springs Bob Adams Field,40.5163002,-106.8659973,6882,Steamboat Springs,,http://en.wikipedia.org/wiki/Steamboat_Springs_Airport
+KANK,small_airport,Harriet Alexander Field,38.53829956,-106.0490036,7523,Salida,http://cityofsalida.com/departments/harriet-alexander-field-airport/,http://en.wikipedia.org/wiki/Harriet_Alexander_Field
+KRIL,medium_airport,Garfield County Regional Airport,39.52629852,-107.7269974,5548,Rifle,http://www.rifleairport.com/,https://en.wikipedia.org/wiki/Garfield_County_Regional_Airport
+KPUB,small_airport,Pueblo Memorial Airport,38.28910065,-104.4970016,4726,Pueblo,,http://en.wikipedia.org/wiki/Pueblo_Memorial_Airport
+6CO6,small_airport,Skywagon Ranch Airport,40.311886,-105.145833,5187,Berthoud,,
+86CO,small_airport,Lazy W Airport,40.31359863,-105.1449966,5200,Berthoud,,
+CD39,small_airport,Ponds Field,40.26499939,-105.137001,5050,Berthoud,,
+17CO,small_airport,Skylane Ranch Airport,40.272258,-105.032625,5000,Berthoud,,
+0CO3,small_airport,Greggs Nr 1 Airport,39.88940048,-104.5449982,5373,Bennett,,
+CD14,small_airport,J & S Airport,39.82889938,-104.4369965,5320,Bennett,,
+76CO,small_airport,Hoy Airstrip,39.83580017,-104.4219971,5310,Bennett,,
+87CO,small_airport,Youngs Strip,39.69110107,-104.4160004,5650,Bennett,,
+CD09,small_airport,Yoder Airstrip,39.81969833,-104.4089966,5345,Bennett,,
+CO02,small_airport,Harrington Ranch Airport,39.62969971,-104.5189972,5975,Bennet,,
+96CO,small_airport,Logan Airport,39.85639954,-104.3960037,5300,Bennet,,
+5CO1,small_airport,Shipman Ranch Airport,38.83330154,-107.8590012,6200,Austin,,
+KBKF,medium_airport,Buckley Air Force Base,39.7016983,-104.7519989,5662,Aurora,,http://en.wikipedia.org/wiki/Buckley_Air_Force_Base

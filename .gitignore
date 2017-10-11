@@ -80,3 +80,6 @@ bower.json
 .byebug_history
 /public/packs
 /node_modules
+
+# Ingnore test made files#
+**/data/test_output
