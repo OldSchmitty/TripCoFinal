@@ -81,5 +81,11 @@ bower.json
 /public/packs
 /node_modules
 
-# Ingnore test made files#
-**/data/test_output
+# Ignore Test Made Files#
+/data/test_output
+
+# Ignore Output Files #
+/data/output
+
+# Ignore Generated SVG Map #
+/web/images/map.svg

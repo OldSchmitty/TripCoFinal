@@ -93,7 +93,7 @@ export default class App extends React.Component {
     getData(idFile, infoFile) {
         let pairs = [];
         let totalDist = 0;
-        for (let i = 0; i < Object.values(idFile).length; i++) { // note that "file" from sprint 1 was renamed to "idFile" in this code
+        for (let i = 0; i < Object.values(idFile).length; i++) {
             let start;
             let end;
             let startArrayFound = false;
