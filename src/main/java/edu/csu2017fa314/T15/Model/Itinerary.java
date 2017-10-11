@@ -55,7 +55,8 @@ public class Itinerary {
                 System.out.println("start: " + keys.get(i));
             }
 
-            ArrayList<String> remainingKeys = (ArrayList<String>) keys.clone(); // remaining destinations to check distance
+            // remaining destinations to check distance
+            ArrayList<String> remainingKeys = (ArrayList<String>) keys.clone();
 
             // pop current from remaining keys
             String currentID = keys.get(i);
@@ -110,7 +111,8 @@ public class Itinerary {
 
         for (int i = 0; i < currentPath.size(); i++) {
             if (test) {
-                System.out.println("source: " + currentPath.get(i).getSourceID() + ", destination: " + currentPath.get(i).getDestinationID() + ", distance: " +
+                System.out.println("source: " + currentPath.get(i).getSourceID() + ", destination: " +
+                        currentPath.get(i).getDestinationID() + ", distance: " +
                             currentPath.get(i).getDistance());
             }
             distance += currentPath.get(i).getDistance();
@@ -126,7 +128,8 @@ public class Itinerary {
         shortestPath();
         if (test) {
             for (int i = 0; i < path.size(); i++) {
-                System.out.println("source: " + path.get(i).getSourceID() + ", destination: " + path.get(i).getDestinationID() + ", distance: " +
+                System.out.println("source: " + path.get(i).getSourceID() + ", destination: " +
+                        path.get(i).getDestinationID() + ", distance: " +
                         path.get(i).getDistance());
             }
         }
