@@ -38,7 +38,7 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 :--- | :--- | :--- | :--- | :---
  10-5 | none | #186, #206, #210 | JavaScript Knowledge | Medium
  10-9 | #186 | #212 | Other classes | Medium 
- 
+ 10-11 | #223 #225| #212 #228 | Other classes | Medium
 
 ## Review
 
