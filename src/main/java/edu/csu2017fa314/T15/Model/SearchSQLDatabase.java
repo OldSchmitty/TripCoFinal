@@ -20,8 +20,8 @@ public class SearchSQLDatabase {
    * @param loginInfo [0] - eid
    *                  [1] - student number
    */
-  public SearchSQLDatabase(String[] loginInfo){
-    this(loginInfo,"jdbc:mysql://faure.cs.colostate.edu/cs314");
+  public SearchSQLDatabase(String[] loginInfo) throws SQLException, ClassNotFoundException {
+    this(loginInfo, "jdbc:mysql://faure.cs.colostate.edu/cs314");
   }
 
   /**
@@ -30,7 +30,8 @@ public class SearchSQLDatabase {
    *                  [1] - student number
    * @param myUrl     Ip address and socket of sql database
    */
-  public SearchSQLDatabase(String[] loginInfo, String myUrl){
+  public SearchSQLDatabase(String[] loginInfo, String myUrl)
+      throws ClassNotFoundException, SQLException {
     try{
       Class.forName(myDriver);
       conn = DriverManager.getConnection(myUrl, loginInfo[0], loginInfo[1]);
@@ -38,12 +39,12 @@ public class SearchSQLDatabase {
     catch (ClassNotFoundException e){
       System.err.printf("myDriver: %s not found\n", myDriver );
       System.err.println(e.getMessage());
-      throw new RuntimeException(e);
+      throw e;
 
     } catch (SQLException e) {
       System.err.printf("Can not connect to server %s\n", myUrl);
       System.err.println(e.getMessage());
-      throw new RuntimeException(e);
+      throw e;
     }
   }
 
@@ -65,7 +66,7 @@ public class SearchSQLDatabase {
    * @param searchFor
    * @return
    */
-  public HashMap<String, Destination> query(String[] searchFor){
+  public HashMap<String, Destination> query(String[] searchFor) throws SQLException {
     String[] all = {"*"};
     return query(searchFor, all);
   }
@@ -76,10 +77,37 @@ public class SearchSQLDatabase {
    * @param inColumns Where to search for those terms
    * @return A hashmap with all the return results saved as Destinations and id as the key
    */
-  public HashMap<String, Destination> query(String[] searchFor, String[] inColumns){
+  public HashMap<String, Destination> query(String[] searchFor, String[] inColumns)
+      throws SQLException {
+    HashMap<String, Destination> rt = new HashMap<>();
     String qry  = makeQueryStatment(searchFor, inColumns);
-
-    return null;
+    try {
+      Statement st = conn.createStatement();
+      try {
+        ResultSet rs = st.executeQuery(qry);
+        ResultSetMetaData meta = rs.getMetaData();
+        int size = meta.getColumnCount() +1;
+        while(rs.next())
+        {
+          Destination des = new Destination();
+          for (int i = 2; i < size; i++) {
+            String info;
+            String field = meta.getColumnName(i);
+            try {
+              info = rs.getString(field);
+            }catch (NullPointerException e) {
+              info = "";
+            }
+            des.setValue(field, info);
+          }
+          rt.put(des.getId(), des);
+        }
+      } finally { st.close(); }
+    }catch (SQLException e){
+      System.err.printf("SearchSQLDatabase: bad SQL query\n%s\n", e.getMessage());
+      throw e;
+    }
+    return rt;
   }
 
   /**
@@ -89,8 +117,10 @@ public class SearchSQLDatabase {
    * @return Complete query string
    */
   public String makeQueryStatment(String[] searchFor, String[] inColumns){
-    if(searchFor.length == 0){ throw new RuntimeException("No items to search for\n");}
-    if(inColumns.length == 0){ throw new RuntimeException("No Columns to search for\n");}
+    if(searchFor.length == 0)
+    { throw new RuntimeException("No items to search for\n");}
+    if(inColumns.length == 0)
+    { throw new RuntimeException("No Columns to search for\n");}
     String search = "";
     String where;
     String front = "SELECT * FROM " + table + " WHERE";
