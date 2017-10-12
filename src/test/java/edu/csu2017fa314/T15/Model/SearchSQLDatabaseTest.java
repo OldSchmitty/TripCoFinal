@@ -37,7 +37,7 @@ public class SearchSQLDatabaseTest {
   @BeforeClass
   public static void setupDatabase(){
     try {
-      String host = InetAddress.getLocalHost().getHostName();
+      String host = InetAddress.getLocalHost().getHostAddress();
       if(host != null)
       {
 
