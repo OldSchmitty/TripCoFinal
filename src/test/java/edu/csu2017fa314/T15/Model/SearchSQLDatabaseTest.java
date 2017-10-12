@@ -1,11 +1,14 @@
 package edu.csu2017fa314.T15.Model;
 
+import static java.lang.System.getenv;
 import static org.junit.Assert.*;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -34,6 +37,12 @@ public class SearchSQLDatabaseTest {
   @BeforeClass
   public static void setupDatabase(){
     try {
+      String host = InetAddress.getLocalHost().getHostName();
+      if(host != null)
+      {
+
+        System.out.printf("Host name :%s\n", host );
+      }
       // Connect to to database
       Class.forName("com.mysql.cj.jdbc.Driver");
       conn = DriverManager.getConnection(url, login[0], login[1] );
@@ -93,6 +102,9 @@ public class SearchSQLDatabaseTest {
    */
   @Before
   public void setup(){
+    //String travis = getenv("TRAVIS");
+    //assumeTrue(travis != null);
+    SearchSQLDatabase s;
     sql = new SearchSQLDatabase(login, url + "/TestDatabase314");
     sql.setTable("destinations");
   }
