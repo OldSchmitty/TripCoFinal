@@ -16,9 +16,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SearchSQLDatabaseTest {
@@ -38,20 +40,21 @@ public class SearchSQLDatabaseTest {
    */
   @BeforeClass
   public static void setupDatabase(){
+    // Check if not on school computers
     String travis = getenv("TRAVIS");
     if (travis == null)
     {
       try {
+        // School computers are not set to local host
         String host = InetAddress.getLocalHost().getHostAddress();
-        if( !host.equals("127.0.0.1"))
-        {
+        if( !host.equals("127.0.0.1")) {
           runTests = false;
         }
       } catch (UnknownHostException e) {
         e.printStackTrace();
-
       }
     }
+    // Setup if not on school computers
     if(runTests) {
       try {
         // Connect to to database
@@ -115,14 +118,22 @@ public class SearchSQLDatabaseTest {
    */
   @Before
   public void setup(){
-    assumeTrue(runTests);
+    assumeTrue(runTests); // not on school computer
     try {
       sql = new SearchSQLDatabase(login, url + "/TestDatabase314");
-    } catch (Exception e) {
+    } catch (Exception e) /* should not happen*/ {
       System.err.println(e.getMessage());
       assertTrue(false);
     }
     sql.setTable("destinations");
+  }
+
+  /**
+   * Closes the connection before it is replaced
+   */
+  @After
+  public void cleanup(){
+    sql.close();
   }
 
   /**
@@ -273,6 +284,11 @@ public class SearchSQLDatabaseTest {
     }
   }
 
+  /**
+   * Tries to make a bad connection Bugged
+   * @throws SQLException Could not connect
+   */
+  @Ignore("Hanging when not connected to CSU")
   @Test (expected = SQLException.class)
   public void cannotConnectToServer() throws SQLException {
     String[] bad = {"testlogin", "bad"};

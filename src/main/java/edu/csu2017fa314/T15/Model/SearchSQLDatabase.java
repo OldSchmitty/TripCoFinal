@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class SearchSQLDatabase {
 
   private String myDriver="com.mysql.cj.jdbc.Driver"; // add dependencies in pom.xml
-  private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
+  private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314?connectTimeout=3000";
   private Connection conn;
   private String table = "airports";
 
