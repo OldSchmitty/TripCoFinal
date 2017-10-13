@@ -216,7 +216,7 @@ public class SearchSQLDatabaseTest {
     try {
       String[] s = {"Salida"};
       String[] i = {"*"};
-      String rt = sql.makeQueryStatment(s,i);
+      String rt = sql.makeQueryStatement(s,i);
       //System.out.println(rt);
       ResultSet r = st.executeQuery(rt);
       r.last();
@@ -236,7 +236,7 @@ public class SearchSQLDatabaseTest {
     try {
       String[] s = {"KTAD", "KSTK", "CD02", "KSBS" ,"KANK"};
       String[] i = {"id"};
-      String rt = sql.makeQueryStatment(s,i);
+      String rt = sql.makeQueryStatement(s,i);
       //System.out.println(rt);
       ResultSet r = st.executeQuery(rt);
       r.last();
@@ -248,25 +248,35 @@ public class SearchSQLDatabaseTest {
   }
 
   /**
-   * Test to see invalid prams cause errors
+   * Test to see invalid search cause errors
    */
   @Test
   public void makeQueryStatment3(){
     String[] s = {};
     String[] i = {};
     try {
-      sql.makeQueryStatment(s,i);
+      sql.makeQueryStatement(s,i);
       assertTrue(false);
-    }catch (RuntimeException e) {
+    }catch (IllegalArgumentException e) {
       assertEquals(e.getMessage(), "No items to search for\n");
+    } catch (SQLException e) {
+      assertTrue(false);
     }
     String[] s2 = {"NO"};
     try {
-      sql.makeQueryStatment(s2,i);
+      sql.makeQueryStatement(s2,i);
       assertTrue(false);
-    }catch (RuntimeException e) {
+    }catch (IllegalArgumentException e) {
       assertEquals(e.getMessage(), "No Columns to search for\n");
+    } catch (SQLException e) {
+      assertTrue(false);
     }
+  }
+
+  @Test (expected = SQLException.class)
+  public void cannotConnectToServer() throws SQLException {
+    String[] bad = {"testlogin", "bad"};
+    sql = new SearchSQLDatabase(bad);
   }
 
   /**

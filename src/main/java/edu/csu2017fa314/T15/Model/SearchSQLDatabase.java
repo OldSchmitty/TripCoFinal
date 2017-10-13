@@ -1,4 +1,5 @@
 package edu.csu2017fa314.T15.Model;
+import java.security.InvalidParameterException;
 import java.sql.Connection; // https://docs.oracle.com/javase/tutorial/jdbc/basics/index.html
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager; // https://www.tutorialspoint.com/jdbc/
@@ -20,7 +21,7 @@ public class SearchSQLDatabase {
    * @param loginInfo [0] - eid
    *                  [1] - student number
    */
-  public SearchSQLDatabase(String[] loginInfo) throws SQLException, ClassNotFoundException {
+  public SearchSQLDatabase(String[] loginInfo) throws SQLException {
     this(loginInfo, "jdbc:mysql://faure.cs.colostate.edu/cs314");
   }
 
@@ -31,7 +32,7 @@ public class SearchSQLDatabase {
    * @param myUrl     Ip address and socket of sql database
    */
   public SearchSQLDatabase(String[] loginInfo, String myUrl)
-      throws ClassNotFoundException, SQLException {
+      throws SQLException {
     try{
       Class.forName(myDriver);
       conn = DriverManager.getConnection(myUrl, loginInfo[0], loginInfo[1]);
@@ -39,7 +40,7 @@ public class SearchSQLDatabase {
     catch (ClassNotFoundException e){
       System.err.printf("myDriver: %s not found\n", myDriver );
       System.err.println(e.getMessage());
-      throw e;
+      throw new RuntimeException(e);
 
     } catch (SQLException e) {
       System.err.printf("Can not connect to server %s\n", myUrl);
@@ -62,9 +63,10 @@ public class SearchSQLDatabase {
   }
 
   /**
-   * Makes an
-   * @param searchFor
-   * @return
+   * Queries all the fields in a database for an a given search term
+   * @param searchFor What to search for
+   * @return A hashmap with the results of the search
+   * @throws SQLException error in accessing the database
    */
   public HashMap<String, Destination> query(String[] searchFor) throws SQLException {
     String[] all = {"*"};
@@ -80,7 +82,7 @@ public class SearchSQLDatabase {
   public HashMap<String, Destination> query(String[] searchFor, String[] inColumns)
       throws SQLException {
     HashMap<String, Destination> rt = new HashMap<>();
-    String qry  = makeQueryStatment(searchFor, inColumns);
+    String qry  = makeQueryStatement(searchFor, inColumns);
     try {
       Statement st = conn.createStatement();
       try {
@@ -91,13 +93,8 @@ public class SearchSQLDatabase {
         {
           Destination des = new Destination();
           for (int i = 2; i < size; i++) {
-            String info;
             String field = meta.getColumnName(i);
-            try {
-              info = rs.getString(field);
-            }catch (NullPointerException e) {
-              info = "";
-            }
+            String info = rs.getString(field);
             des.setValue(field, info);
           }
           rt.put(des.getId(), des);
@@ -116,11 +113,11 @@ public class SearchSQLDatabase {
    * @param inColumns Where to search
    * @return Complete query string
    */
-  public String makeQueryStatment(String[] searchFor, String[] inColumns){
+  public String makeQueryStatement(String[] searchFor, String[] inColumns) throws SQLException {
     if(searchFor.length == 0)
-    { throw new RuntimeException("No items to search for\n");}
+    { throw new IllegalArgumentException("No items to search for\n");}
     if(inColumns.length == 0)
-    { throw new RuntimeException("No Columns to search for\n");}
+    { throw new IllegalArgumentException("No Columns to search for\n");}
     String search = "";
     String where;
     String front = "SELECT * FROM " + table + " WHERE";
@@ -151,12 +148,11 @@ public class SearchSQLDatabase {
           }
           rs.close();
 
-        } finally {
-          st.close();
-        }
-
+        } finally { st.close(); }
       } catch (SQLException e) {
-        e.printStackTrace();
+        System.err.printf("SearchSQLDatabase:makeQueryStatement error "
+            + "in getting column names\n%s\n", e.getMessage());
+        throw e;
       }
     }
     else {
