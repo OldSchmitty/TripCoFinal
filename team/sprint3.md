@@ -39,7 +39,7 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
  10-5 | none | #186, #206, #210 | JavaScript Knowledge | Medium
  10-9 | #186 | #212 | Other classes | Medium 
  10-11 | #223 #225| #212 #228 | Other classes | Medium
-
+ 10-13 | #212 #230 | #206 #228 #232 #234 | Other Classes| Medium
 ## Review
 
 #### Completed user stories (epics) in Sprint Backlog 
