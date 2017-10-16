@@ -1,4 +1,4 @@
-package edu.csu2017fa314.T15.View.Server;
+package edu.csu2017fa314.T15.View;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -24,10 +24,10 @@ public class Server {
 
     public void serve() {
         Gson g = new Gson();
-        post("/testing", this::testing, g::toJson); //Create new listener
+        post("/receive", this::receive, g::toJson); //Create new listener
     }
 
-    private Object testing(Request rec, Response res) {
+    private Object receive(Request rec, Response res) {
         //Set the return headers
         setHeaders(res);
 
@@ -47,22 +47,31 @@ public class Server {
         //Notice how DataClass has name and ID and how the frontend is generating an object with name and ID.
         System.out.println("Got \"" + sRec.toString() + "\" from server.");
 
-        sRec.searchDatabase();
+        if (sRec.getdoWhat() == "query") {
+            sRec.searchDatabase();
 
-        //Create object with svg file path and list to return to server
-        ServerResponse sRes = new ServerResponse(svgPath, sRec.getItems());
+            //Create object with svg file path and list to return to server
+            ServerResponse sRes = new ServerResponse(svgPath, sRec.getDests());
 
-        System.out.println("Sending \"" + sRes.toString() + "\" to server.");
+            System.out.println("Sending \"" + sRes.toString() + "\" to server.");
 
-        //Convert response to json
-        Object ret = gson.toJson(sRes, ServerResponse.class);
+            //Convert response to json
+            Object ret = gson.toJson(sRes, ServerResponse.class);
 
         /* What to return to the server.
          * In this example, the "ServerResponse" object sRes is converted into a JSON representation
          * using the GSON library.  If you'd like to see what this JSON looks like, it is logged to the console in
          * the web client.
          */
-        return ret;
+            return ret;
+        }
+        else if(sRec.getdoWhat() == "plan") {
+            sRec.planTrip();
+
+            ServerEmptyClass sec = new ServerEmptyClass();
+            return gson.toJson(sec, ServerEmptyClass.class);
+        }
+        return null;
     }
 
     private void setHeaders(Response res) {
