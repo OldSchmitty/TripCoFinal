@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import spark.Request;
 import spark.Response;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -23,14 +24,14 @@ public class Server {
 
     private String svgPath = "." + File.separator + "web" + File.separator + "images" + File.separator + "map.svg";
     private String baseMap = "." + File.separator + "data" + File.separator + "resources" + File.separator + "colorado.svg";
-    private String path = "." + File.separator;
+    private String buildPath = "." + File.separator + "web" + File.separator + "data" + File.separator;
 
     public void serve() {
         Gson g = new Gson();
         post("/receive", this::receive, g::toJson); //Create new listener
     }
 
-    private Object receive(Request rec, Response res) {
+    private Object receive(Request rec, Response res) throws SQLException{
         //Set the return headers
         setHeaders(res);
 
@@ -68,20 +69,20 @@ public class Server {
          */
             return ret;
         }
-        else if(sRec.getdoWhat() == "plan") {
+        else if(sRec.getdoWhat() == "plan"){
             HashMap<String, Destination> trip = new HashMap<String, Destination>();
 
             trip = sRec.planTrip();
 
             Itinerary i = new Itinerary(trip);
             ArrayList<Edge> edges = i.getShortestPath();
-            View v = new View(path, baseMap);
+            View v = new View(buildPath, baseMap);
             v.makeItinerary(edges);
             v.makeDestination(trip);
             v.drawMap(trip, edges);
 
-            ServerEmptyClass sec = new ServerEmptyClass();
-            return gson.toJson(sec, ServerEmptyClass.class);
+            ServerPlanTrip servP = new ServerPlanTrip(buildPath);
+            return gson.toJson(servP, ServerPlanTrip.class);
         }
         return null;
     }
