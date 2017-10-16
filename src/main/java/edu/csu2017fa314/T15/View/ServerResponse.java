@@ -1,7 +1,7 @@
-package edu.csu2017fa314.T15.View.Server;
+package edu.csu2017fa314.T15.View;
 
-import java.util.Arrays;
-import java.util.ArrayList;
+import java.util.HashMap;
+import edu.csu2017fa314.T15.Model.Destination;
 
 /**
  * Created by sswensen on 10/1/17 modified by James DePoyster for use in TripCO.
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class ServerResponse {
     private String svg = "";
-    private ArrayList<String> items;
+    private HashMap<String, Destination> items;
 
 
-    public ServerResponse(String svg, ArrayList<String> items) {
+    public ServerResponse(String svg, HashMap<String, Destination> items) {
         this.svg = svg;
         this.items = items;
     }
