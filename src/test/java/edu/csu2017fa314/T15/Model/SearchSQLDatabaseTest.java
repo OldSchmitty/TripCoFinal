@@ -16,9 +16,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SearchSQLDatabaseTest {
@@ -38,20 +40,21 @@ public class SearchSQLDatabaseTest {
    */
   @BeforeClass
   public static void setupDatabase(){
+    // Check if not on school computers
     String travis = getenv("TRAVIS");
     if (travis == null)
     {
       try {
+        // School computers are not set to local host
         String host = InetAddress.getLocalHost().getHostAddress();
-        if( !host.equals("127.0.0.1"))
-        {
+        if( !host.equals("127.0.0.1")) {
           runTests = false;
         }
       } catch (UnknownHostException e) {
         e.printStackTrace();
-
       }
     }
+    // Setup if not on school computers
     if(runTests) {
       try {
         // Connect to to database
@@ -115,9 +118,22 @@ public class SearchSQLDatabaseTest {
    */
   @Before
   public void setup(){
-    assumeTrue(runTests);
-    sql = new SearchSQLDatabase(login, url + "/TestDatabase314");
+    assumeTrue(runTests); // not on school computer
+    try {
+      sql = new SearchSQLDatabase(login, url + "/TestDatabase314");
+    } catch (Exception e) /* should not happen*/ {
+      System.err.println(e.getMessage());
+      assertTrue(false);
+    }
     sql.setTable("destinations");
+  }
+
+  /**
+   * Closes the connection before it is replaced
+   */
+  @After
+  public void cleanup(){
+    sql.close();
   }
 
   /**
@@ -130,24 +146,79 @@ public class SearchSQLDatabaseTest {
   }
 
   /**
-   * Tests searching everything in the database
+   * Tests to see if one item is returned from query
    */
   @Test
-  public void query(){
-    //String[] find = {"Salida"};
-    //HashMap<String, Destination> rt = sql.query(find);
-    //assertTrue(rt.size() == 1);
-    //assertTrue("Harriet Alexander Field".equals(rt.get("KANK").getName()));
+  public void queryOne(){
+    String[] find = {"Salida"};
+    HashMap<String, Destination> rt = null;
+    try {
+      rt = sql.query(find);
+    } catch (SQLException e) {
+      assertTrue(false);
+    }
+    assertTrue(rt.size() == 1);
+    assertTrue("Harriet Alexander Field".equals(rt.get("KANK").getName()));
   }
 
   /**
-   * Tests searching in selected columns
+   * Tests for many return results from query
    */
   @Test
-  public void query1(){
+  public void queryMany(){
+    String[] find = {"Bennet"};
+    HashMap<String, Destination> rt = null;
+    try {
+      rt = sql.query(find);
+    } catch (SQLException e) {
+      assertTrue(false);
+    }
+    assertTrue(rt.size() == 7);
+    // Test to see if the correct airports were found
+    String[] ids ={"0CO3", "CD14", "76CO", "87CO", "CD09", "CO02", "96CO"};
+    for (String i:ids) {
+      assertNotEquals(rt.get(i), null);
+    }
+  }
+
+  /**
+   * Tests for no return results from query
+   */
+  @Test
+  public void queryNone(){
+    String[] find = {"Fort Collins"};
+    HashMap<String, Destination> rt = null;
+    try {
+      rt = sql.query(find);
+    } catch (SQLException e) {
+      assertTrue(false);
+    }
+    assertTrue(rt.size() == 0);
 
   }
 
+  @Test
+  public void queryIDSearch(){
+    String[] find ={"0CO3", "CD14", "76CO", "87CO", "CD09", "CO02", "96CO"};
+    String[] in = {"ID"};
+    HashMap<String, Destination> rt = null;
+    try {
+      rt = sql.query(find, in);
+    } catch (SQLException e) {
+      assertTrue(false);
+    }
+    assertTrue(rt.size() == 7);
+    for (String i:find) {
+      assertNotEquals(rt.get(i), null);
+    }
+  }
+
+  @Test (expected = SQLException.class)
+  public void queryBADFeild() throws SQLException {
+    String[] find ={"0CO3"};
+    String[] in = {"BAD"};
+    HashMap<String, Destination> rt = sql.query(find, in);
+  }
   /**
    * Checks making query statement for all of table
    */
@@ -156,7 +227,7 @@ public class SearchSQLDatabaseTest {
     try {
       String[] s = {"Salida"};
       String[] i = {"*"};
-      String rt = sql.makeQueryStatment(s,i);
+      String rt = sql.makeQueryStatement(s,i);
       //System.out.println(rt);
       ResultSet r = st.executeQuery(rt);
       r.last();
@@ -176,7 +247,7 @@ public class SearchSQLDatabaseTest {
     try {
       String[] s = {"KTAD", "KSTK", "CD02", "KSBS" ,"KANK"};
       String[] i = {"id"};
-      String rt = sql.makeQueryStatment(s,i);
+      String rt = sql.makeQueryStatement(s,i);
       //System.out.println(rt);
       ResultSet r = st.executeQuery(rt);
       r.last();
@@ -188,25 +259,40 @@ public class SearchSQLDatabaseTest {
   }
 
   /**
-   * Test to see invalid prams cause errors
+   * Test to see invalid search cause errors
    */
   @Test
   public void makeQueryStatment3(){
     String[] s = {};
     String[] i = {};
     try {
-      sql.makeQueryStatment(s,i);
+      sql.makeQueryStatement(s,i);
       assertTrue(false);
-    }catch (RuntimeException e) {
+    }catch (IllegalArgumentException e) {
       assertEquals(e.getMessage(), "No items to search for\n");
+    } catch (SQLException e) {
+      assertTrue(false);
     }
     String[] s2 = {"NO"};
     try {
-      sql.makeQueryStatment(s2,i);
+      sql.makeQueryStatement(s2,i);
       assertTrue(false);
-    }catch (RuntimeException e) {
+    }catch (IllegalArgumentException e) {
       assertEquals(e.getMessage(), "No Columns to search for\n");
+    } catch (SQLException e) {
+      assertTrue(false);
     }
+  }
+
+  /**
+   * Tries to make a bad connection Bugged
+   * @throws SQLException Could not connect
+   */
+  @Ignore("Hanging when not connected to CSU")
+  @Test (expected = SQLException.class)
+  public void cannotConnectToServer() throws SQLException {
+    String[] bad = {"testlogin", "bad"};
+    sql = new SearchSQLDatabase(bad);
   }
 
   /**
