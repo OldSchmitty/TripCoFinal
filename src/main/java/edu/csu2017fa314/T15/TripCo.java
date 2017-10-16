@@ -13,10 +13,6 @@ import java.util.ArrayList;
 
 public class TripCo
 {
-
-	private static Model m;
-	private static CalculateDistance calc;
-	private static JSONWriter jw;
 	private static String path;
 	private static String baseMap;
 
@@ -28,29 +24,8 @@ public class TripCo
 	 * @throws FileNotFoundException One of the files to open did not exist
 	 */
    public static void main(String[] args) throws FileNotFoundException {
-
-   	if(args.length < 2){
-   		throw new IllegalArgumentException("\nNot enough arguments\n Expected 2 or 3\n Received: " +args.length);
-		}
-		if(args.length > 2){
-   		path = args[2];
-   	}
-		else {
-			path = "";
-		}
-   	baseMap = args[1];
-
 	   Server s = new Server();
 	   s.serve();
-
-	   m = new Model(args[0]);
-
-		 Itinerary i = new Itinerary(m.getMap());
-		 ArrayList<Edge> edges = i.getShortestPath();
-		 View v = new View(path, baseMap);
-		 v.makeItinerary(edges);
-		 v.makeDestination(m.getMap());
-		 v.drawMap(m.getMap(), edges);
    }
 
 }

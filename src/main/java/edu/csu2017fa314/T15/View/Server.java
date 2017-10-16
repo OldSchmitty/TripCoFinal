@@ -6,6 +6,13 @@ import com.google.gson.JsonParser;
 import spark.Request;
 import spark.Response;
 import java.io.File;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+import edu.csu2017fa314.T15.Model.Destination;
+import edu.csu2017fa314.T15.Model.Edge;
+import edu.csu2017fa314.T15.Model.Itinerary;
 
 import static spark.Spark.post;
 
@@ -15,19 +22,16 @@ import static spark.Spark.post;
 
 public class Server {
 
-    String svgPath = "." + File.separator + "web" + File.separator + "images" + File.separator + "map.svg";
-
-    public static void main(String[] args) {
-        Server s = new Server();
-        s.serve();
-    }
+    private String svgPath = "." + File.separator + "web" + File.separator + "images" + File.separator + "map.svg";
+    private String baseMap = "." + File.separator + "data" + File.separator + "resources" + File.separator + "colorado.svg";
+    private String buildPath = "." + File.separator + "web" + File.separator + "data" + File.separator;
 
     public void serve() {
         Gson g = new Gson();
         post("/receive", this::receive, g::toJson); //Create new listener
     }
 
-    private Object receive(Request rec, Response res) {
+    private Object receive(Request rec, Response res) throws SQLException{
         //Set the return headers
         setHeaders(res);
 
@@ -65,11 +69,20 @@ public class Server {
          */
             return ret;
         }
-        else if(sRec.getdoWhat() == "plan") {
-            sRec.planTrip();
+        else if(sRec.getdoWhat() == "plan"){
+            HashMap<String, Destination> trip = new HashMap<String, Destination>();
 
-            ServerEmptyClass sec = new ServerEmptyClass();
-            return gson.toJson(sec, ServerEmptyClass.class);
+            trip = sRec.planTrip();
+
+            Itinerary i = new Itinerary(trip);
+            ArrayList<Edge> edges = i.getShortestPath();
+            View v = new View(buildPath, baseMap);
+            v.makeItinerary(edges);
+            v.makeDestination(trip);
+            v.drawMap(trip, edges);
+
+            ServerPlanTrip servP = new ServerPlanTrip(buildPath);
+            return gson.toJson(servP, ServerPlanTrip.class);
         }
         return null;
     }
