@@ -9,7 +9,7 @@ public class TestTripCo {
 
    private TripCo t;
 
-   @Before
+   @Test
    public void setUp() throws Exception
    {
       t = new TripCo();

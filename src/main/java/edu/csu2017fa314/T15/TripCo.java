@@ -32,7 +32,7 @@ public class TripCo
    public static void main(String[] args) throws FileNotFoundException {
 
    	if(args.length < 2){
-   		throw new RuntimeException("\nNot enough arguments\n Expected 2 or 3\n Received: " +args.length);
+   		throw new IllegalArgumentException("\nNot enough arguments\n Expected 2 or 3\n Received: " +args.length);
 		}
 		if(args.length > 2){
    		path = args[2];
