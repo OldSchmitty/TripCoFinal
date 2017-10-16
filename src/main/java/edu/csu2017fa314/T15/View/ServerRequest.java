@@ -1,5 +1,6 @@
 package edu.csu2017fa314.T15.View;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.Model.SearchSQLDatabase;
@@ -21,15 +22,15 @@ public class ServerRequest {
         dests = new HashMap<>();
     }
 
-    public void searchDatabase(){
+    public void searchDatabase() throws SQLException{
         SearchSQLDatabase sql = new SearchSQLDatabase(login);
         dests = sql.query(queries);
     }
 
-    public void planTrip(){
+    public HashMap<String, Destination> planTrip() throws SQLException{
         String[] columns = {"ID"};
         SearchSQLDatabase sql = new SearchSQLDatabase(login);
-        dests = sql.query(queries, columns);
+        return sql.query(queries, columns);
     }
 
     public HashMap<String, Destination> getDests(){ return this.dests; }
