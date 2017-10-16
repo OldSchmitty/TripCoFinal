@@ -6,6 +6,12 @@ import com.google.gson.JsonParser;
 import spark.Request;
 import spark.Response;
 import java.io.File;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+import edu.csu2017fa314.T15.Model.Destination;
+import edu.csu2017fa314.T15.Model.Edge;
+import edu.csu2017fa314.T15.Model.Itinerary;
 
 import static spark.Spark.post;
 
@@ -15,12 +21,9 @@ import static spark.Spark.post;
 
 public class Server {
 
-    String svgPath = "." + File.separator + "web" + File.separator + "images" + File.separator + "map.svg";
-
-    public static void main(String[] args) {
-        Server s = new Server();
-        s.serve();
-    }
+    private String svgPath = "." + File.separator + "web" + File.separator + "images" + File.separator + "map.svg";
+    private String baseMap = "." + File.separator + "data" + File.separator + "resources" + File.separator + "colorado.svg";
+    private String path = "." + File.separator;
 
     public void serve() {
         Gson g = new Gson();
@@ -66,7 +69,16 @@ public class Server {
             return ret;
         }
         else if(sRec.getdoWhat() == "plan") {
-            sRec.planTrip();
+            HashMap<String, Destination> trip = new HashMap<String, Destination>();
+
+            trip = sRec.planTrip();
+
+            Itinerary i = new Itinerary(trip);
+            ArrayList<Edge> edges = i.getShortestPath();
+            View v = new View(path, baseMap);
+            v.makeItinerary(edges);
+            v.makeDestination(trip);
+            v.drawMap(trip, edges);
 
             ServerEmptyClass sec = new ServerEmptyClass();
             return gson.toJson(sec, ServerEmptyClass.class);
