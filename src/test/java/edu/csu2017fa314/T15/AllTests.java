@@ -14,7 +14,12 @@ import junit.framework.JUnit4TestAdapter;
    DestinationTest.class,
    CalculateDistanceTest.class,
    JSONWriterTest.class,
-   ServerTest.class
+    DrawMapTest.class,
+    TableTest.class,
+    SearchSQLDatabaseTest.class,
+    ItineraryTest.class,
+    EdgeTest.class,
+    ServerTest.class
 })
 
 public class AllTests
