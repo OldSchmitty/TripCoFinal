@@ -1,4 +1,6 @@
 package edu.csu2017fa314.T15.Model;
+import static java.lang.System.getenv;
+
 import java.security.InvalidParameterException;
 import java.sql.Connection; // https://docs.oracle.com/javase/tutorial/jdbc/basics/index.html
 import java.sql.DatabaseMetaData;
@@ -11,7 +13,7 @@ import java.util.HashMap;
 
 public class SearchSQLDatabase {
 
-  private String myDriver="com.mysql.cj.jdbc.Driver"; // add dependencies in pom.xml
+  private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
   private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314?connectTimeout=3000";
   private Connection conn;
   private String table = "airports";
@@ -140,7 +142,7 @@ public class SearchSQLDatabase {
           ResultSet rs = st.executeQuery("Select * from " + table);
           ResultSetMetaData meta = rs.getMetaData();
           int stop = meta.getColumnCount() +1;
-          for (int i=1; i <stop;){
+          for (int i=2; i <stop;){
             search += " " + meta.getColumnName(i) + " " + where;
             if(++i != stop){
               search += " OR";
@@ -164,5 +166,26 @@ public class SearchSQLDatabase {
 
   public void setTable(String t){
     this.table = t;
+  }
+
+  public static void main(String[] args){
+    String travis = getenv("TRAVIS");
+    if (travis == null)
+    {
+      try {
+        String[] login = {"josiahm", "831085445"};
+        SearchSQLDatabase test = new SearchSQLDatabase(login);
+        String[] ser = {"Denver"};
+        String[] id = {"ID"};
+        HashMap<String, edu.csu2017fa314.T15.Model.Destination> rt = test.query(ser);
+        System.out.println(rt.size());
+        for (String d : rt.keySet()) {
+          System.out.println(rt.get(d).getId());
+        }
+      } catch (Exception e){
+        System.err.println(e.getMessage());
+
+      }
+    }
   }
 }
