@@ -7,7 +7,8 @@ import java.util.List;
 
 public class Table {
 
-    private HashMap<String, Edge> table = new HashMap<String, Edge>();
+    private long[][] distanceTable;
+    List<String> keys;
 
     /**
      * Constructor builds a map of all possible edges, in both directions
@@ -15,33 +16,36 @@ public class Table {
      */
     public Table(HashMap<String, Destination> map){
 
-        List<String> keys = new ArrayList<String>(map.keySet());
+        keys = new ArrayList<String>(map.keySet());
         CalculateDistance cd = new CalculateDistance();
+        distanceTable = new long[keys.size()][keys.size()];
 
-        for (int i = 0; i < keys.size(); i++){
+        //loop through all destinations
+        for (int i=0; i< keys.size(); i++){
             String key1 = keys.get(i);
 
-            // create an edge in either direction between all remaining destinations
-            for (int j = (i+1); j < keys.size(); j++){
+            // populate distanceTable with distances between each remaining destination
+            for (int j=(i+1); j < keys.size(); j++){
                 String key2 = keys.get(j);
                 long distance = cd.findDistanceBetween(map.get(key1), map.get(key2));
 
-                Edge e1 = new Edge(key1, key2, distance);
-                table.put(key1 + " " + key2, e1);
-
-                Edge e2 = new Edge(key2, key1, distance);
-                table.put(key2 + " " + key1, e2);
+                // populate the distance table
+                distanceTable[idxOfKey(key1)][idxOfKey(key2)] = distance;
+                distanceTable[idxOfKey(key2)][idxOfKey(key1)] = distance;
             }
+        }
+
+        // populate the diagonal with 0's, distance to own location
+        for (int i=0; i<keys.size(); i++){
+            distanceTable[i][i] = 0;
         }
     }
 
-    /**
-     * return the Edge between two destination ids
-     * @param id1
-     * @param id2
-     * @return
-     */
-    public Edge getEdge(String id1, String id2){
-        return table.get(id1 + " " + id2);
+    private int idxOfKey(String key){
+        return keys.indexOf(key);
+    }
+
+    public long getDistance(String id1, String id2){
+        return distanceTable[idxOfKey(id1)][idxOfKey(id2)];
     }
 }

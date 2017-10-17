@@ -31,14 +31,8 @@ public class TableTest {
      * A few tests to assert that the Table constructor builds properly and the getEdge method works
      */
     @Test
-    public void test1() { assertEquals(table.getEdge("a", "b").getDistance(), 68);}
+    public void test1() { assertEquals(table.getDistance("a", "b"), 68);}
 
     @Test
-    public void test2() { assertEquals(table.getEdge("b", "a").getDistance(), 68);}
-
-    @Test
-    public void test3() { assertEquals(table.getEdge("a", "c").getDestinationID(), "c");}
-
-    @Test
-    public void test4() { assertEquals(table.getEdge("b", "a").getSourceID(), "b");}
+    public void test2() { assertEquals(table.getDistance("b", "a"), 68);}
 }
