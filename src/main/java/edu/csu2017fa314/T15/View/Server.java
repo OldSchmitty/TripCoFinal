@@ -51,7 +51,7 @@ public class Server {
         //Notice how DataClass has name and ID and how the frontend is generating an object with name and ID.
         System.out.println("Got \"" + sRec.toString() + "\" from server.");
 
-        if (sRec.getdoWhat() == "query") {
+        if (sRec.getdoWhat().equals("query")) {
             sRec.searchDatabase();
 
             //Create object with svg file path and list to return to server
@@ -69,7 +69,7 @@ public class Server {
          */
             return ret;
         }
-        else if(sRec.getdoWhat() == "plan"){
+        else if(sRec.getdoWhat().equals("plan")){
             HashMap<String, Destination> trip = new HashMap<String, Destination>();
 
             trip = sRec.planTrip();
