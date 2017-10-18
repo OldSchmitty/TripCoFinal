@@ -28,7 +28,7 @@ public class ServerRequest {
     }
 
     public HashMap<String, Destination> planTrip() throws SQLException{
-        String[] columns = {"id"};
+        String[] columns = {"ID"};
         SearchSQLDatabase sql = new SearchSQLDatabase(login);
         return sql.query(queries, columns);
     }

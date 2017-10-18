@@ -94,7 +94,7 @@ public class SearchSQLDatabase {
         while(rs.next())
         {
           Destination des = new Destination();
-          for (int i = 1; i < size; i++) {
+          for (int i = 2; i < size; i++) {
             String field = meta.getColumnName(i);
             String info = rs.getString(field);
             des.setValue(field, info);
