@@ -58,7 +58,7 @@ public class SearchSQLDatabaseTest {
     if(runTests) {
       try {
         // Connect to to database
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        Class.forName("com.mysql.jdbc.Driver");
         conn = DriverManager.getConnection(url, login[0], login[1]);
         st = conn.createStatement();
         //Remove old database if it exists and make new one
