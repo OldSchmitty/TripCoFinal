@@ -26,10 +26,16 @@ public class DrawMap {
    * <p>Initializes elements to draw SVG</p>
    * @param path - where to build file
    */
-  public DrawMap(final String path){
+  public DrawMap(final String path, String baseFile){
     this.path = path;
+    this.baseFile = baseFile;
     this.elements = new ArrayList<>();
     svgHeader();
+    addFromFile();
+  }
+
+  public DrawMap(){
+
   }
 
   /**
@@ -120,7 +126,19 @@ public class DrawMap {
 
   }
 
+  public String mapString(){
+    String rt = "";
+    rt = rt.concat(elements.get(0) + elements.get(1));
+    for (int i = 2; i < elements.size(); i++){
+      rt = rt.concat( " <g>\n"+elements.get(i) + "\n </g>\n");
+    }
+
+    rt = rt.concat("\n</svg>");
+    return rt;
+  }
+
   public void addFromFile() {
+    String baseMap= "";
     String line;
     try {
       BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -128,21 +146,23 @@ public class DrawMap {
       for (int i = 0; i < 9; i++) {
         reader.readLine(); // Skip Header info
       }
-      writer.write("<!-- Following code provided by CS314 Instructors -->\n");
-      writer.write("<!-- Created with Inkscape (http://www.inkscape.org/) -->\n");
+      baseMap = baseMap.concat("<!-- Following code provided by CS314 Instructors -->\n");
+      baseMap = baseMap.concat("<!-- Created with Inkscape (http://www.inkscape.org/) -->\n");
       line=reader.readLine();
       while(!line.equalsIgnoreCase("</svg>")) //stop at last line
       {
-        writer.write(line + "\n");
+        baseMap = baseMap.concat(line + "\n");
         line=reader.readLine();
 
       }
-      writer.write("<!-- T15 code -->\n");
+      baseMap = baseMap.concat("<!-- T15 code -->\n");
       reader.close();
     } catch (java.io.IOException e) {
       throw new RuntimeException("Error opening file " + baseFile + ".", e);
     }
+    elements.add(baseMap);
   }
+
   /**
    * Writes the data to the svg file
    */
@@ -155,18 +175,7 @@ public class DrawMap {
       writer = Files.newBufferedWriter( Paths.get(path),
           charset);
 
-      writer.write(elements.get(0)); // Header file
-      if(baseFile != null){
-        addFromFile();
-      }
-      // Write all elements
-      for (int i = 1; i < elements.size(); i++){
-        writer.write( " <g>\n");
-        writer.write(elements.get(i));
-        writer.write("\n </g>\n");
-      }
-
-      writer.write("\n</svg>");
+      writer.write(mapString());
       writer.close();
 
     } catch (java.io.IOException e ) {
