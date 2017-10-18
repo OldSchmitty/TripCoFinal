@@ -22,9 +22,9 @@ import static spark.Spark.post;
 
 public class Server {
 
-    private String svgPath = "." + File.separator + "web" + File.separator + "images" + File.separator + "map.svg";
-    private String baseMap = "." + File.separator + "data" + File.separator + "resources" + File.separator + "colorado.svg";
-    private String buildPath = "." + File.separator + "web" + File.separator + "data" + File.separator;
+    private String svgPath = "."+File.separator + "images" +File.separator + "map.svg";
+    private String baseMap =  System.getProperty("user.dir")+File.separator +"data"+ File.separator + "resources" + File.separator + "colorado.svg";
+    private String buildPath = System.getProperty("user.dir") + File.separator + "web" + File.separator + "images" +File.separator;
 
     public void serve() {
         Gson g = new Gson();
