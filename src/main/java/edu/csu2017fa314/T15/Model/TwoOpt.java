@@ -7,7 +7,6 @@ public class TwoOpt {
 
     private Table distanceTable;
     private String[] route;
-    private long routeDistance;
 
     /**
      * Constructor for the 2-opt class
@@ -17,7 +16,6 @@ public class TwoOpt {
     public TwoOpt(Table distance, ArrayList<String> path){
         this.distanceTable = distance;
         this.route = path.toArray(new String[path.size()]);
-        this.routeDistance = 0;
     }
 
     /**
@@ -69,7 +67,6 @@ public class TwoOpt {
     public ArrayList<String> getTwoOpt(){
         twoOpt(); // run 2-Opt
         ArrayList<String> path = new ArrayList<String>(Arrays.asList(route));
-        routeDistance = dist(0,route.length-1);
         return path;
     }
 

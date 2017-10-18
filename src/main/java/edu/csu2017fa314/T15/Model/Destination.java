@@ -2,13 +2,14 @@ package edu.csu2017fa314.T15.Model;
 import java.util.HashMap;
 import java.util.Set;
 /**
- * Class that holds all the info on a brewery
+ * Class that holds all the info on a destination
  * @version 1 - 9/2/17 initial
  */
  
 public class Destination {
 
     private HashMap<String, String> map;
+    private int tableIdentifier;
 
     Destination(String id, String name, String city, String latitude, String longitude, String elevation){
        map = new HashMap<String, String>();
@@ -59,5 +60,13 @@ public class Destination {
             + "Latitude: " + getLatitude() + '\n'
             + "Longitude: " + getLongitude() + '\n'
             + "Elevation: " + getElevation();
+    }
+
+    public void setIdentifier(int id) {
+        tableIdentifier = id;
+    }
+
+    public int getIdentifier(){
+        return tableIdentifier;
     }
 }
