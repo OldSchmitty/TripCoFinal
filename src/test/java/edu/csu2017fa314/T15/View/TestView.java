@@ -111,6 +111,11 @@ public class TestView
     }
   }
 
+  @Test
+  public void testMapString(){
+    String map = v.drawMapString(des, edges);
+    assertNotNull(map);
+  }
   /**
    * <p>Test to see if Itinerary JSON made correctly. Copies JSONWriter test.</p>
    */
@@ -135,6 +140,5 @@ public class TestView
     }
     assertTrue(isEqual);
   }
-
 
 }

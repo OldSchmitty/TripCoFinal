@@ -69,7 +69,8 @@ export default class App extends React.Component {
             // set the local variable scg to this.state.serverReturned.svg
         }
         if(this.state.svg){
-            svg = this.state.serverReturned.svg+"?"+ new Date().getTime();
+            svg = this.state.serverReturned.svg;
+            //console.log("SVG: ", svg);
         }
 
         return (
@@ -83,7 +84,7 @@ export default class App extends React.Component {
                 <h1>
                     {/* In the constructor, this.state.serverReturned.svg is not assigned a value. This means the image
                     will only display once the serverReturned state variable is set to the received json in line 73*/}
-                    <img width="75%" src={svg}/>
+                    <span dangerouslySetInnerHTML={{__html: svg}} />
                 </h1>
                 <Home
                     getData={this.getData.bind(this)}

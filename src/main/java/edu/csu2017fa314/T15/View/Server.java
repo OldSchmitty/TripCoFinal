@@ -80,8 +80,9 @@ public class Server {
             //v.makeItinerary(edges);
             //v.makeDestination(trip);
             v.drawMap(trip, edges);
-
-            ServerPlanTrip servP = new ServerPlanTrip(svgPath,trip,edges);
+            String svg = v.drawMapString(trip,edges);
+            ServerPlanTrip servP = new ServerPlanTrip(svg,trip,edges);
+            //ServerPlanTrip servP = new ServerPlanTrip(svgPath,trip,edges);
             return gson.toJson(servP, ServerPlanTrip.class);
         }
         return null;

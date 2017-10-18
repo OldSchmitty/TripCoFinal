@@ -10,7 +10,8 @@ public class View
 {
   private String path;                    // Dir to make the files
   private String imagePath = "."+ File.separator+"web" + File.separator + "images" + File.separator;
-
+  private String baseFile = "." + File.separator+"data" +
+      File.separator + "resources" + File.separator + "colorado.svg";
   /**
    * <p>Set path dir to build the destination and edges JSONs and map SVG.</p>
    *
@@ -40,8 +41,7 @@ public class View
     if(path == null)
       throw new RuntimeException("View path not set");
 
-    DrawMap map = new DrawMap(path + "map.svg");
-    map.setBaseFile(imagePath);
+    DrawMap map = new DrawMap(path + "map.svg", imagePath);
     for (Edge e: edges) {
 
       map.addEdge(des.get(e.getSourceID()).getLatitude(),
@@ -52,6 +52,26 @@ public class View
     map.write();
   }
 
+  /**
+   * <p>Draws the map using the Destinations map and Edges list and returns the SVG string</p>
+   * @param des All the destinations in the route
+   * @param edges The route we take
+   */
+  public String drawMapString(HashMap<String, Destination> des, ArrayList<Edge> edges){
+    if(path == null)
+      throw new RuntimeException("View path not set");
+
+    DrawMap map = new DrawMap(path + "map.svg", imagePath);
+    for (Edge e: edges) {
+
+      map.addEdge(des.get(e.getSourceID()).getLatitude(),
+          des.get(e.getSourceID()).getLongitude(),
+          des.get(e.getDestinationID()).getLatitude(),
+          des.get(e.getDestinationID()).getLongitude());
+    }
+    String svg = map.mapString();
+    return svg;
+  }
   /**
    * <p>Makes the Itinerary JSON file using Edge list provided</p>
    * @param route - A list in order of the route
