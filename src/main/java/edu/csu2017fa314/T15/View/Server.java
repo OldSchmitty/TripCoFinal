@@ -55,7 +55,7 @@ public class Server {
             sRec.searchDatabase();
 
             //Create object with svg file path and list to return to server
-            ServerResponse sRes = new ServerResponse(svgPath, sRec.getDests());
+            ServerResponse sRes = new ServerResponse(sRec.getDests());
 
             System.out.println("Sending \"" + sRes.toString() + "\" to server.");
 
@@ -73,15 +73,18 @@ public class Server {
             HashMap<String, Destination> trip = new HashMap<String, Destination>();
 
             trip = sRec.planTrip();
+            for (String key : trip.keySet()){
+                System.out.println(key);
 
+            }
             Itinerary i = new Itinerary(trip);
             ArrayList<Edge> edges = i.getShortestPath();
             View v = new View(buildPath, baseMap);
-            v.makeItinerary(edges);
-            v.makeDestination(trip);
+            //v.makeItinerary(edges);
+            //v.makeDestination(trip);
             v.drawMap(trip, edges);
 
-            ServerPlanTrip servP = new ServerPlanTrip(buildPath);
+            ServerPlanTrip servP = new ServerPlanTrip(svgPath,trip,edges);
             return gson.toJson(servP, ServerPlanTrip.class);
         }
         return null;

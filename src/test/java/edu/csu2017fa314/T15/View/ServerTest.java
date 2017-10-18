@@ -31,7 +31,7 @@ public class ServerTest {
 
   @Test
   public void testServerResponse(){
-    ServerResponse sResp = new ServerResponse("test.svg", testMap);
+    ServerResponse sResp = new ServerResponse(testMap);
   }
 
 }

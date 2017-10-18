@@ -13,7 +13,7 @@ public class ServerRequest {
     private String[] queries;
     private String doWhat = "";
     private HashMap<String, Destination> dests;
-    static private String[] login = {"jdepoiii", "829840334"};
+    static private String[] login = {"mark", ""};
 
 
     public ServerRequest(String[] queries, String doWhat) {
@@ -28,7 +28,7 @@ public class ServerRequest {
     }
 
     public HashMap<String, Destination> planTrip() throws SQLException{
-        String[] columns = {"ID"};
+        String[] columns = {"id"};
         SearchSQLDatabase sql = new SearchSQLDatabase(login);
         return sql.query(queries, columns);
     }

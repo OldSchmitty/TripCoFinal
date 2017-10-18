@@ -71,7 +71,6 @@ export default class App extends React.Component {
             locs =[];
             for (let i in serverLocations){
                 locs.push(<li>{serverLocations[i]["map"]["name"]}</li>);
-                console.log("it is: ",serverLocations[i]["map"]["name"]);
             }
             // set the local variable scg to this.state.serverReturned.svg
             svg = this.state.serverReturned.svg;
@@ -205,8 +204,31 @@ export default class App extends React.Component {
                 serverReturned: JSON.parse(ret)
             });
             console.log("server is: ", this.state.serverReturned);
-            // Print on console what was returned
-            // Update the state so we can see it on the web
+            let serverLocations = this.state.serverReturned.items;
+            let trip = [];
+            for (let i in serverLocations){
+                trip.push(serverLocations[i]["map"]["id"]);
+            }
+            newMap = {
+                queries : trip,
+                doWhat: "plan",
+            };
+            jsonReturned = await fetch(`http://localhost:4567/receive`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(newMap)
+                });
+            // Wait for server to return and convert it to json.
+            let route = await jsonReturned.json();
+            // Log the received JSON to the browser console
+            console.log("Got back ", JSON.parse(route));
+            // set the serverReturned state variable to the received json.
+            // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
+            this.setState({
+                serverReturned: JSON.parse(route)
+
+            });
+            console.log("server is: ", this.state.serverReturned);
         } catch (e) {
             console.error("Error talking to server");
             console.error(e);
