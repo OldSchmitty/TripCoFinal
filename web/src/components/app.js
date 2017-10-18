@@ -147,7 +147,6 @@ export default class App extends React.Component {
             pairs.push(p); //add object to pairs array
         }
         for(let k  in infoFile[0]){
-            console.log("current k is: ", k);
             if(k != "name") {
                 this.state.options[k] = false;
             }
@@ -204,7 +203,7 @@ export default class App extends React.Component {
             this.setState({
                 serverReturned: JSON.parse(ret)
             });
-            console.log("server is: ", this.state.serverReturned);
+            console.log("search results are: ", this.state.serverReturned);
             let serverLocations = this.state.serverReturned.items;
             let trip = [];
             for (let i in serverLocations){
