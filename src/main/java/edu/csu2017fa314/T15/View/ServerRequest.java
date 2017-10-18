@@ -13,7 +13,7 @@ public class ServerRequest {
     private String[] queries;
     private String doWhat = "";
     private HashMap<String, Destination> dests;
-    static private String[] login = {"mark", ""};
+    static private String[] login = {"jdepoiii", "829840334"};
 
 
     public ServerRequest(String[] queries, String doWhat) {

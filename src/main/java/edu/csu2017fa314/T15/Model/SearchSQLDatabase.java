@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class SearchSQLDatabase {
 
   private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
-  private String myUrl="jdbc:mysql://localhost:3306/cs314?connectTimeout=3000";
+  private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314?connectTimeout=3000";
   private Connection conn;
   private String table = "airports";
 
@@ -24,7 +24,7 @@ public class SearchSQLDatabase {
    *                  [1] - student number
    */
   public SearchSQLDatabase(String[] loginInfo) throws SQLException {
-    this(loginInfo, "jdbc:mysql://localhost:3306/cs314?connectTimeout=3000");
+    this(loginInfo, "jdbc:mysql://faure.cs.colostate.edu/cs314");
   }
 
   /**
