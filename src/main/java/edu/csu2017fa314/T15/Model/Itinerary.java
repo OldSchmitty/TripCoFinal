@@ -130,7 +130,7 @@ public class Itinerary {
 
         for (int i=0; i<path.size()-1; i++){
             String id1 = path.get(i);
-            String id2 = path.get(i);
+            String id2 = path.get(i+1);
             shortPath.add(new Edge(id1, id2, distanceTable.getDistance(id1, id2)));
         }
 
