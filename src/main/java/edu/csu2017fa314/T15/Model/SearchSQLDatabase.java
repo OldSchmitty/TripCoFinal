@@ -178,10 +178,6 @@ public class SearchSQLDatabase {
         String[] ser = {"Denver"};
         String[] id = {"ID"};
         HashMap<String, edu.csu2017fa314.T15.Model.Destination> rt = test.query(ser);
-        System.out.println(rt.size());
-        for (String d : rt.keySet()) {
-          System.out.println(rt.get(d).getId());
-        }
       } catch (Exception e){
         System.err.println(e.getMessage());
 

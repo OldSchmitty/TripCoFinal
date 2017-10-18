@@ -71,12 +71,7 @@ public class Server {
         }
         else if(sRec.getdoWhat().equals("plan")){
             HashMap<String, Destination> trip = new HashMap<String, Destination>();
-
             trip = sRec.planTrip();
-            for (String key : trip.keySet()){
-                System.out.println(key);
-
-            }
             Itinerary i = new Itinerary(trip);
             ArrayList<Edge> edges = i.getShortestPath();
             View v = new View(buildPath, baseMap);
