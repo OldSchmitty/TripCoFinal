@@ -6,10 +6,10 @@ import java.util.HashMap;
 
 public class Itinerary {
 
-    private ArrayList<Edge> path;
+    private ArrayList<String> path;
     private long pathDistance;
     private ArrayList<String> keys;
-    private Table edgeTable;
+    private Table distanceTable;
     private boolean test;
 
     /**
@@ -18,23 +18,27 @@ public class Itinerary {
      */
     public Itinerary(HashMap<String, Destination> map){
         keys = new ArrayList<String>(map.keySet());
-        edgeTable = new Table(map);
-        path = new ArrayList<Edge>();
+        distanceTable = new Table(map);
+        path = new ArrayList<String>();
         pathDistance = -1;
         test = false;
     }
 
     /**
-     * Returns an Edge from the current destination to its nearest neighbor
+     * Returns a String to the nearest neighbor
      * @param id
      * @return
      */
-    private Edge nearestNeighbor(String id, ArrayList<String> remainingKeys){
-        Edge nearest = edgeTable.getEdge(id, remainingKeys.get(0));
+    private String nearestNeighbor(String id, ArrayList<String> remainingKeys){
+        String nearest = remainingKeys.get(0);
+        long nearDistance = distanceTable.getDistance(id, nearest);
+
         for (int i=0; i < remainingKeys.size(); i++){
-            Edge check = edgeTable.getEdge(id, remainingKeys.get(i));
-            if (check.getDistance() < nearest.getDistance()) {
-                nearest = check;
+            String id2 = remainingKeys.get(i);
+            long newDistance = distanceTable.getDistance(id, id2);
+            if (newDistance < nearDistance){
+                nearest = remainingKeys.get(i);
+                nearDistance = newDistance;
             }
         }
         return nearest;
@@ -45,7 +49,7 @@ public class Itinerary {
      */
     private void shortestPath(){
 
-        ArrayList<Edge> currentPath = new ArrayList<Edge>();
+        ArrayList<String> currentPath = new ArrayList<String>();
 
         // try all possible destinations as the starting point
         for (int i=0; i<keys.size(); i++){
@@ -61,20 +65,21 @@ public class Itinerary {
             // pop current from remaining keys
             String currentID = keys.get(i);
             remainingKeys.remove(remainingKeys.indexOf(currentID));
+            currentPath.add(currentID);
 
+            // loop remaining keys to find shortest path
             while (!remainingKeys.isEmpty()){
-                Edge currentEdge = nearestNeighbor (currentID,remainingKeys);
-                currentID = currentEdge.getDestinationID();
+                String destinationID = nearestNeighbor(currentID, remainingKeys);
+                // add destination to path and remove from remaining
+                currentPath.add(destinationID);
+                remainingKeys.remove(remainingKeys.indexOf(destinationID));
 
-                // pop the next destination from remaing
-                currentPath.add(currentEdge);
-                remainingKeys.remove(remainingKeys.indexOf(currentID));
+                currentID = destinationID;
             }
 
-            // Edge from last destination back to start, completing the roundtrip
-            String startID = currentPath.get(0).getSourceID();
-            String endID = currentPath.get(currentPath.size()-1).getDestinationID();
-            currentPath.add(edgeTable.getEdge(endID, startID));
+            // Add the start point to the end of the path to complete the loop
+            String startID = currentPath.get(0);
+            currentPath.add(startID);
 
             isShorter(currentPath);
         }
@@ -84,7 +89,7 @@ public class Itinerary {
      * Checks if the current path is shorter
      * @param currentPath
      */
-    private void isShorter(ArrayList<Edge> currentPath){
+    private void isShorter(ArrayList<String> currentPath){
         long distance = pathDistance(currentPath);
 
         if (pathDistance < 0 || distance < pathDistance) {
@@ -106,16 +111,11 @@ public class Itinerary {
      * @param currentPath
      * @return
      */
-    private long pathDistance(ArrayList<Edge> currentPath){
+    private long pathDistance(ArrayList<String> currentPath){
         long distance = 0;
 
-        for (int i = 0; i < currentPath.size(); i++) {
-            if (test) {
-                System.out.println("source: " + currentPath.get(i).getSourceID() + ", destination: " +
-                        currentPath.get(i).getDestinationID() + ", distance: " +
-                            currentPath.get(i).getDistance());
-            }
-            distance += currentPath.get(i).getDistance();
+        for (int i = 0; i < currentPath.size()-1; i++) {
+            distance += distanceTable.getDistance(currentPath.get(i), currentPath.get(i+1));
         }
         return distance;
     }
@@ -125,15 +125,16 @@ public class Itinerary {
      * @return
      */
     public ArrayList<Edge> getShortestPath(){
+        ArrayList<Edge> shortPath = new ArrayList<Edge>();
         shortestPath();
-        if (test) {
-            for (int i = 0; i < path.size(); i++) {
-                System.out.println("source: " + path.get(i).getSourceID() + ", destination: " +
-                        path.get(i).getDestinationID() + ", distance: " +
-                        path.get(i).getDistance());
-            }
+
+        for (int i=0; i<path.size()-1; i++){
+            String id1 = path.get(i);
+            String id2 = path.get(i);
+            shortPath.add(new Edge(id1, id2, distanceTable.getDistance(id1, id2)));
         }
-        return path;
+
+        return shortPath;
     }
 
     public long getDistance(){
