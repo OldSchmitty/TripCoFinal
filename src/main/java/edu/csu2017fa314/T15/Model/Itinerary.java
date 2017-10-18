@@ -140,4 +140,20 @@ public class Itinerary {
     public long getDistance(){
         return pathDistance;
     }
+
+    /**
+     * Testing Pursposes
+     * @return
+     */
+    public Table getTable(){
+        return distanceTable;
+    }
+
+    /**
+     * Testing Purposes
+     * @return
+     */
+    public ArrayList<String> getPath(){
+        return path;
+    }
 }
