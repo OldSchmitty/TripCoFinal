@@ -40,6 +40,8 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
  10-9 | #186 | #212 | Other classes | Medium 
  10-11 | #223 #225| #212 #228 | Other classes | Medium
  10-13 | #212 #230 | #206 #228 #232 #234 | Other Classes| Medium
+ 10-18 | #228 #242 #232 #234 | #206 #207 #208 #209 #246 #205 | Hardware Issues | Medium
+ 
 ## Review
 
 #### Completed user stories (epics) in Sprint Backlog 
