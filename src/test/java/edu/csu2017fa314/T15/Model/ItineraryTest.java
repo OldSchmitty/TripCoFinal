@@ -12,12 +12,12 @@ import static org.junit.Assert.assertEquals;
 
 public class ItineraryTest {
 
-    private HashMap<String, Destination> map;
-    private Itinerary itinerary;
-    private ArrayList<Edge> path;
+    private static HashMap<String, Destination> map;
+    private static Itinerary itinerary;
+    private static ArrayList<Edge> path;
 
     @BeforeClass
-    public void setup() throws Exception {
+    public static void setup() throws Exception {
         map  = new HashMap<String, Destination>();
         Destination b1 = new Destination("0", "Destination 1", "Test City 1", "02", "00", "1000");
         Destination b2 = new Destination("1", "Destination 2", "Test City 2", "04", "00", "1000");

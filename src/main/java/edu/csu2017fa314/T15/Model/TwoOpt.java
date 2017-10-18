@@ -43,6 +43,7 @@ public class TwoOpt {
     private long dist(int start, int end){
         //System.out.println("route size: " + route.length);
         long distance = 0;
+
         while (start < end){
             distance += distanceTable.getDistance(route[start], route[start+1]);
             //System.out.println("start: " + start + ", end: " + end + ", distance: " + distance);
@@ -65,7 +66,7 @@ public class TwoOpt {
             } else {
                 for (int i=0; i <= n-3; i++){
                     for (int k= i+2; k <= n-1; k++){
-                        long delta = dist(i,k) + dist(i+1, k+1) - dist(i, i+1) + dist(k, k+1);
+                        long delta = dist(i,k) + dist(i+1, k+1) - dist(i, i+1) - dist(k, k+1);
                         System.out.println("delta: " + delta);
                         if (delta < 0) { //improvement?
                             swap(i + 1, k);
