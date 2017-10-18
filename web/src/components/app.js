@@ -61,8 +61,8 @@ export default class App extends React.Component {
             serverLocations = this.state.serverReturned.items;
 
             /*Create an array of HTML list items. The Array.map function in Javascript passes each individual element
-            * of an array (in this case serverLocations is the array and "location" is the name chosen for the individual element)
-            * through a function and returns a new array with the mapped elements.
+            * of an array (in this case serverLocations is the array and "location" is the name chosen for the
+            individual element) through a function and returns a new array with the mapped elements.
             * In this case f: location -> <li>location.name</li>, so the array will look like:
             * [<li>[name1]</li>,<li>[name2]</li>...]
             */
@@ -170,7 +170,8 @@ export default class App extends React.Component {
     // This function waits until enter is pressed on the event (input)
     // A better implementation would be to have a Javascript form with an onSubmit event that calls fetch
     keyUp(event) {
-        if (event.which === 13) { // Waiting for enter to be pressed. Enter is key 13: https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+        if (event.which === 13) { // Waiting for enter to be pressed. Enter is key 13:
+        //https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             this.fetch(event.target.value); // Call fetch and pass whatever text is in the input box
         }
     }
