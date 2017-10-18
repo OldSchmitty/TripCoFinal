@@ -81,6 +81,11 @@ public class Itinerary {
             String startID = currentPath.get(0);
             currentPath.add(startID);
 
+            // Run 2Opt on each path
+            TwoOpt tOpt = new TwoOpt(distanceTable, currentPath);
+            currentPath = tOpt.getTwoOpt();
+
+            // Check if the new path is shorter
             isShorter(currentPath);
         }
     }
