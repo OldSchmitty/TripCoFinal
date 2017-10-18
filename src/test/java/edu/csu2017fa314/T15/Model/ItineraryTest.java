@@ -16,7 +16,7 @@ public class ItineraryTest {
     private Itinerary itinerary;
     private ArrayList<Edge> path;
 
-    @Before
+    @BeforeClass
     public void setup() throws Exception {
         map  = new HashMap<String, Destination>();
         Destination b1 = new Destination("0", "Destination 1", "Test City 1", "02", "00", "1000");
