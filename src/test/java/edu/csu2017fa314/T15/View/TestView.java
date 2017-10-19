@@ -47,7 +47,6 @@ public class TestView
     edges.add(new Edge("3", "1", 30000));
   }
 
-  @Test
   public void testDrawMap(){
     try {
       v.drawMap(des,edges);
@@ -111,7 +110,6 @@ public class TestView
     }
   }
 
-  @Test
   public void testMapString(){
     String map = v.drawMapString(des, edges);
     assertNotNull(map);

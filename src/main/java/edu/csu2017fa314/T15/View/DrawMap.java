@@ -1,11 +1,8 @@
 package edu.csu2017fa314.T15.View;
 
 import edu.csu2017fa314.T15.Model.CalculateDistance;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.nio.charset.Charset;
@@ -18,8 +15,7 @@ public class DrawMap {
   private int edgeLoc = 0; //What element[i] the edges are at
   private double xOffSet = (991.4014 - 37.52397)/(-109 +102);
   private double yOffSet = (708.0824 - 37.4016)/(41 -37);
-  private String baseFile = "." + File.separator+"data" +
-      File.separator + "resources" + File.separator + "colorado.svg";
+  private InputStream baseFile = DrawMap.class.getResourceAsStream("colorado.svg");
   private BufferedWriter writer;
 
   /**
@@ -28,7 +24,6 @@ public class DrawMap {
    */
   public DrawMap(final String path, String baseFile){
     this.path = path;
-    this.baseFile = baseFile;
     this.elements = new ArrayList<>();
     svgHeader();
     addFromFile();
@@ -39,18 +34,10 @@ public class DrawMap {
   }
 
   /**
-   * Sets the base map to draw on
-   * @param newBase SVG file to use
-   */
-  public void setBaseFile(String newBase){
-    baseFile = newBase;
-  }
-
-  /**
    * Returns the map base path
    * @return The current file to used as a base map
    */
-  public final String getBaseFile(){
+  public final InputStream getBaseFile(){
     return baseFile;
   }
   /**
@@ -142,7 +129,7 @@ public class DrawMap {
     String line;
     try {
       BufferedReader reader = new BufferedReader(new InputStreamReader(
-          new FileInputStream(baseFile), "UTF-8"));
+          baseFile, "UTF-8"));
       for (int i = 0; i < 9; i++) {
         reader.readLine(); // Skip Header info
       }
