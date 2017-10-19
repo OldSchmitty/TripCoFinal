@@ -54,6 +54,7 @@ public class Server {
         System.out.println("Got \"" + sRec.toString() + "\" from server.");
 
         if (sRec.getdoWhat().equals("query")) {
+            System.out.println("Searching...");
             sRec.searchDatabase();
 
             //Create object with svg file path and list to return to server

@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Scanner;
 
 public class DrawMap {
 
@@ -15,7 +16,8 @@ public class DrawMap {
   private int edgeLoc = 0; //What element[i] the edges are at
   private double xOffSet = (991.4014 - 37.52397)/(-109 +102);
   private double yOffSet = (708.0824 - 37.4016)/(41 -37);
-  private InputStream baseFile = DrawMap.class.getResourceAsStream("colorado.svg");
+  ClassLoader classloader = getClass().getClassLoader();
+  private InputStream baseFile = classloader.getResourceAsStream("images/colorado.svg");
   private BufferedWriter writer;
 
   /**
@@ -27,6 +29,8 @@ public class DrawMap {
     this.elements = new ArrayList<>();
     svgHeader();
     addFromFile();
+
+
   }
 
   public DrawMap(){
@@ -37,9 +41,7 @@ public class DrawMap {
    * Returns the map base path
    * @return The current file to used as a base map
    */
-  public final InputStream getBaseFile(){
-    return baseFile;
-  }
+
   /**
    * Sets the SVG header
    */
@@ -124,12 +126,14 @@ public class DrawMap {
     return rt;
   }
 
-  public void addFromFile() {
+  public void addFromFile(){
     String baseMap= "";
     String line;
+
     try {
+
       BufferedReader reader = new BufferedReader(new InputStreamReader(
-          baseFile, "UTF-8"));
+              baseFile, "UTF-8"));
       for (int i = 0; i < 9; i++) {
         reader.readLine(); // Skip Header info
       }
