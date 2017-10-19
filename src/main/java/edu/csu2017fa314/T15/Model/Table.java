@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Table {
 
-    //private long[][] distanceTable;
     private HashMap<String, Destination> map;
     private long[][] distanceTable;
     ArrayList<String> keys;
@@ -42,23 +41,6 @@ public class Table {
                         cd.findDistanceBetween(map.get(key), map.get(id));
             }
         }
-
-/*
-        //loop through all destinations
-        for (int i=0; i< keys.size(); i++){
-            String key1 = keys.get(i);
-
-            // populate distanceTable with distances between each remaining destination
-            for (int j=i; j < keys.size(); j++){
-                String key2 = keys.get(j);
-                long distance = cd.findDistanceBetween(map.get(key1), map.get(key2));
-
-                // populate the distance table
-                distanceTable.put(key1 + " " + key2, distance);
-                distanceTable.put(key2 + " " + key1, distance);
-            }
-        }
-*/
     }
 
     private int idxOfKey(String key){
