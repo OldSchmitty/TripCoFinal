@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './Home/Home.jsx';
 import Pair from './Home/Pair/Pair.jsx';
-
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -14,9 +14,46 @@ export default class App extends React.Component {
             addInfo: "",
             serverReturned: null,
             svg: false,
-            bottomRow: []
+            bottomRow: [],
+            locations: [],
+            currentTrip: []
         }
+        this.handleInsertButtonClick = (onClick) => {
+            let locs=this.getQueryTableData();
+            for (let i in locs){
+                this.state.currentTrip.push({name: locs[i]['name'],id: locs[i]['id']});
+            }
+            this.forceUpdate();
+        };
+        this.createCustomInsertButton = (onClick) => {
+            return (
+                <InsertButton
+                    btnText='Add Selected to Trip'
+                    btnContextual='btn-success'
+                    className='my-custom-class'
+                    btnGlyphicon='glyphicon-edit'
+                    onClick={ () => this.handleInsertButtonClick(onClick) }
+                />
+            );
+        };
+        this.createTripButton = (onClick) => {
+            return (
+                <InsertButton
+                    btnText='Create your Itinerary'
+                    btnContextual='btn-success'
+                    className='my-custom-class'
+                    btnGlyphicon='glyphicon-edit'
+                    onClick={ () => this.makeTrip(onClick) }
+                />
+            );
+        };
+        this.makeTrip = (onClick) => {
+            this.getItinerary()
+        };
+
     };
+
+
 
     render() {
         let pairs = this.state.allPairs;
@@ -39,13 +76,12 @@ export default class App extends React.Component {
         let boxes = [];
         for (let i in this.state.options) {
             boxes.push(
-                <label >
+                <label className ="checky">
                     <input
                         type="checkbox"
                         value={i}
                         onChange={() => {
                             this.state.options[i] = !this.state.options[i];
-                            console.log("options: ", this.state.options[i]);
                             this.forceUpdate()
                         }}
                     />
@@ -53,12 +89,9 @@ export default class App extends React.Component {
                 </label>
             )
         }
-        let serverLocations;
-        let locs;
         let svg;
         if (this.state.serverReturned) { // if this.state.serverReturned is not null
             //Get list of numbers
-            serverLocations = this.state.serverReturned.items;
 
             /*Create an array of HTML list items. The Array.map function in Javascript passes each individual element
             * of an array (in this case serverLocations is the array and "location" is the name chosen for the
@@ -73,6 +106,7 @@ export default class App extends React.Component {
             //console.log("SVG: ", svg);
         }
 
+
         return (
             <div className="app-container">
                 <h1>T15 - Wolf Pack</h1>
@@ -81,6 +115,34 @@ export default class App extends React.Component {
                        onKeyUp={this.keyUp.bind(this)} autoFocus/>
                 <br/>
                 {/* Display the array of HTML list items created on line 18 */}
+
+                <div>
+                    <div className = "search-button" style={{width:"33%"}}>
+                        <BootstrapTable data={this.state.locations}
+                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)'}}
+                                        height = "200"
+                                        striped={true}
+
+                                        options={{insertBtn:this.createCustomInsertButton}}
+                                        ref='queryTable'
+                                        insertRow>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>Search Results</TableHeaderColumn>
+                        </BootstrapTable>
+                    </div>
+                    <div className = "search-button" style={{width:"33%"}}>
+                        <BootstrapTable data={this.state.currentTrip}
+                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)'}}
+                                        height = "200"
+                                        striped={true}
+                                        ref='tripTable'
+                                        deleteRow
+
+                                        options={{insertBtn:this.createTripButton}}
+                                        insertRow>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>Current Trip</TableHeaderColumn>
+                        </BootstrapTable>
+                    </div>
+                </div>
                 <h1>
                     {/* In the constructor, this.state.serverReturned.svg is not assigned a value. This means the image
                     will only display once the serverReturned state variable is set to the received json in line 73*/}
@@ -100,6 +162,12 @@ export default class App extends React.Component {
     }
 
 
+    getQueryTableData() {
+        return(this.refs.queryTable.state.data);
+    }
+    getTripTableData(){
+        return(this.refs.tripTable.state.data);
+    }
 
     getData(idFile, infoFile) {
         let pairs = [];
@@ -176,7 +244,48 @@ export default class App extends React.Component {
             this.fetch(event.target.value); // Call fetch and pass whatever text is in the input box
         }
     }
+    async getItinerary() {
+        let trip = [];
+        let queries = this.getTripTableData();
+        for (let i in queries) {
+            trip.push(queries[i]['id']);
+        }
+        let newMap = {
+            queries : trip,
+            doWhat: "plan",
+        };
+        try{
+            let jsonReturned = await fetch(`http://localhost:4567/receive`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(newMap)
+                });
 
+            // Wait for server to return and convert it to json.
+            let ret = await jsonReturned.json();
+            // Log the received JSON to the browser console
+            console.log("Got back ", JSON.parse(ret));
+            // set the serverReturned state variable to the received json.
+            // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
+
+            this.setState({
+                serverReturned: JSON.parse(ret),
+                svg: true,
+                currentTrip:[],
+                locations: []
+            });
+            console.log("route is: ", this.state.serverReturned);
+            let items = [];
+            for (let i in this.state.serverReturned.items){
+                items.push(this.state.serverReturned.items[i]["map"]);
+            }
+            this.getData(this.state.serverReturned.itinerary, items);
+
+        } catch (e) {
+            console.error("Error talking to server");
+            console.error(e);
+        }
+    }
     // This function sends `input` the server and updates the state with whatever is returned
     async fetch(input) {
         // Create object to send to server
@@ -210,16 +319,21 @@ export default class App extends React.Component {
             let trip = [];
             for (let i in serverLocations){
                 trip.push(serverLocations[i]["map"]["id"]);
+                this.state.locations.push({name:serverLocations[i]["map"]["name"],id:i});
             }
+            this.forceUpdate();
+            /*
             newMap = {
                 queries : trip,
                 doWhat: "plan",
             };
+
             jsonReturned = await fetch(`http://localhost:4567/receive`,
                 {
                     method: "POST",
                     body: JSON.stringify(newMap)
                 });
+
             // Wait for server to return and convert it to json.
             ret = await jsonReturned.json();
             // Log the received JSON to the browser console
@@ -238,6 +352,7 @@ export default class App extends React.Component {
             }
 
             this.getData(this.state.serverReturned.itinerary, items);
+            */
         } catch (e) {
             console.error("Error talking to server");
             console.error(e);

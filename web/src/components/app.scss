@@ -1,5 +1,27 @@
 @import "Home/Home";
 @import "Home/Pair/Pair";
+@import "~react-bootstrap-table/dist/react-bootstrap-table.min.css";
+@import "~react-bootstrap-table/css/react-bootstrap-table.css";
 
 .app-container {
+}
+.search-button{
+  margin-bottom: 30px
+}
+
+.checky{
+  margin-right: 15px;
+}
+.pair {
+  margin: auto;
+}
+.pair-table {
+  table, th, td {
+    border: 1px solid black;
+  }
+
+  td {
+    padding: 10px;
+    margin: 5px;
+  }
 }

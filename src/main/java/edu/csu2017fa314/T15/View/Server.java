@@ -59,7 +59,7 @@ public class Server {
             //Create object with svg file path and list to return to server
             ServerResponse sRes = new ServerResponse(sRec.getDests());
 
-            System.out.println("Sending \"" + sRes.toString() + "\" to server.");
+            //System.out.println("Sending \"" + sRes.toString() + "\" to server.");
 
             /* What to return to the server.
              * In this example, the "ServerResponse" object sRes is converted into a JSON representation
