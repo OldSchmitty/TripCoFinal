@@ -2,10 +2,12 @@ package edu.csu2017fa314.T15.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class Itinerary {
 
+    private HashMap<String, Destination> mapCopy;
     private ArrayList<String> path;
     private long pathDistance;
     private ArrayList<String> keys;
@@ -17,6 +19,7 @@ public class Itinerary {
      * @param map
      */
     public Itinerary(HashMap<String, Destination> map){
+        mapCopy = new HashMap<String, Destination>(map);
         keys = new ArrayList<String>(map.keySet());
         distanceTable = new Table(map);
         path = new ArrayList<String>();
@@ -29,17 +32,17 @@ public class Itinerary {
      * @param id
      * @return
      */
-    private String nearestNeighbor(String id, ArrayList<String> remainingKeys){
-        String nearest = remainingKeys.get(0);
-        long nearDistance = distanceTable.getDistance(id, nearest);
-
-        for (int i=0; i < remainingKeys.size(); i++){
-            String id2 = remainingKeys.get(i);
-            long newDistance = distanceTable.getDistance(id, id2);
-            if (newDistance < nearDistance){
-                nearest = remainingKeys.get(i);
-                nearDistance = newDistance;
+    private String nearestNeighbor(String id, HashMap<String, Destination> remainingKeys){
+        String nearest = "";
+        long nearDist = -1;
+        // loop through remaining keys
+        for (String key : remainingKeys.keySet()){
+            long newDist = distanceTable.getDistance(id, key);
+            if (nearDist < 0 || newDist < nearDist){
+                nearest = key;
+                nearDist = newDist;
             }
+
         }
         return nearest;
     }
@@ -59,12 +62,17 @@ public class Itinerary {
                 System.out.println("start: " + keys.get(i));
             }
 
+            /*
+             * The remaining keys should be a different data structure
+             * /
+             */
             // remaining destinations to check distance
-            ArrayList<String> remainingKeys = (ArrayList<String>) keys.clone();
+            //ArrayList<String> remainingKeys = (ArrayList<String>) keys.clone();
+            HashMap<String, Destination> remainingKeys = new HashMap<String, Destination>(mapCopy);
 
             // pop current from remaining keys
             String currentID = keys.get(i);
-            remainingKeys.remove(remainingKeys.indexOf(currentID));
+            remainingKeys.remove(currentID);     // O(n)
             currentPath.add(currentID);
 
             // loop remaining keys to find shortest path
@@ -72,7 +80,7 @@ public class Itinerary {
                 String destinationID = nearestNeighbor(currentID, remainingKeys);
                 // add destination to path and remove from remaining
                 currentPath.add(destinationID);
-                remainingKeys.remove(remainingKeys.indexOf(destinationID));
+                remainingKeys.remove(destinationID);
 
                 currentID = destinationID;
             }

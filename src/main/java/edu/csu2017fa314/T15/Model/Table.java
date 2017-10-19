@@ -7,8 +7,10 @@ import java.util.List;
 
 public class Table {
 
+    //private long[][] distanceTable;
+    private HashMap<String, Destination> map;
     private long[][] distanceTable;
-    List<String> keys;
+    ArrayList<String> keys;
 
     /**
      * Constructor builds a map of all possible edges, in both directions
@@ -16,29 +18,47 @@ public class Table {
      */
     public Table(HashMap<String, Destination> map){
 
+        this.map = map;
         keys = new ArrayList<String>(map.keySet());
         CalculateDistance cd = new CalculateDistance();
-        distanceTable = new long[keys.size()][keys.size()];
 
+        // initialize distance tables
+        int n = keys.size();
+        distanceTable = new long[n][n];
+
+        // Assign each Destinationtifier
+        int counter = 0;
+        for (String key: map.keySet()){
+            map.get(key).setIdentifier(counter);
+            counter++;
+        }
+
+        // Populate 2D distance table - using unique identifier for index
+        for (String key: map.keySet()){
+            for (String id: map.keySet()){
+                distanceTable[map.get(key).getIdentifier()][map.get(id).getIdentifier()] =
+                        cd.findDistanceBetween(map.get(key), map.get(id));
+                distanceTable[map.get(id).getIdentifier()][map.get(key).getIdentifier()] =
+                        cd.findDistanceBetween(map.get(key), map.get(id));
+            }
+        }
+
+/*
         //loop through all destinations
         for (int i=0; i< keys.size(); i++){
             String key1 = keys.get(i);
 
             // populate distanceTable with distances between each remaining destination
-            for (int j=(i+1); j < keys.size(); j++){
+            for (int j=i; j < keys.size(); j++){
                 String key2 = keys.get(j);
                 long distance = cd.findDistanceBetween(map.get(key1), map.get(key2));
 
                 // populate the distance table
-                distanceTable[idxOfKey(key1)][idxOfKey(key2)] = distance;
-                distanceTable[idxOfKey(key2)][idxOfKey(key1)] = distance;
+                distanceTable.put(key1 + " " + key2, distance);
+                distanceTable.put(key2 + " " + key1, distance);
             }
         }
-
-        // populate the diagonal with 0's, distance to own location
-        for (int i=0; i<keys.size(); i++){
-            distanceTable[i][i] = 0;
-        }
+*/
     }
 
     private int idxOfKey(String key){
@@ -46,6 +66,6 @@ public class Table {
     }
 
     public long getDistance(String id1, String id2){
-        return distanceTable[idxOfKey(id1)][idxOfKey(id2)];
+        return distanceTable[map.get(id1).getIdentifier()][map.get(id2).getIdentifier()];
     }
 }
