@@ -77,6 +77,4 @@ public class TwoOptTest {
         assertEquals(2712, i.getDistance());
         */
     }
-
-
 }
