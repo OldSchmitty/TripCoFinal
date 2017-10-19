@@ -20,8 +20,18 @@ export default class App extends React.Component {
         }
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
-            for (let i in locs){
-                this.state.currentTrip.push({name: locs[i]['name'],id: locs[i]['id']});
+            let keys=this.getQueryTableKeys();
+            for (let i in keys){
+                let dup = false;
+                for(let j in this.state.currentTrip){
+                    if (this.state.currentTrip[j]['name']== locs[i]['name']){
+                        dup = true;
+                        break;
+                    }
+                }
+                if(!dup) {
+                    this.state.currentTrip.push({name: locs[i]['name'], id: locs[i]['id']});
+                }
             }
             this.forceUpdate();
         };
@@ -126,7 +136,8 @@ export default class App extends React.Component {
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>Search Results</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results</TableHeaderColumn>
+                            <TableHeaderColumn dataField = 'index'  isKey={true}>index</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                     <div className = "search-button" style={{width:"33%"}}>
@@ -164,6 +175,9 @@ export default class App extends React.Component {
 
     getQueryTableData() {
         return(this.refs.queryTable.state.data);
+    }
+    getQueryTableKeys(){
+        return(this.refs.queryTable.state.selectedRowKeys);
     }
     getTripTableData(){
         return(this.refs.tripTable.state.data);
@@ -317,9 +331,11 @@ export default class App extends React.Component {
             console.log("search results are: ", this.state.serverReturned);
             let serverLocations = this.state.serverReturned.items;
             let trip = [];
+            let counter = 0;
             for (let i in serverLocations){
                 trip.push(serverLocations[i]["map"]["id"]);
-                this.state.locations.push({name:serverLocations[i]["map"]["name"],id:i});
+                this.state.locations.push({name:serverLocations[i]["map"]["name"],id:i, index:counter});
+                counter++;
             }
             this.forceUpdate();
             /*
