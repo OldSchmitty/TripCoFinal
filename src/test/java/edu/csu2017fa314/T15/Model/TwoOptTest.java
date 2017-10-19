@@ -28,13 +28,9 @@ public class TwoOptTest {
         Itinerary itinerary = new Itinerary(map);
         ArrayList<Edge> path = itinerary.getShortestPath();
 
-        /* Two Opt Test */
-        Table distanceTable = itinerary.getTable();
         ArrayList<String> route = itinerary.getPath();
-        TwoOpt TO = new TwoOpt(distanceTable, route);
-        route = TO.getTwoOpt();
         String[] opted = route.toArray(new String[route.size()]);
-        String[] tester = {"C", "A", "E", "D", "B"};
+        String[] tester = {"A", "E", "D", "B", "C", "A"};
         for (int i=0; i< tester.length; i++) {
             assertEquals(tester[i], opted[i]);
         }
@@ -46,25 +42,29 @@ public class TwoOptTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
+        /*
         Table distanceTable = i.getTable();
         ArrayList<String> route = i.getPath();
         TwoOpt TO = new TwoOpt(distanceTable, route);
         route = TO.getTwoOpt();
-        assertEquals(2220, TO.getDistance());
+        */
+        assertEquals(2219, i.getDistance());
     }
 
-
+/*
     @Test
     public void test3(){
         String path =System.getProperty("user.dir") + "/data/input/airport.csv";
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
+        /*
         Table distanceTable = i.getTable();
         ArrayList<String> route = i.getPath();
         TwoOpt TO = new TwoOpt(distanceTable, route);
         route = TO.getTwoOpt();
-        assertEquals(3757, TO.getDistance());
+
+        assertEquals(3757, i.getDistance());
     }
 
     @Test
@@ -73,10 +73,14 @@ public class TwoOptTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
+        /*
         Table distanceTable = i.getTable();
         ArrayList<String> route = i.getPath();
         TwoOpt TO = new TwoOpt(distanceTable, route);
         route = TO.getTwoOpt();
-        assertEquals(2712, TO.getDistance());
+
+        assertEquals(2712, i.getDistance());
     }
+
+*/
 }

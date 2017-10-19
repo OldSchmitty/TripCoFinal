@@ -47,7 +47,7 @@ public class ItineraryTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
-        assertEquals(i.getDistance(), 1834);
+        assertEquals(i.getDistance(), 1746);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ItineraryTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
-        assertEquals(i.getDistance(), 2454);
+        assertEquals(i.getDistance(), 2219);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ItineraryTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
-        assertEquals(i.getDistance(), 817);
+        assertEquals(i.getDistance(), 774);
     }
 
     @Test
@@ -74,6 +74,6 @@ public class ItineraryTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
-        assertEquals(i.getDistance(), 668);
+        assertEquals(i.getDistance(), 650);
     }
 }
