@@ -23,8 +23,7 @@ import static spark.Spark.post;
 public class Server {
 
     private String svgPath = "."+File.separator + "images" +File.separator + "map.svg";
-    private String baseMap =  System.getProperty("user.dir")+File.separator +"data"+ File.separator + "resources"
-            + File.separator + "colorado.svg";
+    private String baseMap = "colorado.svg";
     private String buildPath = System.getProperty("user.dir") + File.separator + "web" + File.separator + "images"
             +File.separator;
 
@@ -79,7 +78,7 @@ public class Server {
             View v = new View(buildPath, baseMap);
             //v.makeItinerary(edges);
             //v.makeDestination(trip);
-            v.drawMap(trip, edges);
+            //v.drawMap(trip, edges);
             String svg = v.drawMapString(trip,edges);
             ServerPlanTrip servP = new ServerPlanTrip(svg,trip,edges);
             //ServerPlanTrip servP = new ServerPlanTrip(svgPath,trip,edges);
