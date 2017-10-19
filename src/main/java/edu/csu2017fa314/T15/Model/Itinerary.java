@@ -61,13 +61,8 @@ public class Itinerary {
             if (test) {
                 System.out.println("start: " + keys.get(i));
             }
-
-            /*
-             * The remaining keys should be a different data structure
-             * /
-             */
+            
             // remaining destinations to check distance
-            //ArrayList<String> remainingKeys = (ArrayList<String>) keys.clone();
             HashMap<String, Destination> remainingKeys = new HashMap<String, Destination>(mapCopy);
 
             // pop current from remaining keys
