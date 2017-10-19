@@ -137,7 +137,7 @@ export default class App extends React.Component {
                                         ref='queryTable'
                                         insertRow>
                             <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results</TableHeaderColumn>
-                            <TableHeaderColumn dataField = 'index'  isKey={true}>index</TableHeaderColumn>
+                            <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>index</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                     <div className = "search-button" style={{width:"33%"}}>
