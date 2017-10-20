@@ -30,8 +30,7 @@
 User stories (epics) in the Sprint Backlog: *list the epics in your sprint backlog here*. 
 #93, #99, #204, #205
 
-Total planned tasks / issues in the Sprint Backlog: *number of issues in backlog at start* 
-9
+Total planned tasks / issues in the Sprint Backlog: 9
 ## Daily Scrums
 
 Date | Tasks done this time | Tasks done next time | Impediments | Confidence
@@ -45,28 +44,28 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 ## Review
 
 #### Completed user stories (epics) in Sprint Backlog 
-* *user story*:  *comments*
-* 
+* #93 Useful Information in Itinerary
+* #204 2 Opt
+* #205 Web server
 
-Completed *number of issues completed* issues associated with these user stories.
+Completed 9 issues associated with these user stories.
 
 #### Incomplete user stories / epics in Sprint Backlog 
-* *user story*: *Explanation...*
-*
+* #99 Fast Response not fully complete no concurrency 
 
 #### What went well
-* *something*
-*
+* Finished earlier than last sprint
+* Adapting code that was given to use to our project
 
 #### Problems encountered and resolutions
-* *something*
-*
+* SQL server connection issues in local test / not resolved 
+* JavaSript code / lots of hours working on it
 
 ## Retrospective
 
 Topic | Teamwork | Process | Tools
 :--- | :--- | :--- | :---
 What we will change this time |Use discord more for communication. Be more proactive in scrum meetings | Organize our directories and edit our .gitignore | learn react by end of next sprint for all team members  
-What we did well |  |  | 
-What we need to work on |  |  |
-What we will change next time ||  | 
+What we did well | Adjusted scrum meeting to better accomidate our schedules | Little to no merge confilcts | Used Zenhub well
+What we need to work on | Asking questions to eachother when we get stuck | Slitting the work load better | REACT!!!!
+What we will change next time | If stuck for an hour, ask a question on discord | Try full scrum | Make local database for SQL access and 
