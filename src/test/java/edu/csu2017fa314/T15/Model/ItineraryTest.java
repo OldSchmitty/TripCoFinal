@@ -38,7 +38,7 @@ public class ItineraryTest {
 
     @Test
     public void test1() {
-        Integer[] answers = {3, 1, 0, 2};
+        Integer[] answers = {0, 2, 1, 3};
         for (int i=0;  i < path.size(); i++){
             assertEquals(path.get(i).getSourceID(), answers[i]);
         }
