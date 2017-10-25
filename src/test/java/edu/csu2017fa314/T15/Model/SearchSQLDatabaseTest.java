@@ -173,6 +173,7 @@ public class SearchSQLDatabaseTest {
     } catch (SQLException e) {
       assertTrue(false);
     }
+
     assertTrue(rt.length == 7);
     // Test to see if the correct airports were found
     String[] ids ={"0CO3", "CD14", "76CO", "87CO", "CD09", "CO02", "96CO"};

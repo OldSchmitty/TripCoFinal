@@ -89,8 +89,11 @@ public class SearchSQLDatabase {
       Statement st = conn.createStatement();
       try {
         ResultSet rs = st.executeQuery(qry);
+        System.out.println("rs: "+rs);
         ResultSetMetaData meta = rs.getMetaData();
+        System.out.println("meta: "+meta);
         int size = meta.getColumnCount() +1;
+        System.out.println("size: "+size);
         rt = new Destination[size];
         int count = 0;
         while(rs.next())

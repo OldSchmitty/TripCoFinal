@@ -38,8 +38,7 @@ public class ItineraryTest {
 
     @Test
     public void test1() {
-        String[] answers = {"0", "3", "1", "4"};
-        System.out.println(itinerary.getDistance());
+        Integer[] answers = {3, 1, 0, 2};
         for (int i=0;  i < path.size(); i++){
             assertEquals(path.get(i).getSourceID(), answers[i]);
         }
