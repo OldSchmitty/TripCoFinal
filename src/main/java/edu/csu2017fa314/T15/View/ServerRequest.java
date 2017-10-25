@@ -37,7 +37,7 @@ public class ServerRequest {
     @Override
     public String toString() {
         return "Request{" +
-                "queries='" + queries + '\'' +
+                "queries='" + queries[0] + '\'' +
                 '}';
     }
 

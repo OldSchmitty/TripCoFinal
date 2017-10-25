@@ -89,12 +89,14 @@ public class SearchSQLDatabase {
       Statement st = conn.createStatement();
       try {
         ResultSet rs = st.executeQuery(qry);
-        System.out.println("rs: "+rs);
         ResultSetMetaData meta = rs.getMetaData();
-        System.out.println("meta: "+meta);
         int size = meta.getColumnCount() +1;
-        System.out.println("size: "+size);
-        rt = new Destination[size];
+        int numRows = 0;
+        if (rs.last()) {
+          numRows = rs.getRow();
+          rs.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
+        }
+        rt = new Destination[numRows];
         int count = 0;
         while(rs.next())
         {

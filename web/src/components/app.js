@@ -186,6 +186,8 @@ export default class App extends React.Component {
     getData(idFile, infoFile) {
         let pairs = [];
         let totalDist = 0;
+        console.log("idFile: ", idFile);
+        console.log("infoFile: ", infoFile);
         for (let i  in idFile) {
             let start;
             let end;
@@ -196,40 +198,26 @@ export default class App extends React.Component {
             let dist = idFile[i]['distance'];
             // loop through the second JSON file to find the information associated with idFile[i]:
 
+            start = infoFile[startIndex];
+            end = infoFile[endIndex];
 
-            for (let j = 0; j < Object.values(infoFile).length; j++) {
-
-
-                if (infoFile[j]['id'] == startIndex) {
-                    start = infoFile[j];
-                    startArrayFound = true;
-                }
-                if (infoFile[j]['id'] == endIndex) {
-                    end = infoFile[j];
-                    endArrayFound = true;
-                }
-                // stop looping if both start and end info has been found:
-                if (startArrayFound && endArrayFound) {
-                    break;
-                }
-            }
 
             totalDist += dist;
 
             // add the extra info of the second JSON to p:
             let p = {};
-            for (let key in start) {
-                p["start " + key] = "Start " + key + ": " + start[key];
+            for (let key in start['map']) {
+                p["start " + key] = "Start " + key + ": " + start['map'][key];
             }
-            for (let key in end) {
-                p["end " + key] = "End " + key + ": " + end[key];
+            for (let key in end['map']) {
+                p["end " + key] = "End " + key + ": " + end['map'][key];
             }
             p["distance"] = "Distance: " + dist;
             p["cumulativeDistance"] = "Cumulative: " + totalDist;
 
             pairs.push(p); //add object to pairs array
         }
-        for(let k  in infoFile[0]){
+        for(let k  in infoFile[0]['map']){
             if(k != "name") {
                 this.state.options[k] = false;
             }
@@ -261,6 +249,7 @@ export default class App extends React.Component {
     async getItinerary() {
         let trip = [];
         let queries = this.getTripTableData();
+
         for (let i in queries) {
             trip.push(queries[i]['id']);
         }
@@ -278,7 +267,7 @@ export default class App extends React.Component {
             // Wait for server to return and convert it to json.
             let ret = await jsonReturned.json();
             // Log the received JSON to the browser console
-            console.log("Got back ", JSON.parse(ret));
+            console.log("Got back plan");
             // set the serverReturned state variable to the received json.
             // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
 
@@ -288,12 +277,8 @@ export default class App extends React.Component {
                 currentTrip:[],
                 locations: []
             });
-            console.log("route is: ", this.state.serverReturned);
-            let items = [];
-            for (let i in this.state.serverReturned.items){
-                items.push(this.state.serverReturned.items[i]["map"]);
-            }
-            this.getData(this.state.serverReturned.itinerary, items);
+            console.log("route is: ", this.state.serverReturned.items);
+            this.getData(this.state.serverReturned.itinerary, this.state.serverReturned.items);
 
         } catch (e) {
             console.error("Error talking to server");
@@ -334,7 +319,7 @@ export default class App extends React.Component {
             let counter = 0;
             for (let i in serverLocations){
                 trip.push(serverLocations[i]["map"]["id"]);
-                this.state.locations.push({name:serverLocations[i]["map"]["name"],id:i, index:counter});
+                this.state.locations.push({name:serverLocations[i]["map"]["name"],id:serverLocations[i]["map"]["id"], index:counter});
                 counter++;
             }
             this.forceUpdate();
