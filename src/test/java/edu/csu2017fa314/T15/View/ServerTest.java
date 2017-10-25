@@ -11,12 +11,11 @@ import edu.csu2017fa314.T15.Model.Destination;
 public class ServerTest {
   private Server s;
   String[] test = {"Ranch"};
-  HashMap<String, Destination> testMap;
+  Destination[] testMap;
 
   @Before
   public void initialize(){
     s = new Server();
-    testMap = new HashMap<String, Destination>();
   }
 
   @Test

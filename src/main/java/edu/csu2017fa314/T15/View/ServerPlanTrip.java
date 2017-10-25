@@ -9,11 +9,11 @@ import java.util.HashMap;
 public class ServerPlanTrip {
 
     private String svg;
-    private HashMap<String, Destination> items;
+    private Destination[] items;
     ArrayList<Edge> itinerary;
 
 
-    public ServerPlanTrip(String svg, HashMap<String, Destination> items, ArrayList<Edge> itinerary) {
+    public ServerPlanTrip(String svg, Destination[] items, ArrayList<Edge> itinerary) {
         this.svg = svg;
         this.items = items;
         this.itinerary = itinerary;

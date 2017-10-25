@@ -6,16 +6,16 @@ import java.util.Arrays;
 public class TwoOpt {
 
     private Table distanceTable;
-    private String[] route;
+    private Integer[] route;
 
     /**
      * Constructor for the 2-opt class
      * @param distance - is a table of distances between destinations
      * @param path - the path to be 2-opted
      */
-    public TwoOpt(Table distance, ArrayList<String> path){
+    public TwoOpt(Table distance, Integer[] path){
         this.distanceTable = distance;
-        this.route = path.toArray(new String[path.size()]);
+        this.route = path;
     }
 
     /**
@@ -25,7 +25,7 @@ public class TwoOpt {
      */
     private void swap(int i1, int k) {
         while (i1 < k) {
-            String temp = route[i1];
+            Integer temp = route[i1];
             route[i1] = route[k];
             route[k] = temp;
             i1++; k--;
@@ -64,10 +64,9 @@ public class TwoOpt {
         }
     }
 
-    public ArrayList<String> getTwoOpt(){
+    public Integer[] getTwoOpt(){
         twoOpt(); // run 2-Opt
-        ArrayList<String> path = new ArrayList<String>(Arrays.asList(route));
-        return path;
+        return route;
     }
 
     public long getDistance(){

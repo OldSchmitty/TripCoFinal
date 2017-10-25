@@ -70,7 +70,7 @@ public class SearchSQLDatabase {
    * @return A hashmap with the results of the search
    * @throws SQLException error in accessing the database
    */
-  public HashMap<String, Destination> query(String[] searchFor) throws SQLException {
+  public Destination[] query(String[] searchFor) throws SQLException {
     String[] all = {"*"};
     return query(searchFor, all);
   }
@@ -81,9 +81,9 @@ public class SearchSQLDatabase {
    * @param inColumns Where to search for those terms
    * @return A hashmap with all the return results saved as Destinations and id as the key
    */
-  public HashMap<String, Destination> query(String[] searchFor, String[] inColumns)
+  public Destination[] query(String[] searchFor, String[] inColumns)
       throws SQLException {
-    HashMap<String, Destination> rt = new HashMap<>();
+    Destination[] rt;
     String qry  = makeQueryStatement(searchFor, inColumns);
     try {
       Statement st = conn.createStatement();
@@ -91,6 +91,8 @@ public class SearchSQLDatabase {
         ResultSet rs = st.executeQuery(qry);
         ResultSetMetaData meta = rs.getMetaData();
         int size = meta.getColumnCount() +1;
+        rt = new Destination[size];
+        int count = 0;
         while(rs.next())
         {
           Destination des = new Destination();
@@ -99,7 +101,9 @@ public class SearchSQLDatabase {
             String info = rs.getString(field);
             des.setValue(field, info);
           }
-          rt.put(des.getId(), des);
+          des.setIdentifier(count);
+          rt[count]= des;
+          count++;
         }
       } finally { st.close(); }
     }catch (SQLException e){
@@ -177,7 +181,7 @@ public class SearchSQLDatabase {
         SearchSQLDatabase test = new SearchSQLDatabase(login);
         String[] ser = {"Denver"};
         String[] id = {"ID"};
-        HashMap<String, edu.csu2017fa314.T15.Model.Destination> rt = test.query(ser);
+        Destination[] rt = test.query(ser);
       } catch (Exception e){
         System.err.println(e.getMessage());
 

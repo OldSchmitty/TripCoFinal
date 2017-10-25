@@ -6,39 +6,29 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Table {
-
-    private HashMap<String, Destination> map;
     private long[][] distanceTable;
-    ArrayList<String> keys;
+    ArrayList<Integer> keys;
 
     /**
      * Constructor builds a map of all possible edges, in both directions
      * @param map
      */
-    public Table(HashMap<String, Destination> map){
+    public Table(Destination[] map){
 
-        this.map = map;
-        keys = new ArrayList<String>(map.keySet());
-        CalculateDistance cd = new CalculateDistance();
+        //keys = new ArrayList<Integer>(map.keySet());
 
         // initialize distance tables
-        int n = keys.size();
+        int n = map.length;
         distanceTable = new long[n][n];
 
         // Assign each Destinationtifier
-        int counter = 0;
-        for (String key: map.keySet()){
-            map.get(key).setIdentifier(counter);
-            counter++;
-        }
-
         // Populate 2D distance table - using unique identifier for index
-        for (String key: map.keySet()){
-            for (String id: map.keySet()){
-                distanceTable[map.get(key).getIdentifier()][map.get(id).getIdentifier()] =
-                        cd.findDistanceBetween(map.get(key), map.get(id));
-                distanceTable[map.get(id).getIdentifier()][map.get(key).getIdentifier()] =
-                        cd.findDistanceBetween(map.get(key), map.get(id));
+        for (int i = 0; i < map.length; i++){
+            for (int j = 0; j < map.length; j++){
+                distanceTable[i][j] =
+                        CalculateDistance.findDistanceBetween(map[i], map[j]);
+                distanceTable[j][i] =
+                        distanceTable[i][j];
             }
         }
     }
@@ -47,7 +37,7 @@ public class Table {
         return keys.indexOf(key);
     }
 
-    public long getDistance(String id1, String id2){
-        return distanceTable[map.get(id1).getIdentifier()][map.get(id2).getIdentifier()];
+    public long getDistance(Integer id1, Integer id2){
+        return distanceTable[id1][id2];
     }
 }

@@ -12,14 +12,13 @@ import edu.csu2017fa314.T15.Model.SearchSQLDatabase;
 public class ServerRequest {
     private String[] queries;
     private String doWhat = "";
-    private HashMap<String, Destination> dests;
+    private Destination[] dests;
     static private String[] login = {"jdepoiii", "829840334"};
 
 
     public ServerRequest(String[] queries, String doWhat) {
         this.queries = queries;
         this.doWhat = doWhat;
-        dests = new HashMap<>();
     }
 
     public void searchDatabase() throws SQLException{
@@ -27,13 +26,13 @@ public class ServerRequest {
         dests = sql.query(queries);
     }
 
-    public HashMap<String, Destination> planTrip() throws SQLException{
+    public Destination[] planTrip() throws SQLException{
         String[] columns = {"ID"};
         SearchSQLDatabase sql = new SearchSQLDatabase(login);
         return sql.query(queries, columns);
     }
 
-    public HashMap<String, Destination> getDests(){ return this.dests; }
+    public Destination[] getDests(){ return this.dests; }
 
     @Override
     public String toString() {

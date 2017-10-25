@@ -20,7 +20,7 @@ public class TestView
   final private String mapPath = "."+ File.separator+
       "data"+File.separator+ "resources" + File.separator + "colorado.svg";
   private View v;
-  private HashMap<String, Destination> des;
+  private Destination[] des;
   private ArrayList<Edge> edges;
 
   /**
@@ -28,23 +28,28 @@ public class TestView
    */
   @Before
   public void setUp() {
-    des = new HashMap<>();
     v = new View(path, mapPath);
     // Set up Hash Map
     String[] key = {"id", "name", "latitude", "longitude"};
     String[] value1 = {"1", "Fort Collins", "40°33′33″N", "105°4′41″W" };
     String[] value2 = {"2", "Denver", "39°45′43″N", "104°52′52″W" };
     String[] value3 = {"3", "Limon", "39°15′50″N", "103°41′32″W" };
-
-    des.put("1", new Destination(key,value1));
-    des.put("2", new Destination(key,value2));
-    des.put("3", new Destination(key,value3));
+    Destination des1 = new Destination(key,value1);
+    des1.setIdentifier(0);
+    Destination des2 = new Destination(key,value2);
+    des2.setIdentifier(1);
+    Destination des3 = new Destination(key,value3);
+    des3.setIdentifier(2);
+    des=new Destination[3];
+    des[0] = des1;
+    des[1] = des2;
+    des[2] = des3;
 
     // Set up edges
     edges = new ArrayList<>();
-    edges.add(new Edge("1", "2", 10000));
-    edges.add(new Edge("2", "3", 20000));
-    edges.add(new Edge("3", "1", 30000));
+    edges.add(new Edge(0, 1, 10000));
+    edges.add(new Edge(1, 2, 20000));
+    edges.add(new Edge(2, 0, 30000));
   }
 
   @Test
@@ -122,10 +127,10 @@ public class TestView
   @Test
   public void testMakeItinerary(){
     ArrayList<Edge> edges = new ArrayList<>();
-    edges.add(new Edge("start name 1", "end name 2", 10000));
-    edges.add(new Edge("start name 2", "end name 3", 20000));
-    edges.add(new Edge("start name 3", "end name 4", 30000));
-    edges.add(new Edge("start name 4", "end name 4", 40000));
+    edges.add(new Edge(1, 2, 10000));
+    edges.add(new Edge(2, 3, 20000));
+    edges.add(new Edge(3, 4, 30000));
+    edges.add(new Edge(4, 4, 40000));
 
     v.makeItinerary(edges);
 

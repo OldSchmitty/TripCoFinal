@@ -151,14 +151,14 @@ public class SearchSQLDatabaseTest {
   @Test
   public void queryOne(){
     String[] find = {"Salida"};
-    HashMap<String, Destination> rt = null;
+    Destination[] rt = null;
     try {
       rt = sql.query(find);
     } catch (SQLException e) {
       assertTrue(false);
     }
-    assertTrue(rt.size() == 1);
-    assertTrue("Harriet Alexander Field".equals(rt.get("KANK").getName()));
+    assertTrue(rt.length == 1);
+    assertTrue("Harriet Alexander Field".equals(rt[0].getName()));
   }
 
   /**
@@ -167,17 +167,17 @@ public class SearchSQLDatabaseTest {
   @Test
   public void queryMany(){
     String[] find = {"Bennet"};
-    HashMap<String, Destination> rt = null;
+    Destination[] rt = null;
     try {
       rt = sql.query(find);
     } catch (SQLException e) {
       assertTrue(false);
     }
-    assertTrue(rt.size() == 7);
+    assertTrue(rt.length == 7);
     // Test to see if the correct airports were found
     String[] ids ={"0CO3", "CD14", "76CO", "87CO", "CD09", "CO02", "96CO"};
-    for (String i:ids) {
-      assertNotEquals(rt.get(i), null);
+    for (int i = 0; i < ids.length; i++) {
+      assertEquals(rt[i].getId(), ids[i]);
     }
   }
 
@@ -187,13 +187,13 @@ public class SearchSQLDatabaseTest {
   @Test
   public void queryNone(){
     String[] find = {"Fort Collins"};
-    HashMap<String, Destination> rt = null;
+    Destination[] rt = null;
     try {
       rt = sql.query(find);
     } catch (SQLException e) {
       assertTrue(false);
     }
-    assertTrue(rt.size() == 0);
+    assertTrue(rt.length == 0);
 
   }
 
@@ -201,15 +201,15 @@ public class SearchSQLDatabaseTest {
   public void queryIDSearch(){
     String[] find ={"0CO3", "CD14", "76CO", "87CO", "CD09", "CO02", "96CO"};
     String[] in = {"ID"};
-    HashMap<String, Destination> rt = null;
+    Destination[] rt = null;
     try {
       rt = sql.query(find, in);
     } catch (SQLException e) {
       assertTrue(false);
     }
-    assertTrue(rt.size() == 7);
-    for (String i:find) {
-      assertNotEquals(rt.get(i), null);
+    assertTrue(rt.length == 7);
+    for (int i = 0; i < find.length; i++) {
+      assertEquals(rt[i].getId(),find[i]);
     }
   }
 
@@ -217,7 +217,7 @@ public class SearchSQLDatabaseTest {
   public void queryBADFeild() throws SQLException {
     String[] find ={"0CO3"};
     String[] in = {"BAD"};
-    HashMap<String, Destination> rt = sql.query(find, in);
+    Destination[] rt = sql.query(find, in);
   }
   /**
    * Checks making query statement for all of table
