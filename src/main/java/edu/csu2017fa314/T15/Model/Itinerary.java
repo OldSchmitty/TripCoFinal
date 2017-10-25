@@ -136,7 +136,7 @@ public class Itinerary {
                 System.out.println("Found shorter Path." + pathDistance);
             }
 
-            path = currentPath;
+            path = currentPath.clone();
             pathDistance = currentDistance;
         }
     }
