@@ -61,6 +61,4 @@ public class TwoOptTest {
         Itinerary i = new Itinerary(m.getMap());
         ArrayList<Edge> a = i.getShortestPath();
     }
-
-
 }
