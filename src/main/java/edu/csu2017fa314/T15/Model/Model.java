@@ -11,18 +11,15 @@ import java.io.InputStreamReader;
 
 public class Model {
 
-	private String[] inputData;
-	private ArrayList<Destination> breweries;
-
+	private ArrayList<Destination> dests; //list of all the destinations
 	public  String[] keys;				//A string array of all available data points
-    private String firstItem;
-    private HashMap<String, Destination> map;
+    private String firstItem;           //first destination in the list
 
 	public Model() {
 	}
 
 	public Model(String fileName){
-	    map = new HashMap<String, Destination>();
+	    dests = new ArrayList<Destination>();
 		readIntoMap(fileName);
 	}
 
@@ -35,15 +32,17 @@ public class Model {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
             keys = reader.readLine().replaceAll("\\s+","").toLowerCase().split(",");
-
+            int count = 0;
             if((nextLine=reader.readLine()) != null){
                 values = nextLine.split(",", -1);
                 for (int i = 0; i < values.length; i++){
                 	values[i]= values[i].trim();
 				}
                 current = new Destination(keys, values);
+                current.setIdentifier(count);
+                count++;
                 firstItem = current.getId();
-                map.put(current.getId(),current);
+                dests.add(current);
             }
             while ((nextLine=reader.readLine()) != null){
                 values = nextLine.split(",", -1);
@@ -51,7 +50,9 @@ public class Model {
 					values[i]= values[i].trim();
 				}
                 current = new Destination(keys, values);
-                map.put(current.getId(), current);
+                current.setIdentifier(count);
+                count++;
+                dests.add(current);
             }
             reader.close();
         }
@@ -61,11 +62,11 @@ public class Model {
     }
 
 	public int getSize() {
-		return breweries.size();
+		return dests.size();
 	}
-	public HashMap<String, Destination> getMap(){ return map; }
-	public Destination getDestination(String id){
-	    return map.get(id);
+	public ArrayList<Destination> getMap(){ return dests; }
+	public Destination getDestination(Integer id){
+	    return dests.get(id);
     }
     public String getFirstItem(){ return firstItem; }
 }

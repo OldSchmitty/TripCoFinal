@@ -11,7 +11,7 @@ public class EdgeTest {
     private Edge e;
     @Before
     public void setup() throws Exception {
-        e = new Edge ("1111", "2222", 1000);
+        e = new Edge (1111, 2222, 1000);
     }
 
     /**
@@ -20,12 +20,14 @@ public class EdgeTest {
      */
     @Test
     public void testsgetDestinationID(){
-        assertEquals(e.getDestinationID(), "2222");
+        long num = e.getDestinationID();
+        assertEquals(num, 2222);
     }
 
     @Test
     public void testsgetSourceID(){
-        assertEquals(e.getSourceID(), "1111");
+        long num = e.getSourceID();
+        assertEquals(num, 1111);
     }
 
     @Test

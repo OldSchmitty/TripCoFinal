@@ -10,9 +10,9 @@ import java.util.ArrayList;
  */
 
 public class ServerResponse {
-    private HashMap<String, Destination> items;
+    private Destination[] items;
 
-    public ServerResponse(HashMap<String, Destination> items) {
+    public ServerResponse(Destination[] items) {
         this.items = items;
     }
 

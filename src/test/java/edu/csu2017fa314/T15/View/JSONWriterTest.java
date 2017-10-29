@@ -58,10 +58,10 @@ public class JSONWriterTest {
     @Test
     public void writeJSONFile() {
         JSONWriter writer = new JSONWriter(path + "JSONWriterTest.json");
-        writer.add("start name 1", "end name 2", 10000);
-        writer.add("start name 2", "end name 3", 20000);
-        writer.add("start name 3", "end name 4", 30000);
-        writer.add("start name 4", "end name 4", 40000);
+        writer.add(1, 2, 10000);
+        writer.add(2, 3, 20000);
+        writer.add(3, 4, 30000);
+        writer.add(4, 4, 40000);
         writer.write();
         writer.close();
 

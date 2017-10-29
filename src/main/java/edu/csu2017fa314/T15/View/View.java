@@ -37,17 +37,17 @@ public class View
    * @param des All the destinations in the route
    * @param edges The route we take
    */
-  public void drawMap(HashMap<String, Destination> des, ArrayList<Edge> edges){
+  public void drawMap(Destination[] des, ArrayList<Edge> edges){
     if(path == null)
       throw new RuntimeException("View path not set");
 
     DrawMap map = new DrawMap(path + "map.svg", imagePath);
     for (Edge e: edges) {
 
-      map.addEdge(des.get(e.getSourceID()).getLatitude(),
-          des.get(e.getSourceID()).getLongitude(),
-          des.get(e.getDestinationID()).getLatitude(),
-          des.get(e.getDestinationID()).getLongitude());
+      map.addEdge(des[e.getDestinationID()].getLatitude(),
+          des[e.getSourceID()].getLongitude(),
+          des[e.getDestinationID()].getLatitude(),
+          des[e.getDestinationID()].getLongitude());
     }
     map.write();
   }
@@ -57,17 +57,17 @@ public class View
    * @param des All the destinations in the route
    * @param edges The route we take
    */
-  public String drawMapString(HashMap<String, Destination> des, ArrayList<Edge> edges){
+  public String drawMapString(Destination[] des, ArrayList<Edge> edges){
     if(path == null)
       throw new RuntimeException("View path not set");
 
     DrawMap map = new DrawMap(path + "map.svg", imagePath);
     for (Edge e: edges) {
 
-      map.addEdge(des.get(e.getSourceID()).getLatitude(),
-          des.get(e.getSourceID()).getLongitude(),
-          des.get(e.getDestinationID()).getLatitude(),
-          des.get(e.getDestinationID()).getLongitude());
+      map.addEdge(des[e.getSourceID()].getLatitude(),
+          des[e.getSourceID()].getLongitude(),
+          des[e.getDestinationID()].getLatitude(),
+          des[e.getDestinationID()].getLongitude());
     }
     String svg = map.mapString();
     return svg;
@@ -92,13 +92,13 @@ public class View
    * <p>Makes the Destination JSON file with the Destination map</p>
    * @param des All the destinations in the route
    */
-  public void makeDestination(HashMap<String, Destination> des){
+  public void makeDestination(Destination[] des){
     if(path == null)
       throw new RuntimeException("View path not set");
 
     JSONWriter jw = new JSONWriter(path + "Destinations.json");
-    for (String key: des.keySet()) {
-      jw.add(des.get(key).getMap());
+    for (Destination key: des) {
+      jw.add(key.getMap());
     }
     jw.write();
     jw.close();

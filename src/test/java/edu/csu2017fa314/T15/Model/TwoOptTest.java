@@ -12,28 +12,27 @@ public class TwoOptTest {
 
     @Test
     public void test1(){
-        HashMap<String, Destination> map  = new HashMap<String, Destination>();
+        Destination[] map  = new Destination[5];
         Destination b1 = new Destination("A", "Destination 1", "Test City 1", "0", "15", "1000");
+        b1.setIdentifier(0);
         Destination b2 = new Destination("B", "Destination 2", "Test City 2", "11", "6", "1000");
+        b2.setIdentifier(1);
         Destination b3 = new Destination("C", "Destination 5", "Test City 5", "12", "7", "1000");
+        b3.setIdentifier(2);
         Destination b4 = new Destination("D", "Destination 4", "Test City 4", "13", "0", "1000");
+        b4.setIdentifier(3);
         Destination b5 = new Destination("E", "Destination 5", "Test City 5", "9", "4", "1000");
-
-        map.put("A", b1);
-        map.put("B", b2);
-        map.put("D", b4);
-        map.put("E", b5);
-        map.put("C", b3);
+        b5.setIdentifier(4);
+        map[0] = b1;
+        map[1] = b2;
+        map[2] = b4;
+        map[3] = b5;
+        map[4] = b3;
 
         Itinerary itinerary = new Itinerary(map);
         ArrayList<Edge> path = itinerary.getShortestPath();
 
-        ArrayList<String> route = itinerary.getPath();
-        String[] opted = route.toArray(new String[route.size()]);
-        String[] tester = {"A", "E", "D", "B", "C", "A"};
-        for (int i=0; i< tester.length; i++) {
-            assertEquals(tester[i], opted[i]);
-        }
+        assertEquals(itinerary.getDistance(), 2886);
     }
 
     @Test

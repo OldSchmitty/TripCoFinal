@@ -28,7 +28,7 @@ public class JSONWriter {
     list.put(newItem);
   }
 
-    public void add(String id1, String id2, long distance)
+    public void add(Integer id1, Integer id2, long distance)
     {
         JSONObject newItem = new JSONObject();
         newItem.put("start", id1);

@@ -7,10 +7,10 @@ package edu.csu2017fa314.T15.Model;
  */
 public class Edge {
 
-    private String sourceID, destinationID;
+    private Integer sourceID, destinationID;
     private long distance;
 
-    public Edge(String sourceID, String destinationID, long distance){
+    public Edge(Integer sourceID, Integer destinationID, long distance){
         this.sourceID = sourceID;
         this.destinationID = destinationID;
         this.distance = distance;
@@ -18,11 +18,11 @@ public class Edge {
 
     public Edge() {}
 
-    public String getDestinationID(){
+    public Integer getDestinationID(){
         return destinationID;
     }
 
-    public String getSourceID(){
+    public Integer getSourceID(){
         return sourceID;
     }
 
