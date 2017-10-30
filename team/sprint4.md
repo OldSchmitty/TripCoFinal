@@ -37,7 +37,7 @@ Total story points in the Sprint Backlog: 67
 Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 :--- | :--- | :--- | :--- | :---
 10-25 | #289|  | MidTerms | low
- | | | | 
+10-30 | #267 | #276 #277 #279| None identified| High 
  
 
 ## Review
