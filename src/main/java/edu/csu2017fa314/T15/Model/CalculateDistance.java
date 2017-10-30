@@ -7,8 +7,6 @@ package edu.csu2017fa314.T15.Model;
  */
 public class CalculateDistance {
 
-  private static double earthRadius;
-
   /**
    * <p>Converts a string latitude or longitude into its decimal form</p>
    * <p>Can read formats like 106°49'43.24" W, 106°49.24' W, 106.24° W, or -106.24</p>
@@ -61,6 +59,7 @@ public class CalculateDistance {
     double lat1Rad = Math.toRadians(lat1);
     double lat2Rad = Math.toRadians(lat2);
     double logDiff = Math.toRadians(Math.abs(log2 -log1));
+    double earthRadiusMiles = 3958.7613; // in miles
 
     double dividendPart1 = Math.cos(lat2Rad)*Math.sin(logDiff);
     double dividendPart2 = Math.cos(lat1Rad)*Math.sin(lat2Rad) - Math.sin(lat1Rad)*Math.cos(lat2Rad)*Math.cos(logDiff) ;
@@ -68,7 +67,7 @@ public class CalculateDistance {
 
     double arcLength = Math.atan2(Math.sqrt(Math.pow(dividendPart1,2)+Math.pow(dividendPart2,2)),divisor);
 
-    return Math.round(arcLength*earthRadius);// radius of earth either in miles or kilometers
+    return Math.round(arcLength*earthRadiusMiles);// radius of earth in miles
   }
 
   /**
@@ -104,7 +103,4 @@ public class CalculateDistance {
          brew1.getLatitude(), brew1.getLongitude(),
          brew2.getLatitude(), brew2.getLongitude());
   }
-
-  public static void setMiles(){ earthRadius = 3958.7613; }
-  public static void setKilometers(){ earthRadius = 6378.137; } // correct?
 }
