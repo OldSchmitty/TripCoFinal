@@ -256,6 +256,7 @@ export default class App extends React.Component {
         let newMap = {
             queries : trip,
             doWhat: "plan",
+            units: "miles",
         };
         try{
             let jsonReturned = await fetch(`http://localhost:4567/receive`,

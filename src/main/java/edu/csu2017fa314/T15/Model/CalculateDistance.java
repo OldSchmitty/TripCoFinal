@@ -68,7 +68,7 @@ public class CalculateDistance {
 
     double arcLength = Math.atan2(Math.sqrt(Math.pow(dividendPart1,2)+Math.pow(dividendPart2,2)),divisor);
 
-    return Math.round(arcLength*earthRadius);// radius of earth either in miles or kilometers
+    return Math.round(arcLength*earthRadius);// radius of earth in miles or kilometers
   }
 
   /**
@@ -105,6 +105,6 @@ public class CalculateDistance {
          brew2.getLatitude(), brew2.getLongitude());
   }
 
+  public static void setKilometers(){ earthRadius = 6371.0088; }
   public static void setMiles(){ earthRadius = 3958.7613; }
-  public static void setKilometers(){ earthRadius = 6378.137; } // correct?
 }

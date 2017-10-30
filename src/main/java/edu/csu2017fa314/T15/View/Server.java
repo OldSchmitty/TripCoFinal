@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.Model.Edge;
 import edu.csu2017fa314.T15.Model.Itinerary;
+import edu.csu2017fa314.T15.Model.CalculateDistance;
 
+import static edu.csu2017fa314.T15.Model.CalculateDistance.setKilometers;
+import static edu.csu2017fa314.T15.Model.CalculateDistance.setMiles;
 import static spark.Spark.post;
 
 /**
@@ -72,6 +75,12 @@ public class Server {
 
         }
         else if(sRec.getdoWhat().equals("plan")){
+
+            if(sRec.getUnits().equals("miles"))
+                setMiles();
+            else if(sRec.getUnits().equals("kilometers"))
+                setKilometers();
+
             Destination[] trip;
             trip = sRec.planTrip();
             Itinerary i = new Itinerary(trip);
