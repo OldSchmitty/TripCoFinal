@@ -4,7 +4,7 @@ Inspection | Details
 ----- | -----
 Subject | *Itenerary Class*
 Meeting | *Wednesday November 1, 2017, 10:00 AM*
-Checklist | *Fox, Christopher, Java Checklist*
+Checklist | *Java Inspection Checklist, Chrsitopher Fox*
 
 ### Roles
 Name | Role | Preparation Time
