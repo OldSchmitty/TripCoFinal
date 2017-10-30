@@ -1,22 +1,22 @@
 [
   {
     "distance": 10000,
-    "start": "start name 1",
-    "end": "end name 2"
+    "start": 1,
+    "end": 2
   },
   {
     "distance": 20000,
-    "start": "start name 2",
-    "end": "end name 3"
+    "start": 2,
+    "end": 3
   },
   {
     "distance": 30000,
-    "start": "start name 3",
-    "end": "end name 4"
+    "start": 3,
+    "end": 4
   },
   {
     "distance": 40000,
-    "start": "start name 4",
-    "end": "end name 4"
+    "start": 4,
+    "end": 4
   }
 ]

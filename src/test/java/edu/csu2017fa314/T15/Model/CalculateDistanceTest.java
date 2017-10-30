@@ -1,5 +1,6 @@
 package edu.csu2017fa314.T15.Model;
 
+import static edu.csu2017fa314.T15.Model.CalculateDistance.setMiles;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -17,6 +18,7 @@ public class CalculateDistanceTest {
   @Before
   public void setUp() throws Exception {
     cd = new CalculateDistance();
+    setMiles();
   }
 
   /**
