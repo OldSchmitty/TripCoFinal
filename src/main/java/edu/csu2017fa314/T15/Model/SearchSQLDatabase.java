@@ -86,11 +86,10 @@ public class SearchSQLDatabase {
     Destination[] rt;
     String qry  = makeQueryStatement(searchFor, inColumns);
     try {
-      Statement st = conn.createStatement();
-      try {
+      try (Statement st = conn.createStatement()) {
         ResultSet rs = st.executeQuery(qry);
         ResultSetMetaData meta = rs.getMetaData();
-        int size = meta.getColumnCount() +1;
+        int size = meta.getColumnCount() + 1;
         int numRows = 0;
         if (rs.last()) {
           numRows = rs.getRow();
@@ -98,8 +97,7 @@ public class SearchSQLDatabase {
         }
         rt = new Destination[numRows];
         int count = 0;
-        while(rs.next())
-        {
+        while (rs.next()) {
           Destination des = new Destination();
           for (int i = 2; i < size; i++) {
             String field = meta.getColumnName(i);
@@ -107,10 +105,10 @@ public class SearchSQLDatabase {
             des.setValue(field, info);
           }
           des.setIdentifier(count);
-          rt[count]= des;
+          rt[count] = des;
           count++;
         }
-      } finally { st.close(); }
+      }
     }catch (SQLException e){
       System.err.printf("SearchSQLDatabase: bad SQL query\n%s\n", e.getMessage());
       throw e;
@@ -170,7 +168,7 @@ public class SearchSQLDatabase {
       search = " " + inColumns[0] + " " + where;
     }
 
-    return front + search;
+    return front + search + "LIMIT 100";
   }
 
   public void setTable(String t){
@@ -187,6 +185,7 @@ public class SearchSQLDatabase {
         String[] ser = {"Denver"};
         String[] id = {"ID"};
         Destination[] rt = test.query(ser);
+        test.close();
       } catch (Exception e){
         System.err.println(e.getMessage());
 
