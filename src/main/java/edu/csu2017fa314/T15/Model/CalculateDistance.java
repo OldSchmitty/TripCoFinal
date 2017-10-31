@@ -60,7 +60,6 @@ public class CalculateDistance {
     double lat1Rad = Math.toRadians(lat1);
     double lat2Rad = Math.toRadians(lat2);
     double logDiff = Math.toRadians(Math.abs(log2 -log1));
-    double earthRadiusMiles = 3958.7613; // in miles
 
     double dividendPart1 = Math.cos(lat2Rad)*Math.sin(logDiff);
     double dividendPart2 = Math.cos(lat1Rad)*Math.sin(lat2Rad) - Math.sin(lat1Rad)*Math.cos(lat2Rad)*Math.cos(logDiff) ;

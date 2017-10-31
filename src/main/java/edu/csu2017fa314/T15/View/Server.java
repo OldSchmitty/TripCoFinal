@@ -76,9 +76,9 @@ public class Server {
         }
         else if(sRec.getdoWhat().equals("plan")){
 
-            if(sRec.getUnits().equals("miles"))
+            if(sRec.getUnits().equals("Miles"))
                 setMiles();
-            else if(sRec.getUnits().equals("kilometers"))
+            else if(sRec.getUnits().equals("Kilometers"))
                 setKilometers();
 
             Destination[] trip;

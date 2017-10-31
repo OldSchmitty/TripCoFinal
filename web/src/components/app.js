@@ -16,7 +16,8 @@ export default class App extends React.Component {
             svg: false,
             bottomRow: [],
             locations: [],
-            currentTrip: []
+            currentTrip: [],
+            units: "Miles"
         }
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
@@ -60,7 +61,33 @@ export default class App extends React.Component {
         this.makeTrip = (onClick) => {
             this.getItinerary()
         };
-
+        this.createUnitsButton = (onClick) => {
+            return (
+                    <button type='button'
+                            className={'btn btn-primary'}
+                            onClick={ () => this.changeUnits(onClick) }>
+                        {this.state.units}
+                    </button>
+            );
+        };
+        this.buttons = props => {
+            return(
+                <ButtonGroup className='my-custom-class' sizeClass='btn-group-md'>
+                    {this.createTripButton()}
+                    {this.createUnitsButton()}
+                    </ButtonGroup>
+            )
+        }
+        this.changeUnits = (onClick) => {
+            if(this.state.units.valueOf() === 'Kilometers') {
+                this.setState({units: 'Miles'});
+                console.log("Changing Units to Miles");
+            }
+            if(this.state.units.valueOf() === "Miles") {
+                this.setState({units: 'Kilometers'});
+                console.log("Changing Units to Kilometers");
+            }
+        }
     };
 
 
@@ -116,7 +143,6 @@ export default class App extends React.Component {
             //console.log("SVG: ", svg);
         }
 
-
         return (
             <div className="app-container">
                 <h1>T15 - Wolf Pack</h1>
@@ -140,6 +166,7 @@ export default class App extends React.Component {
                             <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>index</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
+
                     <div className = "search-button" style={{width:"33%"}}>
                         <BootstrapTable data={this.state.currentTrip}
                                         selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)'}}
@@ -148,7 +175,7 @@ export default class App extends React.Component {
                                         ref='tripTable'
                                         deleteRow
 
-                                        options={{insertBtn:this.createTripButton}}
+                                        options={{btnGroup:this.buttons}}
                                         insertRow>
                             <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>Current Trip</TableHeaderColumn>
                         </BootstrapTable>
@@ -256,7 +283,7 @@ export default class App extends React.Component {
         let newMap = {
             queries : trip,
             doWhat: "plan",
-            units: "miles",
+            units: this.state.units,
         };
         try{
             let jsonReturned = await fetch(`http://localhost:4567/receive`,
