@@ -16,12 +16,6 @@ public class ServerRequest {
     private String units = "";
     static private String[] login = {"jdepoiii", "829840334"};
 
-
-    public ServerRequest(String[] queries, String doWhat) {
-        this.queries = queries;
-        this.doWhat = doWhat;
-    }
-
     public ServerRequest(String[] queries, String doWhat, String units){
         this.queries = queries;
         this.doWhat = doWhat;
@@ -34,7 +28,7 @@ public class ServerRequest {
     }
 
     public Destination[] planTrip() throws SQLException{
-        String[] columns = {"ID"};
+        String[] columns = {"CODE"};
         SearchSQLDatabase sql = new SearchSQLDatabase(login);
         return sql.query(queries, columns);
     }
