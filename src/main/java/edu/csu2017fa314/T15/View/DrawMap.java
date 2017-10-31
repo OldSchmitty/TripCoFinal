@@ -14,10 +14,10 @@ public class DrawMap {
   private String path; // Dir to make file
   private ArrayList<String> elements; // What to write
   private int edgeLoc = 0; //What element[i] the edges are at
-  private double xOffSet = (991.4014 - 37.52397)/(-109 +102);
-  private double yOffSet = (708.0824 - 37.4016)/(41 -37);
+  private double xOffSet = (1024.0)/(-360);
+  private double yOffSet = (512.0)/(180);
   ClassLoader classloader = getClass().getClassLoader();
-  private InputStream baseFile = classloader.getResourceAsStream("images/colorado.svg");
+  private InputStream baseFile = classloader.getResourceAsStream("images/world.svg");
   private BufferedWriter writer;
 
   /**
@@ -27,7 +27,7 @@ public class DrawMap {
   public DrawMap(final String path, String baseFile){
     this.path = path;
     this.elements = new ArrayList<>();
-    svgHeader();
+    //svgHeader();
     addFromFile();
 
 
@@ -93,7 +93,7 @@ public class DrawMap {
    * @return The Y coordinate
    */
   private int convertLatToY(final String lat){
-    return (int)Math.round((41 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet) +37;
+    return (int)Math.round((90 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet);
   }
 
   /**
@@ -102,7 +102,7 @@ public class DrawMap {
    * @return The Y coordinate
    */
   private int convertLongToX(final String lon){
-    return (int)Math.round((-109 - CalculateDistance.stringToDoubleForCoordinate(lon)) * xOffSet) +37;
+    return (int)Math.round((-180 - CalculateDistance.stringToDoubleForCoordinate(lon)) *xOffSet) ;
   }
 
   /**
@@ -134,11 +134,11 @@ public class DrawMap {
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(
               baseFile, "UTF-8"));
-      for (int i = 0; i < 9; i++) {
-        reader.readLine(); // Skip Header info
-      }
-      baseMap = baseMap.concat("<!-- Following code provided by CS314 Instructors -->\n");
-      baseMap = baseMap.concat("<!-- Created with Inkscape (http://www.inkscape.org/) -->\n");
+      //for (int i = 0; i < 9; i++) {
+      //  reader.readLine(); // Skip Header info
+      //}
+      //baseMap = baseMap.concat("<!-- Following code provided by CS314 Instructors -->\n");
+      //baseMap = baseMap.concat("<!-- Created with Inkscape (http://www.inkscape.org/) -->\n");
       line=reader.readLine();
       while(!line.equalsIgnoreCase("</svg>")) //stop at last line
       {

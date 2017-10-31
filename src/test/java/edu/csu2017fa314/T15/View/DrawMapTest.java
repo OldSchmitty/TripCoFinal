@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class DrawMapTest {
@@ -89,6 +90,7 @@ public class DrawMapTest {
     /**
      * Tests to see if empty svg file is made
      */
+    @Ignore
     @Test
     public void write(){
         try{
@@ -110,6 +112,7 @@ public class DrawMapTest {
         assertNotNull(map);
     }
 
+    @Ignore
     @Test
     public void close() throws Exception {
         try{
