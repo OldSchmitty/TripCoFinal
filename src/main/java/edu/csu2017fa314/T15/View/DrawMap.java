@@ -24,7 +24,7 @@ public class DrawMap {
    * <p>Initializes elements to draw SVG</p>
    * @param path - where to build file
    */
-  private DrawMap(final String path, String baseFile){
+  public DrawMap(final String path, String baseFile){
     this.path = path;
     this.elements = new ArrayList<>();
     //svgHeader();
