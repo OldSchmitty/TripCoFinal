@@ -89,34 +89,34 @@ public class SearchSQLDatabaseTest {
                 "home_link VARCHAR(1000)," +
                 "wikipedia_link VARCHAR(1000)," +
                 "keywords VARCHAR(1000))");
-        /*
+
         // create continents table
         st.executeUpdate("CREATE TABLE continents " +
-                "id int(11)" +
-                "name VARCHAR(100)" +
-                "code VARCHAR(3)" +
-                "wikipedia_link VARCHAR(1000)");
+                "(id int(11)," +
+                "name VARCHAR(100)," +
+                "code VARCHAR(3)," +
+                "wikipedia_link VARCHAR(1000))");
 
         // create countries table
         st.executeUpdate("CREATE TABLE countries " +
-                "id int(11)" +
-                "code VARCHAR(100)" +
-                "name VARCHAR(1000)" +
-                "continent VARCHAR(3)" +
-                "wikipedia_link VARCHAR(1000)" +
-                "keywords VARCHAR(1000)");
+                "(id int(11)" +
+                "code VARCHAR(100)," +
+                "name VARCHAR(1000)," +
+                "continent VARCHAR(3)," +
+                "wikipedia_link VARCHAR(1000)," +
+                "keywords VARCHAR(1000))");
 
         // create regions table
         st.executeUpdate("CREATE TABLE regions " +
-                "id int(11)" +
-                "code VARCHAR(100)" +
-                "local_code tinytext" +
-                "name tinytext" +
-                "continent tinytext" +
-                "iso_country varchar(100)" +
-                "wikipedia_link tinytext" +
+                "(id int(11)" +
+                "code VARCHAR(100)," +
+                "local_code tinytext," +
+                "name tinytext," +
+                "continent tinytext," +
+                "iso_country varchar(100)," +
+                "wikipedia_link tinytext," +
                 "keywords tinytext");
-        */
+
 
         //Populate database tables with test data
         st.executeUpdate("LOAD DATA LOCAL INFILE '" + System.getProperty("user.dir")+"/data/test_input/airports.csv' " +
@@ -124,23 +124,23 @@ public class SearchSQLDatabaseTest {
                 "FIELDS TERMINATED BY ',' " +
                 "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
-        /*
-        st.executeUpdate("LOAD DATA INFILE 'file_name' " +
-                "INTO TABLE continents" +
-                "FIELDS TERMINATED BY ','" +
-                "LINES TERMINATED BY '\n'" +
+
+        st.executeUpdate("LOAD DATA INFILE '"+ System.getProperty("user.dir")+"/data/test_input/continents.csv' ' " +
+                "INTO TABLE continents " +
+                "FIELDS TERMINATED BY ',' " +
+                "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
-        st.executeUpdate("LOAD DATA INFILE 'file_name' " +
-                "INTO TABLE countries" +
-                "FIELDS TERMINATED BY ','" +
-                "LINES TERMINATED BY '\n'" +
+        st.executeUpdate("LOAD DATA INFILE '"+ System.getProperty("user.dir")+"/data/test_input/countries.csv' ' " +
+                "INTO TABLE countries " +
+                "FIELDS TERMINATED BY ',' " +
+                "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
-        st.executeUpdate("LOAD DATA INFILE 'file_name' " +
+        st.executeUpdate("LOAD DATA INFILE '"+ System.getProperty("user.dir")+"/data/test_input/regions.csv' ' " +
                 "INTO TABLE regions" +
-                "FIELDS TERMINATED BY ','" +
-                "LINES TERMINATED BY '\n'" +
+                "FIELDS TERMINATED BY ',' " +
+                "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
-                */
+
         // Test to see data
       ResultSet r = st.executeQuery("select * from airports");
       while(r.next()){
