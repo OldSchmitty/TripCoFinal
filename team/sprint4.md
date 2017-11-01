@@ -38,7 +38,7 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 :--- | :--- | :--- | :--- | :---
 10-25 | #289|  | MidTerms | low
 10-30 | #267 | #276 #277 #279| None identified| High 
- 
+11-1 | #272 #274 #276 #277 #294 | #279 #265 #266| Tests in school SQL | medium
 
 ## Review
 
