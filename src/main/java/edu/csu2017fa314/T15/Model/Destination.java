@@ -36,7 +36,7 @@ public class Destination {
 
     public String get(String key){ return map.get(key); }
 
-    public String getId(){ return map.get("id"); }
+    public String getId(){ return map.get("code"); }
 
     public String getName(){ return map.get("name"); }
 
