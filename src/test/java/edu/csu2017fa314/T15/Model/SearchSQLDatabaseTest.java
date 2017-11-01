@@ -99,7 +99,7 @@ public class SearchSQLDatabaseTest {
 
         // create countries table
         st.executeUpdate("CREATE TABLE countries " +
-                "(id int(11)" +
+                "(id int(11)," +
                 "code VARCHAR(100)," +
                 "name VARCHAR(1000)," +
                 "continent VARCHAR(3)," +
@@ -108,14 +108,14 @@ public class SearchSQLDatabaseTest {
 
         // create regions table
         st.executeUpdate("CREATE TABLE regions " +
-                "(id int(11)" +
+                "(id int(11)," +
                 "code VARCHAR(100)," +
                 "local_code tinytext," +
                 "name tinytext," +
                 "continent tinytext," +
                 "iso_country varchar(100)," +
                 "wikipedia_link tinytext," +
-                "keywords tinytext");
+                "keywords tinytext)");
 
 
         //Populate database tables with test data
@@ -125,18 +125,18 @@ public class SearchSQLDatabaseTest {
                 "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
 
-        st.executeUpdate("LOAD DATA INFILE '"+ System.getProperty("user.dir")+"/data/test_input/continents.csv' ' " +
+        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/continents.csv' " +
                 "INTO TABLE continents " +
                 "FIELDS TERMINATED BY ',' " +
                 "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
-        st.executeUpdate("LOAD DATA INFILE '"+ System.getProperty("user.dir")+"/data/test_input/countries.csv' ' " +
+        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/countries.csv' " +
                 "INTO TABLE countries " +
                 "FIELDS TERMINATED BY ',' " +
                 "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
-        st.executeUpdate("LOAD DATA INFILE '"+ System.getProperty("user.dir")+"/data/test_input/regions.csv' ' " +
-                "INTO TABLE regions" +
+        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/regions.csv' " +
+                "INTO TABLE regions " +
                 "FIELDS TERMINATED BY ',' " +
                 "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
