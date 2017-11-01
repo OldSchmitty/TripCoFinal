@@ -65,46 +65,80 @@ public class SearchSQLDatabaseTest {
         st.executeUpdate("DROP DATABASE IF EXISTS TestDatabase314");
         st.executeUpdate("CREATE DATABASE TestDatabase314");
         st.executeUpdate("USE TestDatabase314");
-        // Make table to match spring 3
-        st.executeUpdate("DROP TABLE IF EXISTS destinations");
-        st.executeUpdate("CREATE TABLE destinations " +
-            "(inx INTEGER not NULL,"
-            + " id VARCHAR(1000),"
-            + " type VARCHAR(1000),"
-            + " name VARCHAR(1000),"
-            + " latitude VARCHAR(1000),"
-            + " longitude VARCHAR(1000),"
-            + " elevation VARCHAR(1000),"
-            + " municipality VARCHAR(1000),"
-            + " home_link VARCHAR(1000),"
-            + " wikipedia_link VARCHAR(1000),"
-            + " PRIMARY KEY ( inx ))");
 
-        //Populate database with test data
-        BufferedReader reader = new BufferedReader(
-            new InputStreamReader(new FileInputStream(testData)));
-        String line;
-        String[] values;
-        reader.readLine(); // skip key values
-        int i = 1;
-        while ((line = reader.readLine()) != null) {
-          values = line.split(",", -1);
-          // Change empty keys to NULL for statement
-          for (String v : values) {
-            if (v.equals("")) {
-              v = "NULL";
-            }
-          }
-          String entry = "INSERT INTO destinations VALUES( " + i++ + ", '" + values[0] + "', '" +
-              values[1] + "', '" + values[2] + "', '" + values[3] + "', '" + values[4] + "', '" +
-              values[5] + "', '" + values[6] + "', '" + values[7] + "', '" + values[8] + "')";
-          st.executeUpdate(entry);
-        }
-        // Test to see data
-      /*ResultSet r = st.executeQuery("select * from destinations");
-      while(r.next()){
-        System.out.println(r.getString("name"));
-      }*/
+        // make airports table in TestDatabase314
+        st.executeUpdate("DROP TABLE IF EXISTS airports");
+        st.executeUpdate("CREATE TABLE airports " +
+                "id int(11)" +
+                "code VARCHAR(11)" +
+                "type VARCHAR(1000)" +
+                "name VARCHAR(1000)" +
+                "latitude VARCHAR(1000)" +
+                "longitude VARCHAR(1000)" +
+                "elevation VARCHAR(1000)" +
+                "continent VARCHAR(1000)" +
+                "iso_country VARCHAR(100)" +
+                "iso_region VARCHAR(100)" +
+                "municipality VARCHAR(1000)" +
+                "scheduled_service VARCHAR(1000)" +
+                "gps_code VARCHAR(1000)" +
+                "iata_code VARCHAR(1000)" +
+                "local_code VARCHAR(1000)" +
+                "home_link VARCHAR(1000)" +
+                "wikipedia_link VARCHAR(1000)" +
+                "keywords VARCHAR(1000)");
+        /*
+        // create continents table
+        st.executeUpdate("CREATE TABLE continents " +
+                "id int(11)" +
+                "name VARCHAR(100)" +
+                "code VARCHAR(3)" +
+                "wikipedia_link VARCHAR(1000)");
+
+        // create countries table
+        st.executeUpdate("CREATE TABLE countries " +
+                "id int(11)" +
+                "code VARCHAR(100)" +
+                "name VARCHAR(1000)" +
+                "continent VARCHAR(3)" +
+                "wikipedia_link VARCHAR(1000)" +
+                "keywords VARCHAR(1000)");
+
+        // create regions table
+        st.executeUpdate("CREATE TABLE regions " +
+                "id int(11)" +
+                "code VARCHAR(100)" +
+                "local_code tinytext" +
+                "name tinytext" +
+                "continent tinytext" +
+                "iso_country varchar(100)" +
+                "wikipedia_link tinytext" +
+                "keywords tinytext");
+        */
+
+        //Populate database tables with test data
+        st.executeUpdate("LOAD DATA INFILE 'file_name' " +
+                "INTO TABLE airports" +
+                "FIELDS TERMINATED BY ','" +
+                "LINES TERMINATED BY '\n'" +
+                "IGNORE 1 LINES");
+        /*
+        st.executeUpdate("LOAD DATA INFILE 'file_name' " +
+                "INTO TABLE continents" +
+                "FIELDS TERMINATED BY ','" +
+                "LINES TERMINATED BY '\n'" +
+                "IGNORE 1 LINES");
+        st.executeUpdate("LOAD DATA INFILE 'file_name' " +
+                "INTO TABLE countries" +
+                "FIELDS TERMINATED BY ','" +
+                "LINES TERMINATED BY '\n'" +
+                "IGNORE 1 LINES");
+        st.executeUpdate("LOAD DATA INFILE 'file_name' " +
+                "INTO TABLE regions" +
+                "FIELDS TERMINATED BY ','" +
+                "LINES TERMINATED BY '\n'" +
+                "IGNORE 1 LINES");
+                */
 
       } catch (Exception e) {
         System.err.println(e.getMessage());
