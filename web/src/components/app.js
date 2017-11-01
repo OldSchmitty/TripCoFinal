@@ -16,7 +16,8 @@ export default class App extends React.Component {
             svg: false,
             bottomRow: [],
             locations: [],
-            currentTrip: []
+            currentTrip: [],
+            units: "Miles"
         }
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
@@ -30,7 +31,7 @@ export default class App extends React.Component {
                     }
                 }
                 if(!dup) {
-                    this.state.currentTrip.push({name: locs[i]['name'], id: locs[i]['id']});
+                    this.state.currentTrip.push({name: locs[i]['name'], code: locs[i]['code']});
                 }
             }
             this.forceUpdate();
@@ -60,7 +61,33 @@ export default class App extends React.Component {
         this.makeTrip = (onClick) => {
             this.getItinerary()
         };
-
+        this.createUnitsButton = (onClick) => {
+            return (
+                    <button type='button'
+                            className={'btn btn-primary'}
+                            onClick={ () => this.changeUnits(onClick) }>
+                        {this.state.units}
+                    </button>
+            );
+        };
+        this.buttons = props => {
+            return(
+                <ButtonGroup className='my-custom-class' sizeClass='btn-group-md'>
+                    {this.createTripButton()}
+                    {this.createUnitsButton()}
+                    </ButtonGroup>
+            )
+        }
+        this.changeUnits = (onClick) => {
+            if(this.state.units.valueOf() === 'Kilometers') {
+                this.setState({units: 'Miles'});
+                console.log("Changing Units to Miles");
+            }
+            if(this.state.units.valueOf() === "Miles") {
+                this.setState({units: 'Kilometers'});
+                console.log("Changing Units to Kilometers");
+            }
+        }
     };
 
 
@@ -113,9 +140,7 @@ export default class App extends React.Component {
         }
         if(this.state.svg){
             svg = this.state.serverReturned.svg;
-            //console.log("SVG: ", svg);
         }
-
 
         return (
             <div className="app-container">
@@ -140,6 +165,7 @@ export default class App extends React.Component {
                             <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>index</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
+
                     <div className = "search-button" style={{width:"33%"}}>
                         <BootstrapTable data={this.state.currentTrip}
                                         selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)'}}
@@ -148,7 +174,7 @@ export default class App extends React.Component {
                                         ref='tripTable'
                                         deleteRow
 
-                                        options={{insertBtn:this.createTripButton}}
+                                        options={{btnGroup:this.buttons}}
                                         insertRow>
                             <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>Current Trip</TableHeaderColumn>
                         </BootstrapTable>
@@ -251,11 +277,13 @@ export default class App extends React.Component {
         let queries = this.getTripTableData();
 
         for (let i in queries) {
-            trip.push(queries[i]['id']);
+            trip.push(queries[i]['code']);
         }
+
         let newMap = {
             queries : trip,
             doWhat: "plan",
+            units: this.state.units,
         };
         try{
             let jsonReturned = await fetch(`http://localhost:4567/receive`,
@@ -267,7 +295,6 @@ export default class App extends React.Component {
             // Wait for server to return and convert it to json.
             let ret = await jsonReturned.json();
             // Log the received JSON to the browser console
-            console.log("Got back plan");
             // set the serverReturned state variable to the received json.
             // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
 
@@ -294,6 +321,7 @@ export default class App extends React.Component {
         let newMap = {
             queries : [input],
             doWhat: "query",
+            units: this.state.units,
         };
         try {
             // Attempt to send `newMap` via a POST request
@@ -318,8 +346,8 @@ export default class App extends React.Component {
             let trip = [];
             let counter = 0;
             for (let i in serverLocations){
-                trip.push(serverLocations[i]["map"]["id"]);
-                this.state.locations.push({name:serverLocations[i]["map"]["name"],id:serverLocations[i]["map"]["id"], index:counter});
+                trip.push(serverLocations[i]["map"]["code"]);
+                this.state.locations.push({name:serverLocations[i]["map"]["name"],code:serverLocations[i]["map"]["code"], index:counter});
                 counter++;
             }
             this.forceUpdate();

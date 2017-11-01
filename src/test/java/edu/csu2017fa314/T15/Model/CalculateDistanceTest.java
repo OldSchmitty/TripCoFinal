@@ -1,5 +1,6 @@
 package edu.csu2017fa314.T15.Model;
 
+import static edu.csu2017fa314.T15.Model.CalculateDistance.setMiles;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -16,7 +17,7 @@ public class CalculateDistanceTest {
 
   @Before
   public void setUp() throws Exception {
-    cd = new CalculateDistance();
+    setMiles();
   }
 
   /**
@@ -81,6 +82,20 @@ public class CalculateDistanceTest {
      * 40°24'28.9"N, 105°06'52.1"W and 38°56'31" N,105°9'28" W is 101 mile apart
      */
     assertEquals(101,
+        CalculateDistance.findDistanceBetween(
+            "40°24'28.9\"N",
+            "105°06'52.1\"W",
+            "38°56'31\" N",
+            "105°9'28\" W"));
+  }
+
+  @Test
+  public void findDistanceBetweenKM() throws Exception {
+    /*
+     * 40°24'28.9"N, 105°06'52.1"W and 38°56'31" N,105°9'28" W is 101 mile apart
+     */
+    CalculateDistance.setKilometers();
+    assertEquals(163,
         CalculateDistance.findDistanceBetween(
             "40°24'28.9\"N",
             "105°06'52.1\"W",
