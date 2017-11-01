@@ -1,0 +1,20 @@
+[
+  {
+    "latitude": "40°33\u203233\u2033N",
+    "name": "Fort Collins",
+    "id": "1",
+    "longitude": "105°4\u203241\u2033W"
+  },
+  {
+    "latitude": "39°45\u203243\u2033N",
+    "name": "Denver",
+    "id": "2",
+    "longitude": "104°52\u203252\u2033W"
+  },
+  {
+    "latitude": "39°15\u203250\u2033N",
+    "name": "Limon",
+    "id": "3",
+    "longitude": "103°41\u203232\u2033W"
+  }
+]
