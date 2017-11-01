@@ -1,9 +1,6 @@
 package edu.csu2017fa314.T15.Model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
 
 public class Itinerary {
 
