@@ -82,7 +82,7 @@ bower.json
 /node_modules
 
 # Ignore Test Made Files#
-/data/test_output
+#/data/test_output
 
 # Ignore Output Files #
 /data/output
