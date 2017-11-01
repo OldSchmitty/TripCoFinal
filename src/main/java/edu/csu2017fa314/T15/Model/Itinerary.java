@@ -55,27 +55,14 @@ public class Itinerary {
      * @param id
      * @return
      */
-    private Integer nearestNeighbor(Integer id, ArrayList<Integer> remainingKeys){
-        Integer nearest = -1;
-        long nearDist = -1;
-        // loop through remaining keys
-        for (Integer key : remainingKeys){
-            long newDist = distanceTable.getDistance(id, key);
-            if (nearDist < 0 || newDist < nearDist){
-                nearest = key;
-                nearDist = newDist;
-            }
 
-        }
-        currentDistance+=nearDist;
-        return nearest;
-    }
 
     /**
      * Determine the shortest path to all destinations
      */
     private void shortestPath(){
 
+        NearestNeighbor nn = new NearestNeighbor(distanceTable, currentDistance);
         Integer[] currentPath = new Integer[mapCopy.length+1];
 
         // try all possible destinations as the starting point
@@ -96,7 +83,7 @@ public class Itinerary {
             // loop remaining keys to find shortest path
             int count = 1;
             while (!remainingKeys.isEmpty()){
-                Integer destinationID = nearestNeighbor(currentID, remainingKeys);
+                Integer destinationID = nn.nearestNeighbor(currentID, remainingKeys);
                 // add destination to path and remove from remaining
                 currentPath[count]=destinationID;
                 count++;
