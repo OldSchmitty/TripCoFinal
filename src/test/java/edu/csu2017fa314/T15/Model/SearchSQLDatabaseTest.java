@@ -69,24 +69,24 @@ public class SearchSQLDatabaseTest {
         // make airports table in TestDatabase314
         st.executeUpdate("DROP TABLE IF EXISTS airports");
         st.executeUpdate("CREATE TABLE airports " +
-                "id int(11)" +
-                "code VARCHAR(11)" +
-                "type VARCHAR(1000)" +
-                "name VARCHAR(1000)" +
-                "latitude VARCHAR(1000)" +
-                "longitude VARCHAR(1000)" +
-                "elevation VARCHAR(1000)" +
-                "continent VARCHAR(1000)" +
-                "iso_country VARCHAR(100)" +
-                "iso_region VARCHAR(100)" +
-                "municipality VARCHAR(1000)" +
-                "scheduled_service VARCHAR(1000)" +
-                "gps_code VARCHAR(1000)" +
-                "iata_code VARCHAR(1000)" +
-                "local_code VARCHAR(1000)" +
-                "home_link VARCHAR(1000)" +
-                "wikipedia_link VARCHAR(1000)" +
-                "keywords VARCHAR(1000)");
+                "(id int(11)," +
+                "code VARCHAR(11)," +
+                "type VARCHAR(1000)," +
+                "name VARCHAR(1000)," +
+                "latitude VARCHAR(1000)," +
+                "longitude VARCHAR(1000)," +
+                "elevation VARCHAR(1000)," +
+                "continent VARCHAR(1000)," +
+                "iso_country VARCHAR(100)," +
+                "iso_region VARCHAR(100)," +
+                "municipality VARCHAR(1000)," +
+                "scheduled_service VARCHAR(1000)," +
+                "gps_code VARCHAR(1000)," +
+                "iata_code VARCHAR(1000)," +
+                "local_code VARCHAR(1000)," +
+                "home_link VARCHAR(1000)," +
+                "wikipedia_link VARCHAR(1000)," +
+                "keywords VARCHAR(1000))");
         /*
         // create continents table
         st.executeUpdate("CREATE TABLE continents " +
@@ -117,10 +117,10 @@ public class SearchSQLDatabaseTest {
         */
 
         //Populate database tables with test data
-        st.executeUpdate("LOAD DATA INFILE 'file_name' " +
-                "INTO TABLE airports" +
-                "FIELDS TERMINATED BY ','" +
-                "LINES TERMINATED BY '\n'" +
+        st.executeUpdate("LOAD DATA LOCAL INFILE '" + System.getProperty("user.dir")+"/data/test_input/airports.csv' " +
+                "INTO TABLE airports " +
+                "FIELDS TERMINATED BY ',' " +
+                "LINES TERMINATED BY '\n' " +
                 "IGNORE 1 LINES");
         /*
         st.executeUpdate("LOAD DATA INFILE 'file_name' " +
@@ -139,7 +139,11 @@ public class SearchSQLDatabaseTest {
                 "LINES TERMINATED BY '\n'" +
                 "IGNORE 1 LINES");
                 */
-
+        // Test to see data
+      ResultSet r = st.executeQuery("select * from airports");
+      while(r.next()){
+        System.out.println(r.getString("name"));
+      }
       } catch (Exception e) {
         System.err.println(e.getMessage());
         assertTrue(false);
