@@ -5,6 +5,7 @@ import java.security.InvalidParameterException;
 import java.sql.Connection; // https://docs.oracle.com/javase/tutorial/jdbc/basics/index.html
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager; // https://www.tutorialspoint.com/jdbc/
+import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -84,10 +85,10 @@ public class SearchSQLDatabase {
   public Destination[] query(String[] searchFor, String[] inColumns)
       throws SQLException {
     Destination[] rt;
-    String qry  = makeQueryStatement(searchFor, inColumns);
+    //PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);
     try {
-      try (Statement st = conn.createStatement()) {
-        ResultSet rs = st.executeQuery(qry);
+      try (PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);) {
+        ResultSet rs = qry.executeQuery();
         ResultSetMetaData meta = rs.getMetaData();
         int size = meta.getColumnCount() + 1;
         int numRows = 0;
@@ -117,79 +118,66 @@ public class SearchSQLDatabase {
   }
 
   /**
-   * Builds the string for the query
+   * Builds builds a prepared statement based on a search type
    * @param searchFor What to search for
-   * @param inColumns Where to search
-   * @return Complete query string
+   * @param searchType Where to search
+   *                    <p>"*" default search</p>
+   *                    <p>"CODE" airport id/code</p>
+   * @return PreparedStatement
    */
-  public String makeQueryStatement(String[] searchFor, String[] inColumns) throws SQLException {
+  private PreparedStatement makeQueryStatement(String[] searchFor, String[] searchType) throws SQLException {
     if(searchFor.length == 0)
     { throw new IllegalArgumentException("No items to search for\n");}
-    if(inColumns.length == 0)
+    if(searchType.length == 0)
     { throw new IllegalArgumentException("No Columns to search for\n");}
-    String search = "";
+    String search;
     String where;
-    String front = "SELECT * FROM " + table + " WHERE";
+    String front = "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
+        + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports ON airports.iso_region = regions.code WHERE ";
     if(searchFor.length > 1)
     {
-      where = "IN ( ";
+      search = " ( ";
       for (String s: searchFor) {
-        where += "'" + s + "' ,";
+        search += "'" + s + "' ,";
       }
-      where = where.substring(0, where.length() -1);
-      where += " )";
+      search = search.substring(0, search.length() -1);
+      search += " )";
     }
     else{
-      where = "LIKE '%" + searchFor[0] +"%'";
+      search = " '%" + searchFor[0] +"%'";
     }
-    if(inColumns[0].equals("*")) {
-      try {
-        Statement st = conn.createStatement();
-        try {
-          ResultSet rs = st.executeQuery("Select * from " + table);
-          ResultSetMetaData meta = rs.getMetaData();
-          int stop = meta.getColumnCount() +1;
-          for (int i=2; i <stop;){
-            search += " " + meta.getColumnName(i) + " " + where;
-            if(++i != stop){
-              search += " OR";
-            }
-          }
-          rs.close();
+    PreparedStatement rt;
+    try {
+      if(searchType[0].equals("*")) {
 
-        } finally { st.close(); }
-      } catch (SQLException e) {
-        System.err.printf("SearchSQLDatabase:makeQueryStatement error "
-            + "in getting column names\n%s\n", e.getMessage());
-        throw e;
-      }
+        where = "airports.name like ? or municipality like ? or regions.name like ? "
+            + "or countries.name like ? or continents.name like ? limit 100";
+        rt = conn.prepareStatement(front + where);
+        rt.setString(1, search);
+        rt.setString(2, search);
+        rt.setString(3, search);
+        rt.setString(4, search);
+        rt.setString(5, search);
+
+
+    } else if(searchType[0].equals("CODE")){
+      where = "airports.code in ?";
+      rt = conn.prepareStatement(front+where);
+      rt.setString(1, search);
     }
     else {
-      search = " " + inColumns[0] + " " + where;
-    }
+      throw new IllegalArgumentException("Invalid search term " + searchType[0] + "\n");}
+    } catch (SQLException e) {
+    System.err.printf("SearchSQLDatabase:makeQueryStatement error "
+        + "in getting column names\n%s\n", e.getMessage());
+    throw e;
+  }
 
-    return front + search + "LIMIT 100";
+    return rt;
   }
 
   public void setTable(String t){
     this.table = t;
   }
 
-  public static void main(String[] args){
-    String travis = getenv("TRAVIS");
-    if (travis == null)
-    {
-      try {
-        String[] login = {"josiahm", "831085445"};
-        SearchSQLDatabase test = new SearchSQLDatabase(login);
-        String[] ser = {"Denver"};
-        String[] id = {"ID"};
-        Destination[] rt = test.query(ser);
-        test.close();
-      } catch (Exception e){
-        System.err.println(e.getMessage());
-
-      }
-    }
-  }
 }

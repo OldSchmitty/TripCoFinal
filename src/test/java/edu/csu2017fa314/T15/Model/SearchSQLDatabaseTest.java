@@ -169,7 +169,7 @@ public class SearchSQLDatabaseTest {
    }
    else{
      try {
-       sql = new SearchSQLDatabase(schoolLogin, schoolUrl);
+       sql = new SearchSQLDatabase(schoolLogin);
      } catch (Exception e) /* should not happen*/ {
        System.err.println(e.getMessage());
        assertTrue(false);
