@@ -142,11 +142,11 @@ public class SearchSQLDatabaseTest {
                 "IGNORE 1 LINES");
 
         // Test to see data
-      ResultSet r = st.executeQuery("select * from airports");
+      /*ResultSet r = st.executeQuery("select * from airports");
       while(r.next()){
         System.out.println(r.getString("name"));
       }
-
+      */
       } catch (Exception e) {
         System.err.println(e.getMessage());
         assertTrue(false);
