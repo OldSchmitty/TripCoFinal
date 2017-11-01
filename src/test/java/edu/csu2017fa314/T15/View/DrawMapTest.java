@@ -68,7 +68,7 @@ public class DrawMapTest {
         catch (RuntimeException e){
             assertFalse("Write Failed to run", true);
         }
-        assertTrue(new File(path+ "TestDrawPath.svg").exists());
+        assertTrue(new File(path+ "TestDrawPathHoriz.svg").exists());
     }
 
     /**
@@ -84,13 +84,12 @@ public class DrawMapTest {
         catch (RuntimeException e){
             assertFalse("Write Failed to run", true);
         }
-        assertTrue(new File(path+ "TestDrawPath.svg").exists());
+        assertTrue(new File(path+ "TestDrawPathVert.svg").exists());
     }
 
     /**
      * Tests to see if empty svg file is made
      */
-    @Ignore
     @Test
     public void write(){
         try{
@@ -112,7 +111,6 @@ public class DrawMapTest {
         assertNotNull(map);
     }
 
-    @Ignore
     @Test
     public void close() throws Exception {
         try{
@@ -123,5 +121,21 @@ public class DrawMapTest {
             //
         }
         assertTrue(worked);
+    }
+
+    /**
+     * Test to see if offset works on world map
+     */
+    @Test
+    public void atEquator(){
+        try{
+            d = new DrawMap(path + "TestDrawPathEquator.svg", baseFile);
+            d.addEdge("0", "0","1", "1"); //Need to be larger then a pixel to work
+            d.write();
+        }
+        catch (RuntimeException e){
+            assertFalse("Write Failed to run", true);
+        }
+        assertTrue(new File(path+ "TestDrawPathEquator.svg").exists());
     }
 }

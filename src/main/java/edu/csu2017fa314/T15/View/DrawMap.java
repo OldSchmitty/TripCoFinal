@@ -16,7 +16,7 @@ public class DrawMap {
   private int edgeLoc = 0; //What element[i] the edges are at
   private double xOffSet = (1024.0)/(-360);
   private double yOffSet = (512.0)/(180);
-  ClassLoader classloader = getClass().getClassLoader();
+  private ClassLoader classloader = getClass().getClassLoader();
   private InputStream baseFile = classloader.getResourceAsStream("images/world.svg");
   private BufferedWriter writer;
 
@@ -24,7 +24,7 @@ public class DrawMap {
    * <p>Initializes elements to draw SVG</p>
    * @param path - where to build file
    */
-  public DrawMap(final String path, String baseFile){
+  private DrawMap(final String path, String baseFile){
     this.path = path;
     this.elements = new ArrayList<>();
     //svgHeader();
@@ -36,11 +36,6 @@ public class DrawMap {
   public DrawMap(){
 
   }
-
-  /**
-   * Returns the map base path
-   * @return The current file to used as a base map
-   */
 
   /**
    * Sets the SVG header
@@ -116,9 +111,8 @@ public class DrawMap {
   }
 
   public String mapString(){
-    String rt = "";
-    rt = rt.concat(elements.get(0) + elements.get(1));
-    for (int i = 2; i < elements.size(); i++){
+    String rt = elements.get(0);
+    for (int i = 1; i < elements.size(); i++){
       rt = rt.concat( " <g>\n"+elements.get(i) + "\n </g>\n");
     }
 
@@ -126,7 +120,7 @@ public class DrawMap {
     return rt;
   }
 
-  public void addFromFile(){
+  private void addFromFile(){
     String baseMap= "";
     String line;
 
@@ -134,19 +128,23 @@ public class DrawMap {
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(
               baseFile, "UTF-8"));
-      //for (int i = 0; i < 9; i++) {
-      //  reader.readLine(); // Skip Header info
-      //}
-      //baseMap = baseMap.concat("<!-- Following code provided by CS314 Instructors -->\n");
-      //baseMap = baseMap.concat("<!-- Created with Inkscape (http://www.inkscape.org/) -->\n");
-      line=reader.readLine();
-      while(!line.equalsIgnoreCase("</svg>")) //stop at last line
+
+      line = reader.readLine();
+      baseMap= baseMap.concat(line +"\n");
+      baseMap = baseMap.concat("<!-- Following code provided by CS314 Instructors -->\n");
+
+      line = reader.readLine();
+      while(!line.contains("</svg>")) //stop at last line
       {
         baseMap = baseMap.concat(line + "\n");
-        line=reader.readLine();
+        line = reader.readLine();
 
       }
-      baseMap = baseMap.concat("<!-- T15 code -->\n");
+
+      baseMap = baseMap.concat(line.replaceAll("</svg>", "") + "\n");
+      baseMap = baseMap.concat("<!-- T15 Code -->\n");
+
+
       reader.close();
     } catch (java.io.IOException e) {
       throw new RuntimeException("Error opening file " + baseFile + ".", e);
