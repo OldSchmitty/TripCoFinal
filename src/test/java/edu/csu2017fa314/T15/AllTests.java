@@ -19,7 +19,8 @@ import junit.framework.JUnit4TestAdapter;
     SearchSQLDatabaseTest.class,
     ItineraryTest.class,
     EdgeTest.class,
-    ServerTest.class
+    ServerTest.class,
+    TwoOptTest.class
 })
 
 public class AllTests
