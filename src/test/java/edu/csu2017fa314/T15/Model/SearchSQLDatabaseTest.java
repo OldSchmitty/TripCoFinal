@@ -26,13 +26,15 @@ import org.junit.Test;
 public class SearchSQLDatabaseTest {
 
   private SearchSQLDatabase sql; // test class
-  private static final String url = "jdbc:mysql://localhost"; //172.0.0.1
-  private static final String[] login = {"root", ""}; // Login info
+  private static final String schoolUrl = "jdbc:mysql://faure.cs.colostate.edu/cs314";
+  private static final String[] schoolLogin = {"josiahm", "831085445"};
+  private static final String travisUrl = "jdbc:mysql://localhost"; //172.0.0.1
+  private static final String[] travisLogin = {"root", ""}; // Login info
   private static Statement st; // statements to sql server
   private static Connection conn; // connection to serve
   private static String testData = "."+ File.separator+"data" + File.separator +
       "test_input" + File.separator + "DataBaseSetup.csv"; // data file for population
-  private static boolean runTests = true;
+  private static boolean notCSU = true;
 
   /**
    * Makes a SQL server at the localhost(172.0.0.1), makes a database called TestDatabase314,
@@ -48,18 +50,18 @@ public class SearchSQLDatabaseTest {
         // School computers are not set to local host
         String host = InetAddress.getLocalHost().getHostAddress();
         if( !host.equals("127.0.0.1")) {
-          runTests = false;
+          notCSU = false;
         }
       } catch (UnknownHostException e) {
         e.printStackTrace();
       }
     }
     // Setup if not on school computers
-    if(runTests) {
+    if(notCSU) {
       try {
         // Connect to to database
         Class.forName("com.mysql.jdbc.Driver");
-        conn = DriverManager.getConnection(url, login[0], login[1]);
+        conn = DriverManager.getConnection(travisUrl, travisLogin[0], travisLogin[1]);
         st = conn.createStatement();
         //Remove old database if it exists and make new one
         st.executeUpdate("DROP DATABASE IF EXISTS TestDatabase314");
@@ -144,6 +146,7 @@ public class SearchSQLDatabaseTest {
       while(r.next()){
         System.out.println(r.getString("name"));
       }
+
       } catch (Exception e) {
         System.err.println(e.getMessage());
         assertTrue(false);
@@ -156,14 +159,23 @@ public class SearchSQLDatabaseTest {
    */
   @Before
   public void setup(){
-    assumeTrue(runTests); // not on school computer
-    try {
-      sql = new SearchSQLDatabase(login, url + "/TestDatabase314");
-    } catch (Exception e) /* should not happen*/ {
-      System.err.println(e.getMessage());
-      assertTrue(false);
-    }
-    sql.setTable("destinations");
+   if(notCSU){
+     try {
+       sql = new SearchSQLDatabase(travisLogin, travisUrl + "/TestDatabase314");
+     } catch (Exception e) /* should not happen*/ {
+       System.err.println(e.getMessage());
+       assertTrue(false);
+     }
+   }
+   else{
+     try {
+       sql = new SearchSQLDatabase(schoolLogin, schoolUrl);
+     } catch (Exception e) /* should not happen*/ {
+       System.err.println(e.getMessage());
+       assertTrue(false);
+     }
+   }
+
   }
 
   /**
@@ -188,7 +200,7 @@ public class SearchSQLDatabaseTest {
    */
   @Test
   public void queryOne(){
-    String[] find = {"Salida"};
+    String[] find = {"Wink Tv Heliport"};
     Destination[] rt = null;
     try {
       rt = sql.query(find);
@@ -196,7 +208,7 @@ public class SearchSQLDatabaseTest {
       assertTrue(false);
     }
     assertTrue(rt.length == 1);
-    assertTrue("Harriet Alexander Field".equals(rt[0].getName()));
+    assertTrue("Wink Tv Heliport".equals(rt[0].getName()));
   }
 
   /**
@@ -204,7 +216,7 @@ public class SearchSQLDatabaseTest {
    */
   @Test
   public void queryMany(){
-    String[] find = {"Bennet"};
+    String[] find = {"Winkler"};
     Destination[] rt = null;
     try {
       rt = sql.query(find);
@@ -212,9 +224,9 @@ public class SearchSQLDatabaseTest {
       assertTrue(false);
     }
 
-    assertTrue(rt.length == 7);
+    assertTrue(rt.length == 3);
     // Test to see if the correct airports were found
-    String[] ids ={"0CO3", "CD14", "76CO", "87CO", "CD09", "CO02", "96CO"};
+    String[] ids ={"4XA8", "CKZ7", "KINK"};
     for (int i = 0; i < ids.length; i++) {
       assertEquals(rt[i].getId(), ids[i]);
     }
@@ -225,7 +237,7 @@ public class SearchSQLDatabaseTest {
    */
   @Test
   public void queryNone(){
-    String[] find = {"Fort Collins"};
+    String[] find = {"I SHOULD NOT EXIST"};
     Destination[] rt = null;
     try {
       rt = sql.query(find);
@@ -238,15 +250,15 @@ public class SearchSQLDatabaseTest {
 
   @Test
   public void queryIDSearch(){
-    String[] find ={"0CO3", "CD14", "76CO", "87CO", "CD09", "CO02", "96CO"};
-    String[] in = {"ID"};
+    String[] find ={"09CO", "3FL6", "4XA8"};
+    String[] in = {"CODE"};
     Destination[] rt = null;
     try {
       rt = sql.query(find, in);
     } catch (SQLException e) {
       assertTrue(false);
     }
-    assertTrue(rt.length == 7);
+    assertTrue(rt.length == 3);
     for (int i = 0; i < find.length; i++) {
       assertEquals(rt[i].getId(),find[i]);
     }
@@ -258,88 +270,14 @@ public class SearchSQLDatabaseTest {
     String[] in = {"BAD"};
     Destination[] rt = sql.query(find, in);
   }
-  /**
-   * Checks making query statement for all of table
-   */
-  @Test
-  public void makeQueryStatment1(){
-    try {
-      String[] s = {"Salida"};
-      String[] i = {"*"};
-      String rt = sql.makeQueryStatement(s,i);
-      //System.out.println(rt);
-      ResultSet r = st.executeQuery(rt);
-      r.last();
-      assertEquals(1, r.getRow());
-    } catch (SQLException e) {
-      System.err.println(e.getMessage());
-      assertTrue(false);
-    }
-  }
 
-  /**
-   * Check making query statement for one column
-   */
-  @Test
-  public void makeQueryStatment2(){
-
-    try {
-      String[] s = {"KTAD", "KSTK", "CD02", "KSBS" ,"KANK"};
-      String[] i = {"id"};
-      String rt = sql.makeQueryStatement(s,i);
-      //System.out.println(rt);
-      ResultSet r = st.executeQuery(rt);
-      r.last();
-      assertEquals(5, r.getRow());
-    } catch (SQLException e) {
-      System.err.println(e.getMessage());
-      assertTrue(false);
-    }
-  }
-
-  /**
-   * Test to see invalid search cause errors
-   */
-  @Test
-  public void makeQueryStatment3(){
-    String[] s = {};
-    String[] i = {};
-    try {
-      sql.makeQueryStatement(s,i);
-      assertTrue(false);
-    }catch (IllegalArgumentException e) {
-      assertEquals(e.getMessage(), "No items to search for\n");
-    } catch (SQLException e) {
-      assertTrue(false);
-    }
-    String[] s2 = {"NO"};
-    try {
-      sql.makeQueryStatement(s2,i);
-      assertTrue(false);
-    }catch (IllegalArgumentException e) {
-      assertEquals(e.getMessage(), "No Columns to search for\n");
-    } catch (SQLException e) {
-      assertTrue(false);
-    }
-  }
-
-  /**
-   * Tries to make a bad connection Bugged
-   * @throws SQLException Could not connect
-   */
-  @Ignore("Hanging when not connected to CSU")
-  @Test (expected = SQLException.class)
-  public void cannotConnectToServer() throws SQLException {
-    String[] bad = {"testlogin", "bad"};
-    sql = new SearchSQLDatabase(bad);
-  }
 
   /**
    * Remove test database from sql server and close connections at end of test
    */
   @AfterClass
   public static void deleteDatabase() {
-    if (runTests) {
+    if (notCSU) {
       try {
         st.executeUpdate("DROP DATABASE IF EXISTS TestDatabase314");
         st.close();
