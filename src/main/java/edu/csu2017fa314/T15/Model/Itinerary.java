@@ -84,6 +84,7 @@ public class Itinerary {
             int count = 1;
             while (!remainingKeys.isEmpty()){
                 Integer destinationID = nn.nearestNeighbor(currentID, remainingKeys);
+                currentDistance+=nn.getCurrentDistance();
                 // add destination to path and remove from remaining
                 currentPath[count]=destinationID;
                 count++;

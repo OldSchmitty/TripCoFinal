@@ -41,4 +41,6 @@ public class NearestNeighbor {
         return nearest;
     }
 
+
+    public long getCurrentDistance(){ return currentDistance; }
 }
