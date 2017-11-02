@@ -13,7 +13,7 @@ public class Destination {
 
     Destination(String id, String name, String city, String latitude, String longitude, String elevation){
        map = new HashMap<String, String>();
-       map.put("id", id);
+       map.put("code", id);
        map.put("name", name);
        map.put("city", city);
        map.put("latitude", latitude);
@@ -36,7 +36,7 @@ public class Destination {
 
     public String get(String key){ return map.get(key); }
 
-    public String getId(){ return map.get("id"); }
+    public String getId(){ return map.get("code"); }
 
     public String getName(){ return map.get("name"); }
 

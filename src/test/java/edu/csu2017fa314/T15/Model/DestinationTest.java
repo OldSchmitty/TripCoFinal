@@ -62,7 +62,7 @@ public class DestinationTest {
   @Test
   public void testGetKeys(){
   	b = new Destination("0", "Test Destination", "Test City", "01", "02", "1000");
-	assertEquals(b.getKeys().toString(), "[elevation, city, latitude, name, id, longitude]");
+	assertEquals(b.getKeys().toString(), "[elevation, code, city, latitude, name, longitude]");
   }
 
 }
