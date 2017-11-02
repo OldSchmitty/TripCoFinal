@@ -43,4 +43,5 @@ public class NearestNeighbor {
 
 
     public long getCurrentDistance(){ return currentDistance; }
+    public void setCurrentDistance(long currentDistance){ this.currentDistance = currentDistance;}
 }
