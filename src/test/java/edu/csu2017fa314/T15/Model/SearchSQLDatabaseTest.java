@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.InvalidParameterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -264,7 +265,7 @@ public class SearchSQLDatabaseTest {
     }
   }
 
-  @Test (expected = SQLException.class)
+  @Test (expected = IllegalArgumentException.class)
   public void queryBADFeild() throws SQLException {
     String[] find ={"0CO3"};
     String[] in = {"BAD"};

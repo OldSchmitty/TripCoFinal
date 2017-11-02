@@ -14,10 +14,10 @@ import java.util.HashMap;
 
 public class SearchSQLDatabase {
 
-  private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
-  private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314?connectTimeout=3000";
+  static final private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
+  static final private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
   private Connection conn;
-  private String table = "airports";
+
 
   /**
    * Constructor for connecting to the CS314 sql database.
@@ -25,7 +25,7 @@ public class SearchSQLDatabase {
    *                  [1] - student number
    */
   public SearchSQLDatabase(String[] loginInfo) throws SQLException {
-    this(loginInfo, "jdbc:mysql://faure.cs.colostate.edu/cs314");
+    this(loginInfo, myUrl);
   }
 
   /**
@@ -85,6 +85,7 @@ public class SearchSQLDatabase {
   public Destination[] query(String[] searchFor, String[] inColumns)
       throws SQLException {
     Destination[] rt;
+    final String[] tables ={".continents", ".countries", "regions", ""};
     //PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);
     try {
       try (PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);) {
@@ -98,12 +99,20 @@ public class SearchSQLDatabase {
         }
         rt = new Destination[numRows];
         int count = 0;
+
         while (rs.next()) {
+          int tableCount = -1;
           Destination des = new Destination();
-          for (int i = 2; i < size; i++) {
+          for (int i = 1; i < size; i++) {
             String field = meta.getColumnName(i);
-            String info = rs.getString(field);
-            des.setValue(field, info);
+            String info = rs.getString(i);
+            if(!field.equals("id")){
+              des.setValue(field+tables[tableCount], info);
+            }
+            else
+            {
+              tableCount++;
+            }
           }
           des.setIdentifier(count);
           rt[count] = des;
@@ -138,13 +147,13 @@ public class SearchSQLDatabase {
     {
       search = " ( ";
       for (String s: searchFor) {
-        search += "'" + s + "' ,";
+        search += " ? ,";
       }
       search = search.substring(0, search.length() -1);
       search += " )";
     }
     else{
-      search = " '%" + searchFor[0] +"%'";
+      search = "%" + searchFor[0] +"%";
     }
     PreparedStatement rt;
     try {
@@ -159,11 +168,13 @@ public class SearchSQLDatabase {
         rt.setString(4, search);
         rt.setString(5, search);
 
-
-    } else if(searchType[0].equals("CODE")){
-      where = "airports.code in ?";
+      } else if(searchType[0].equals("CODE")){
+      where = "airports.code in "+ search;
       rt = conn.prepareStatement(front+where);
-      rt.setString(1, search);
+      for(int i = 0; i <searchFor.length; i++)
+      {
+        rt.setString(i+1, searchFor[i]);
+      }
     }
     else {
       throw new IllegalArgumentException("Invalid search term " + searchType[0] + "\n");}
@@ -175,9 +186,4 @@ public class SearchSQLDatabase {
 
     return rt;
   }
-
-  public void setTable(String t){
-    this.table = t;
-  }
-
 }
