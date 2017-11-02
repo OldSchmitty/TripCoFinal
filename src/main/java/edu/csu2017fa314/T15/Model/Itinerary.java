@@ -83,6 +83,7 @@ public class Itinerary {
             // loop remaining keys to find shortest path
             int count = 1;
             while (!remainingKeys.isEmpty()){
+                nn.setCurrentDistance(currentDistance);
                 Integer destinationID = nn.nearestNeighbor(currentID, remainingKeys);
                 currentDistance+=nn.getCurrentDistance();
                 // add destination to path and remove from remaining
