@@ -29,7 +29,7 @@ public class TwoOptTest {
         map[3] = b5;
         map[4] = b3;
 
-        Itinerary itinerary = new Itinerary(map);
+        Itinerary itinerary = new Itinerary(map, "2-Opt");
         ArrayList<Edge> path = itinerary.getShortestPath();
 
         assertEquals(itinerary.getDistance(), 2886);
@@ -39,7 +39,7 @@ public class TwoOptTest {
     public void test2(){
         String path =System.getProperty("user.dir") + "/data/input/COrand75.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap());
+        Itinerary i = new Itinerary(m.getMap(), "2-Opt");
         ArrayList<Edge> a = i.getShortestPath();
         assertEquals(2219, i.getDistance());
     }
@@ -49,7 +49,7 @@ public class TwoOptTest {
     public void test3(){
         String path =System.getProperty("user.dir") + "/data/input/airport.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap());
+        Itinerary i = new Itinerary(m.getMap(), "2-Opt");
         ArrayList<Edge> a = i.getShortestPath();
     }
 
@@ -57,7 +57,7 @@ public class TwoOptTest {
     public void test4(){
         String path =System.getProperty("user.dir") + "/data/input/sprint2heliport.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap());
+        Itinerary i = new Itinerary(m.getMap(), "3-Opt");
         ArrayList<Edge> a = i.getShortestPath();
     }
 }

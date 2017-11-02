@@ -32,7 +32,7 @@ public class ItineraryTest {
         map[2]= b4;
         map[3]= b5;
 
-        itinerary = new Itinerary(map);
+        itinerary = new Itinerary(map, "2-Opt");
         path = itinerary.getShortestPath();
     }
 
@@ -48,7 +48,7 @@ public class ItineraryTest {
     public void test2() {
         String path =System.getProperty("user.dir") + "/data/input/COrand50.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap());
+        Itinerary i = new Itinerary(m.getMap(),"2-Opt");
         ArrayList<Edge> a = i.getShortestPath();
         assertEquals(i.getDistance(), 1746);
     }
@@ -57,7 +57,7 @@ public class ItineraryTest {
     public void test3() {
         String path =System.getProperty("user.dir") + "/data/input/COrand75.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap());
+        Itinerary i = new Itinerary(m.getMap(), "2-Opt");
         ArrayList<Edge> a = i.getShortestPath();
         assertEquals(i.getDistance(), 2219);
     }
@@ -66,7 +66,7 @@ public class ItineraryTest {
     public void test4() {
         String path =System.getProperty("user.dir") + "/data/input/CO14ers.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap());
+        Itinerary i = new Itinerary(m.getMap(), "2-Opt");
         ArrayList<Edge> a = i.getShortestPath();
         assertEquals(i.getDistance(), 774);
     }
@@ -75,7 +75,7 @@ public class ItineraryTest {
     public void test5() {
         String path =System.getProperty("user.dir") + "/data/input/ski.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap());
+        Itinerary i = new Itinerary(m.getMap(), "2-Opt");
         ArrayList<Edge> a = i.getShortestPath();
         assertEquals(i.getDistance(), 650);
     }

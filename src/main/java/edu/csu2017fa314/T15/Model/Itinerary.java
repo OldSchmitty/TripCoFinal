@@ -11,12 +11,14 @@ public class Itinerary {
     private Table distanceTable;
     private boolean test;
     private long currentDistance;
+    private String opt;
 
     /**
      * build a table of edges
      * @param map
      */
-    public Itinerary(ArrayList<Destination> map){
+    public Itinerary(ArrayList<Destination> map, String opt){
+        this.opt = opt;
         mapCopy = new Destination[map.size()];
         mapCopy = map.toArray(mapCopy);
         keys = new ArrayList<Integer>();
@@ -34,7 +36,8 @@ public class Itinerary {
      * build a table of edges
      * @param map
      */
-    public Itinerary(Destination[] map){
+    public Itinerary(Destination[] map, String opt){
+        this.opt = opt;
         mapCopy = map;
         keys = new ArrayList<Integer>();
         for (Destination des : map){
@@ -58,6 +61,11 @@ public class Itinerary {
      * Determine the shortest path to all destinations
      */
     private void shortestPath(){
+
+        // if no opt is selected then do nothing
+        if(this.opt.equals("None"))
+            return;
+
 
         NearestNeighbor nn = new NearestNeighbor(distanceTable, currentDistance);
         Integer[] currentPath = new Integer[mapCopy.length+1];
@@ -97,12 +105,19 @@ public class Itinerary {
             currentDistance += distanceTable.getDistance(
                     currentPath[currentPath.length-2],currentPath[0]);
 
-            // Run 2Opt on each path
-            TwoOpt tOpt = new TwoOpt(distanceTable, currentPath);
-            currentPath = tOpt.getTwoOpt();
+            if(this.opt.equals("2-Opt")) {
+                // Run 2Opt on each path
+                TwoOpt tOpt = new TwoOpt(distanceTable, currentPath);
+                currentPath = tOpt.getTwoOpt();
 
-            // Check if the new path is shorter
-            currentDistance = tOpt.getDistance();
+                // Check if the new path is shorter
+                currentDistance = tOpt.getDistance();
+            }
+
+            if(this.opt.equals("3-Opt")){
+                // do nothing for now
+            }
+
             isShorter(currentPath);
             currentDistance = 0;
         }

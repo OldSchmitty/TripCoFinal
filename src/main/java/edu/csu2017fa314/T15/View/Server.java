@@ -89,7 +89,7 @@ public class Server {
             trip = sRec.planTrip();
             System.out.println(Arrays.toString(trip));
 
-            Itinerary i = new Itinerary(trip);
+            Itinerary i = new Itinerary(trip, sRec.getOpt());
             ArrayList<Edge> edges = i.getShortestPath();
             View v = new View(buildPath, baseMap);
             String svg = v.drawMapString(trip,edges);

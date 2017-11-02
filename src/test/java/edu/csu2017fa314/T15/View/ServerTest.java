@@ -25,7 +25,7 @@ public class ServerTest {
 
   @Test
   public void testServerRequest(){
-      ServerRequest sRec = new ServerRequest(test, "query", "Miles");
+      ServerRequest sRec = new ServerRequest(test, "query", "Miles", "2-Opt");
     }
 
   @Test
