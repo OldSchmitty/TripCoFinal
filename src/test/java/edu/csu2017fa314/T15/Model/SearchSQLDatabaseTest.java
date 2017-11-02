@@ -249,6 +249,9 @@ public class SearchSQLDatabaseTest {
 
   }
 
+  /**
+   * Searches by id
+   */
   @Test
   public void queryIDSearch(){
     String[] find ={"09CO", "3FL6", "4XA8"};
@@ -265,13 +268,16 @@ public class SearchSQLDatabaseTest {
     }
   }
 
+  /**
+   * Tests for invaild search terms
+   * @throws SQLException If error in sql code
+   */
   @Test (expected = IllegalArgumentException.class)
   public void queryBADFeild() throws SQLException {
     String[] find ={"0CO3"};
     String[] in = {"BAD"};
     Destination[] rt = sql.query(find, in);
   }
-
 
   /**
    * Remove test database from sql server and close connections at end of test

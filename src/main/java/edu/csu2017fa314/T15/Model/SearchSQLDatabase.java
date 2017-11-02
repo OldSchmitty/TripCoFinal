@@ -14,8 +14,17 @@ import java.util.HashMap;
 
 public class SearchSQLDatabase {
 
+  /**
+   * Driver for SQl Connection
+   */
   static final private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
+  /**
+   * Server location for school sql database
+   */
   static final private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
+  /**
+   * Connection to sql sever
+   */
   private Connection conn;
 
 
@@ -85,7 +94,7 @@ public class SearchSQLDatabase {
   public Destination[] query(String[] searchFor, String[] inColumns)
       throws SQLException {
     Destination[] rt;
-    final String[] tables ={".continents", ".countries", "regions", ""};
+    final String[] tables ={".continents", ".countries", "regions", ""}; // list of tables in order of search
     //PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);
     try {
       try (PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);) {
@@ -101,17 +110,18 @@ public class SearchSQLDatabase {
         int count = 0;
 
         while (rs.next()) {
-          int tableCount = -1;
+          int tableCount = -1;// loop through the tables in search
           Destination des = new Destination();
           for (int i = 1; i < size; i++) {
             String field = meta.getColumnName(i);
             String info = rs.getString(i);
+            // Add the table to the search term to prevent overriding keys in desinations
             if(!field.equals("id")){
               des.setValue(field+tables[tableCount], info);
             }
             else
             {
-              tableCount++;
+              tableCount++; // used to skip id in returns and move table count
             }
           }
           des.setIdentifier(count);
@@ -139,10 +149,12 @@ public class SearchSQLDatabase {
     { throw new IllegalArgumentException("No items to search for\n");}
     if(searchType.length == 0)
     { throw new IllegalArgumentException("No Columns to search for\n");}
-    String search;
-    String where;
+    String search; // What we are searching for
+    String where; // What tables to search in
     String front = "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
-        + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports ON airports.iso_region = regions.code WHERE ";
+        + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
+        + "ON airports.iso_region = regions.code WHERE "; // Common start for all searches
+    // Looking for in (?,?,..)
     if(searchFor.length > 1)
     {
       search = " ( ";
@@ -152,13 +164,14 @@ public class SearchSQLDatabase {
       search = search.substring(0, search.length() -1);
       search += " )";
     }
+    //Basic query
     else{
       search = "%" + searchFor[0] +"%";
     }
     PreparedStatement rt;
     try {
+      // Search in all tables for possible matches
       if(searchType[0].equals("*")) {
-
         where = "airports.name like ? or municipality like ? or regions.name like ? "
             + "or countries.name like ? or continents.name like ? limit 100";
         rt = conn.prepareStatement(front + where);
@@ -168,20 +181,21 @@ public class SearchSQLDatabase {
         rt.setString(4, search);
         rt.setString(5, search);
 
-      } else if(searchType[0].equals("CODE")){
-      where = "airports.code in "+ search;
-      rt = conn.prepareStatement(front+where);
-      for(int i = 0; i <searchFor.length; i++)
-      {
+      } else if(searchType[0].equals("CODE")) {
+        // look by id
+        where = "airports.code in "+ search;
+        rt = conn.prepareStatement(front+where);
+        for(int i = 0; i <searchFor.length; i++) {
         rt.setString(i+1, searchFor[i]);
-      }
+        }
     }
     else {
-      throw new IllegalArgumentException("Invalid search term " + searchType[0] + "\n");}
+        // This should not happen yet
+        throw new IllegalArgumentException("Invalid search term " + searchType[0] + "\n");}
     } catch (SQLException e) {
-    System.err.printf("SearchSQLDatabase:makeQueryStatement error "
+      System.err.printf("SearchSQLDatabase:makeQueryStatement error "
         + "in getting column names\n%s\n", e.getMessage());
-    throw e;
+      throw e;
   }
 
     return rt;
