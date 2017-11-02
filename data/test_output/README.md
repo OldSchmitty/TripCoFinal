@@ -1,0 +1,1 @@
+This directory is for all test output data created by maven and travis when packaging
