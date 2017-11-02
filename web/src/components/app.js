@@ -17,7 +17,8 @@ export default class App extends React.Component {
             bottomRow: [],
             locations: [],
             currentTrip: [],
-            units: "Miles"
+            units: "Miles",
+            opt: "None"
         }
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
