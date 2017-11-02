@@ -12,6 +12,8 @@ public class DrawMapTest {
     private String path = "."+ File.separator+"data" + File.separator + "test_output" + File.separator;
     private String baseFile = "." + File.separator+"data" +
             File.separator + "resources" + File.separator + "colorado.svg";
+    private String worldBaseFile = "." + File.separator+"data" +
+            File.separator + "resources" + File.separator + "world.svg";
     private DrawMap d;
     private boolean worked;
 
@@ -21,10 +23,11 @@ public class DrawMapTest {
         worked = false;
     }
 
+
     /**
      *Draws an empty map of Colorado
      */
-    @Test
+ /*   @Test
     public void drawColorado(){
         try{
             d = new DrawMap(path + "TestDrawColo.svg", baseFile);
@@ -36,11 +39,11 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawColo.svg").exists());
     }
-
+*/
     /**
      * Draws a path from Fort Collins - Denver - Limon - Fort Collins
      */
-    @Test
+ /*   @Test
     public void addEdge(){
         try{
             d = new DrawMap(path + "TestDrawPath.svg", baseFile);
@@ -54,11 +57,11 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawPath.svg").exists());
     }
-
+*/
     /**
      * Draws a path straight across
      */
-    @Test
+/*    @Test
     public void addEdgeHorizonatal() {
         try{
             d = new DrawMap(path + "TestDrawPathHoriz.svg", baseFile);
@@ -70,11 +73,11 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawPathHoriz.svg").exists());
     }
-
+*/
     /**
      * Draws a path straight down
      */
-    @Test
+/*    @Test
     public void addEdgeVertical(){
         try{
             d = new DrawMap(path + "TestDrawPathVert.svg", baseFile);
@@ -86,11 +89,24 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawPathVert.svg").exists());
     }
+*/
+    @Test
+    public void crossPositive(){
+        try{
+            d = new DrawMap(path + "TestDrawPathCrossPositive.svg", worldBaseFile);
+            d.addEdge("90°N", "0°W","0°N", "0°W");
+            d.write();
+        }
+        catch (RuntimeException e){
+            assertFalse("Write Failed to run", true);
+        }
+        assertTrue(new File(path+ "TestDrawPathCrossPositive.svg").exists());
+    }
 
     /**
      * Tests to see if empty svg file is made
      */
-    @Test
+/*    @Test
     public void write(){
         try{
             d.write();
@@ -122,11 +138,11 @@ public class DrawMapTest {
         }
         assertTrue(worked);
     }
-
+*/
     /**
      * Test to see if offset works on world map
      */
-    @Test
+ /*   @Test
     public void atEquator(){
         try{
             d = new DrawMap(path + "TestDrawPathEquator.svg", baseFile);
@@ -138,4 +154,5 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawPathEquator.svg").exists());
     }
+    */
 }
