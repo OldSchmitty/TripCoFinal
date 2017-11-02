@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.InvalidParameterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -169,7 +170,9 @@ public class SearchSQLDatabaseTest {
    }
    else{
      try {
-       sql = new SearchSQLDatabase(schoolLogin, schoolUrl);
+
+       sql = new SearchSQLDatabase(schoolLogin);
+
      } catch (Exception e) /* should not happen*/ {
        System.err.println(e.getMessage());
        assertTrue(false);
@@ -248,6 +251,9 @@ public class SearchSQLDatabaseTest {
 
   }
 
+  /**
+   * Searches by id
+   */
   @Test
   public void queryIDSearch(){
     String[] find ={"09CO", "3FL6", "4XA8"};
@@ -264,13 +270,16 @@ public class SearchSQLDatabaseTest {
     }
   }
 
-  @Test (expected = SQLException.class)
+  /**
+   * Tests for invaild search terms
+   * @throws SQLException If error in sql code
+   */
+  @Test (expected = IllegalArgumentException.class)
   public void queryBADFeild() throws SQLException {
     String[] find ={"0CO3"};
     String[] in = {"BAD"};
     Destination[] rt = sql.query(find, in);
   }
-
 
   /**
    * Remove test database from sql server and close connections at end of test

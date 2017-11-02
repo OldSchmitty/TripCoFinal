@@ -1,11 +1,10 @@
 id,code,local_code,name,continent,iso_country,wikipedia_link,keywords
-306081,US-CO,CO,Colorado,NA,US,http://en.wikipedia.org/wiki/Colorado,NULL
-306085,US-FL,FL,Florida,NA,US,http://en.wikipedia.org/wiki/Florida,NULL
-306119,US-TX,TX,Texas,NA,US,http://en.wikipedia.org/wiki/Texas,NULL
-303296,CA-MB,MB,Manitoba,NA,CA,http://en.wikipedia.org/wiki/Manitoba,NULL
+306081,US-CO,CO,Colorado,NA,US,http://en.wikipedia.org/wiki/Colorado,
+306085,US-FL,FL,Florida,NA,US,http://en.wikipedia.org/wiki/Florida,
+306119,US-TX,TX,Texas,NA,US,http://en.wikipedia.org/wiki/Texas,
+303296,CA-MB,MB,Manitoba,NA,CA,http://en.wikipedia.org/wiki/Manitoba,
 303562,DE-TH,TH,Thuringia,EU,DE,http://en.wikipedia.org/wiki/Thuringia,Thueringen Freistaat Thüringen
 303556,DE-NW,NW,North Rhine-Westphalia,EU,DE,http://en.wikipedia.org/wiki/North_Rhine-Westphalia,Nordrhein-Westfalen
-306119,US-TX,TX,Texas,NA,US,http://en.wikipedia.org/wiki/Texas,NULL
 303367,CH-SG,SG,Canton of St. Gallen,EU,CH,http://en.wikipedia.org/wiki/St._Gallen,Sankt Gallen
-306098,US-MI,MI,Michigan,NA,US,http://en.wikipedia.org/wiki/Michigan,NULL
-306113,US-OR,OR,Oregon,NA,US,http://en.wikipedia.org/wiki/Oregon,NULL
+306098,US-MI,MI,Michigan,NA,US,http://en.wikipedia.org/wiki/Michigan,
+306113,US-OR,OR,Oregon,NA,US,http://en.wikipedia.org/wiki/Oregon,
