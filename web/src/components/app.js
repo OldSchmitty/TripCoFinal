@@ -76,6 +76,7 @@ export default class App extends React.Component {
                 <ButtonGroup className='my-custom-class' sizeClass='btn-group-md'>
                     {this.createTripButton()}
                     {this.createUnitsButton()}
+                    {this.createSelectButton()}
                     </ButtonGroup>
             )
         }
@@ -89,6 +90,24 @@ export default class App extends React.Component {
                 console.log("Changing Units to Kilometers");
             }
         }
+        this.createSelectButton = (onClick) => {
+            return(
+                <select
+                    onChange = {this.handleChange}
+                >
+                    <option value="None">None</option>
+                    <option value="Nearest Neighbor">Nearest Neighbor</option>
+                    <option value="2-Opt">2-Opt</option>
+                    <option value="3-Opt">3-Opt</option>
+                </select>
+            );
+        }
+
+        this.handleChange = (e) => {
+            console.log("Changing Opt to",e.target.value);
+            this.setState({opt:e.target.value});
+        }
+
     };
 
 
@@ -285,6 +304,7 @@ export default class App extends React.Component {
             queries : trip,
             doWhat: "plan",
             units: this.state.units,
+            opt: this.state.opt,
         };
         try{
             let jsonReturned = await fetch(`http://localhost:4567/receive`,
@@ -323,6 +343,7 @@ export default class App extends React.Component {
             queries : [input],
             doWhat: "query",
             units: this.state.units,
+            opt: this.state.opt,
         };
         try {
             // Attempt to send `newMap` via a POST request
