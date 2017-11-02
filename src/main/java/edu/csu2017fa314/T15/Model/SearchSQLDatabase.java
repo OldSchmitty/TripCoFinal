@@ -94,10 +94,10 @@ public class SearchSQLDatabase {
   public Destination[] query(String[] searchFor, String[] inColumns)
       throws SQLException {
     Destination[] rt;
-    final String[] tables ={".continents", ".countries", "regions", ""}; // list of tables in order of search
+    final String[] tables ={".continents", ".countries", ".regions", ""}; // list of tables in order of search
     //PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);
     try {
-      try (PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);) {
+      try (PreparedStatement qry  = makeQueryStatement(searchFor, inColumns)) {
         ResultSet rs = qry.executeQuery();
         ResultSetMetaData meta = rs.getMetaData();
         int size = meta.getColumnCount() + 1;
