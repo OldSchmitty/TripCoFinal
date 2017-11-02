@@ -1,11 +1,11 @@
 id,code,type,name,latitude,longitude,elevation,continent,iso_country,iso_region,municipality,scheduled_service,gps_code,iata_code,local_code,home_link,wikipedia_link,keywords
-7020,09CO,small_airport,Cottonwood Field,38.055599212646484,-103.65299987792969,4180,NA,US,US-CO,Swink,no,09CO,NULL,09CO,NULL,NULL,NULL
-10457,3FL6,heliport,Wink Tv Heliport,26.650800704956055,-81.85559844970703,6,NA,US,US-FL,Fort Myers,no,3FL6,NULL,3FL6,NULL,NULL,NULL
-45851,4XA8,heliport,Winkler County Memorial Hospital Heliport,31.849722,-103.090833,2858,NA,US,US-TX,Kermit,no,4XA8,NULL,4XA8,NULL,NULL,NULL
-1262,CKZ7,small_airport,Winkler Airport,49.166900634765625,-97.92030334472656,850,NA,CA,CA-MB,Winkler,no,CKZ7,NULL,CKZ7,NULL,http://en.wikipedia.org/wiki/Winkler_Airport,KZ7
-316126,DE-0337,small_airport,Crawinkel,50.7783333,10.8169444,1549,EU,DE,DE-TH,NULL,no,NULL,NULL,NULL,http://www.flugplatz-crawinkel.de/,NULL,NULL
-320994,DE-0386,small_airport,Everswinkel UL,51.8844444,7.8380556,194,EU,DE,DE-NW,Everswinkel,no,NULL,NULL,NULL,NULL,NULL,NULL
-3611,KINK,medium_airport,Winkler County Airport,31.779600143399996,-103.200996399,2822,NA,US,US-TX,Wink,no,KINK,INK,INK,http://www.co.winkler.tx.us/default.aspx?Winkler_County/County.Airport,http://en.wikipedia.org/wiki/Winkler_County_Airport,NULL
-43118,LSXO,heliport,St. Gallen-Winkeln Heliport,47.40549850463867,9.290300369262695,NULL,EU,CH,CH-SG,St. Gallen,no,LSXO,NULL,NULL,http://www.tsis.ch/heli/heliport/stgallen-winkeln.php,NULL,NULL
-22056,MI43,small_airport,Pewanogowink-Banks Airport,43.186100006103516,-83.90139770507812,660,NA,US,US-MI,Montrose,no,MI43,NULL,MI43,NULL,NULL,NULL
-23924,OR74,small_airport,Winkle Bar Airport,42.701499938964844,-123.80500030517578,450,NA,US,US-OR,Grants Pass,no,OR74,NULL,OR74,NULL
+7020,09CO,small_airport,Cottonwood Field,38.055599212646484,-103.65299987792969,4180,NA,US,US-CO,Swink,no,09CO,,09CO,,,
+10457,3FL6,heliport,Wink Tv Heliport,26.650800704956055,-81.85559844970703,6,NA,US,US-FL,Fort Myers,no,3FL6,,3FL6,,,
+45851,4XA8,heliport,Winkler County Memorial Hospital Heliport,31.849722,-103.090833,2858,NA,US,US-TX,Kermit,no,4XA8,,4XA8,,,
+1262,CKZ7,small_airport,Winkler Airport,49.166900634765625,-97.92030334472656,850,NA,CA,CA-MB,Winkler,no,CKZ7,,CKZ7,,http://en.wikipedia.org/wiki/Winkler_Airport,KZ7
+316126,DE-0337,small_airport,Crawinkel,50.7783333,10.8169444,1549,EU,DE,DE-TH,,no,,,,http://www.flugplatz-crawinkel.de/,,
+320994,DE-0386,small_airport,Everswinkel UL,51.8844444,7.8380556,194,EU,DE,DE-NW,Everswinkel,no,,,,,,
+3611,KINK,medium_airport,Winkler County Airport,31.779600143399996,-103.200996399,2822,NA,US,US-TX,Wink,no,KINK,INK,INK,http://www.co.winkler.tx.us/default.aspx?Winkler_County/County.Airport,http://en.wikipedia.org/wiki/Winkler_County_Airport,
+43118,LSXO,heliport,St. Gallen-Winkeln Heliport,47.40549850463867,9.290300369262695,,EU,CH,CH-SG,St. Gallen,no,LSXO,,,http://www.tsis.ch/heli/heliport/stgallen-winkeln.php,,
+22056,MI43,small_airport,Pewanogowink-Banks Airport,43.186100006103516,-83.90139770507812,660,NA,US,US-MI,Montrose,no,MI43,,MI43,,,
+23924,OR74,small_airport,Winkle Bar Airport,42.701499938964844,-123.80500030517578,450,NA,US,US-OR,Grants Pass,no,OR74,,OR74,
