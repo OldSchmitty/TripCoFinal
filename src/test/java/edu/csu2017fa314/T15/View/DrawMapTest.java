@@ -27,7 +27,7 @@ public class DrawMapTest {
     /**
      *Draws an empty map of Colorado
      */
- /*   @Test
+    @Test
     public void drawColorado(){
         try{
             d = new DrawMap(path + "TestDrawColo.svg", baseFile);
@@ -39,11 +39,11 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawColo.svg").exists());
     }
-*/
+
     /**
      * Draws a path from Fort Collins - Denver - Limon - Fort Collins
      */
- /*   @Test
+    @Test
     public void addEdge(){
         try{
             d = new DrawMap(path + "TestDrawPath.svg", baseFile);
@@ -57,11 +57,11 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawPath.svg").exists());
     }
-*/
+
     /**
      * Draws a path straight across
      */
-/*    @Test
+    @Test
     public void addEdgeHorizonatal() {
         try{
             d = new DrawMap(path + "TestDrawPathHoriz.svg", baseFile);
@@ -73,11 +73,11 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawPathHoriz.svg").exists());
     }
-*/
+
     /**
      * Draws a path straight down
      */
-/*    @Test
+    @Test
     public void addEdgeVertical(){
         try{
             d = new DrawMap(path + "TestDrawPathVert.svg", baseFile);
@@ -89,42 +89,88 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawPathVert.svg").exists());
     }
-*/
-/*
+
+    /**
+     * Draws the prime miridean, equator and diagonals
+     */
     @Test
     public void drawBoundary(){
         try{
             d = new DrawMap(path + "TestDrawBoundaries.svg", worldBaseFile);
+            // prime meridian
             d.addEdge("90°N", "0°W","90°S", "0°W");
-            d.addEdge("0°N", "180°E","0°S", "180°W");
-            d.addEdge("90°N", "180°W","90°S", "180°E");
-            d.addEdge("90°N", "180°E","90°S", "180°W");
-            d.write();
-        }
-        catch (RuntimeException e){
-            assertFalse("Write Failed to run", true);
-        }
-        assertTrue(new File(path+ "TestDrawBoundaries.svg").exists());
-    }
-    */
+            // equator
+            d.addEdge("0°N", "0°E","0°S", "180°W");
+            d.addEdge("0°N", "180°E","0°S", "0°W");
 
-    @Test
-    public void crossPositive(){
-        try{
-            d = new DrawMap(path + "TestDrawBoundaries.svg", worldBaseFile);
-            d.addEdge
+            // diagonals
+            d.addEdge("90°N", "180°W","0°S", "0°E");
+            d.addEdge("0°N", "0°W","90°S", "180°E");
+            d.addEdge("90°N", "180°E","0", "0");
+            d.addEdge("0", "0","90°S", "180°W");
+
             d.write();
         }
         catch (RuntimeException e){
+            System.err.println(e.getMessage());
             assertFalse("Write Failed to run", true);
         }
         assertTrue(new File(path+ "TestDrawBoundaries.svg").exists());
     }
 
     /**
+     * Draws boundary crosses w/o slope
+     */
+    @Test
+    public void crossNoSlope(){
+        try{
+            d = new DrawMap(path + "TestDrawCrossNoSlope.svg", worldBaseFile);
+            // straight across 0,0
+            d.addEdge("0","160W","0","160E");
+            // straight across north hemisphere
+            d.addEdge("80N","160W","80N","160E");
+            // straight across south hemisphere
+            d.addEdge("80S","160W","80S","160E");
+            d.write();
+        }
+        catch (RuntimeException e){
+            assertFalse("Write Failed to run", true);
+        }
+        assertTrue(new File(path+ "TestDrawCrossNoSlope.svg").exists());
+    }
+
+    /**
+     * Tests boundary crosses w/ slope
+     */
+    @Test
+    public void crossSlope(){
+        try{
+            d = new DrawMap(path + "TestDrawCrossSlope.svg", worldBaseFile);
+            // equator and prime maridian
+
+            // equator to north
+            d.addEdge("20N","110W","0","110E");
+            // equator to south
+            d.addEdge("0","140W","20S","140E");
+            // south to south
+            d.addEdge("80S","140W","70S","140E");
+            // north to north
+            d.addEdge("80N","140W","70N","140E");
+            // south to north
+            d.addEdge("40N","110W","40S","110E");
+
+            d.write();
+        }
+        catch (RuntimeException e){
+            assertFalse("Write Failed to run", true);
+        }
+        assertTrue(new File(path+ "TestDrawCrossSlope.svg").exists());
+    }
+
+    /**
      * Tests to see if empty svg file is made
      */
-/*    @Test
+    @Test
     public void write(){
         try{
             d.write();
@@ -156,11 +202,11 @@ public class DrawMapTest {
         }
         assertTrue(worked);
     }
-*/
+
     /**
      * Test to see if offset works on world map
      */
- /*   @Test
+    @Test
     public void atEquator(){
         try{
             d = new DrawMap(path + "TestDrawPathEquator.svg", baseFile);
@@ -172,5 +218,5 @@ public class DrawMapTest {
         }
         assertTrue(new File(path+ "TestDrawPathEquator.svg").exists());
     }
-    */
+
 }

@@ -44,6 +44,7 @@ public class DrawMap {
         + "height=\"783.0824\" xmlns=\"http://www.w3.org/2000/svg\">\n";
     elements.add(header);
   }
+
   /**
    * Draws the boundaries of Colorado
    */
@@ -63,8 +64,7 @@ public class DrawMap {
    * @param latEnd  Latitude of start destination
    * @param longEnd  Longitude of start destination
    */
-  public void addEdge(final String latStart, final String longStart,
-                      final String latEnd, final String longEnd){
+  public void addEdge(final String latStart, final String longStart, final String latEnd, final String longEnd){
     // SVG Code template from https://svg-edit.github.io/svgedit
     if(edgeLoc == 0) // add start info for path
     {
@@ -80,41 +80,40 @@ public class DrawMap {
     double y1 = CalculateDistance.stringToDoubleForCoordinate(latStart);
     double x2 = CalculateDistance.stringToDoubleForCoordinate(longEnd);
     double y2 = CalculateDistance.stringToDoubleForCoordinate(latEnd);
-    System.out.println("x1: " + x1 + " y1: " + y1 + " x2: " + x2 + " y2: " + y2);
 
     if (sameHemisphere(x1,x2)) { // same hemisphere, line does not cross
-      System.out.println("Same Hemisphere");
       add += edgeString(Double.toString(x1), Double.toString(y1),
               Double.toString(x2), Double.toString(y2));
     } else {
-      System.out.println("Opposite Hemisphere");
       if (crossesBoundary(x1, y1, x2, y2)){ // line crosses, draw 2 lines
-        System.out.println("crossing boundary shorter");
         // draw two lines using slope
-        double slope = crossSlope(x1,y1,x2,y2);
-
-        // calculate the cross point for east = -west
-        double crossY = 0; // Y coordinate where line crosses east border
-        if (x1 < x2) { // x1 east, x2 west
-          crossY = slope*(180-x1) + y1;
-          // draw line from destination 1 to (180, crossY)
+        if ((x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180)){
+          // verticle line
           add += edgeString(Double.toString(x1), Double.toString(y1),
-                  Double.toString(180), Double.toString(crossY));
-          // draw line from destination 2 to (-180, crossY)
-          add += edgeString(Double.toString(x2), Double.toString(y2),
-                  Double.toString(-180), Double.toString(crossY));
-        } else { // x1 west, x2 east
-          crossY = slope*(180-x2) + y2;
-          // draw line from desination 2 to (180, crossY)
-          add += edgeString(Double.toString(x2), Double.toString(y2),
-                  Double.toString(180), Double.toString(crossY));
-          // draw line from destination 1 to (-180, crossY)
-          add += edgeString(Double.toString(x1), Double.toString(y1),
-                  Double.toString(-180), Double.toString(crossY));
+                  Double.toString(-1*x2), Double.toString(y2));
+        } else {
+          double slope = crossSlope(x1, y1, x2, y2);
+          // calculate the cross point for east = -west
+          double crossY = 0; // Y coordinate where line crosses east border
+          if (x1 > x2) { // x1 east, x2 west
+            crossY = slope * (180 - x1) + y1;
+            // draw line from destination 1 to (180, crossY)
+            add += edgeString(Double.toString(x1), Double.toString(y1),
+                    Double.toString(180), Double.toString(crossY));
+            // draw line from destination 2 to (-180, crossY)
+            add += edgeString(Double.toString(x2), Double.toString(y2),
+                    Double.toString(-180), Double.toString(crossY));
+          } else { // x1 west, x2 east
+            crossY = slope * (180 - x2) + y2;
+            // draw line from desination 2 to (180, crossY)
+            add += edgeString(Double.toString(x2), Double.toString(y2),
+                    Double.toString(180), Double.toString(crossY));
+            // draw line from destination 1 to (-180, crossY)
+            add += edgeString(Double.toString(x1), Double.toString(y1),
+                    Double.toString(-180), Double.toString(crossY));
+          }
         }
-
       } else { // line does not cross
-        System.out.println("crossing boundary longer");
         add += edgeString(Double.toString(x1), Double.toString(y1),
                 Double.toString(x2), Double.toString(y2));
         //add += edgeString("0", "90", "0", "-90");
@@ -135,7 +134,7 @@ public class DrawMap {
   private String edgeString(String x1, String y1, String x2, String y2){
     String output = "\n  <line x1=\"" + convertLongToX(x1) + "\" y1=\"" + convertLatToY(y1) +
             "\" x2=\"" + convertLongToX(x2) + "\" y2=\"" + convertLatToY(y2) +
-            "\" stroke-width=\"3\" stroke=\"#00007f\"/>";
+            "\" stroke-width=\"3\" stroke=\"#ff69b4\"/>";
 
     return output;
   }
@@ -224,12 +223,13 @@ public class DrawMap {
 
     double runC = 0;  // change in longitude that crosses east/west border
     double runNC = 0; // change in longitude w/o crossing east/west border
+
     if (x1 >x2){  // x1 east, x2 west
       runC = (180-x1) + Math.abs(-180-x2);
-      runNC = Math.abs(x1) - Math.abs(x2);
+      runNC = Math.abs(x1) + Math.abs(x2);
     } else {      // x1 west, x2 east
       runC = (180-x2) + Math.abs(-180-x1);
-      runNC = Math.abs(x2) - Math.abs(x1);
+      runNC = Math.abs(x2) + Math.abs(x1);
     }
 
     if (runNC > runC){  // crossing border is shorter
@@ -252,9 +252,11 @@ public class DrawMap {
       return false;
     } else if (start < 0 && end > 0){  // start west, end east
       return false;
+    } else if (start == 0 || end == 0){
+      return false;
     }
 
-    // start and end in same hemisphere (east,west)
+    // start and end in same hemisphere (east,west) or both on Prime Meridian
     return true;
   }
 
