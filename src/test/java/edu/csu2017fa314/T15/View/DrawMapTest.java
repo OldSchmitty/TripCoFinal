@@ -90,17 +90,35 @@ public class DrawMapTest {
         assertTrue(new File(path+ "TestDrawPathVert.svg").exists());
     }
 */
+/*
     @Test
-    public void crossPositive(){
+    public void drawBoundary(){
         try{
-            d = new DrawMap(path + "TestDrawPathCrossPositive.svg", worldBaseFile);
-            d.addEdge("90°N", "0°W","0°N", "0°W");
+            d = new DrawMap(path + "TestDrawBoundaries.svg", worldBaseFile);
+            d.addEdge("90°N", "0°W","90°S", "0°W");
+            d.addEdge("0°N", "180°E","0°S", "180°W");
+            d.addEdge("90°N", "180°W","90°S", "180°E");
+            d.addEdge("90°N", "180°E","90°S", "180°W");
             d.write();
         }
         catch (RuntimeException e){
             assertFalse("Write Failed to run", true);
         }
-        assertTrue(new File(path+ "TestDrawPathCrossPositive.svg").exists());
+        assertTrue(new File(path+ "TestDrawBoundaries.svg").exists());
+    }
+    */
+
+    @Test
+    public void crossPositive(){
+        try{
+            d = new DrawMap(path + "TestDrawBoundaries.svg", worldBaseFile);
+            d.addEdge
+            d.write();
+        }
+        catch (RuntimeException e){
+            assertFalse("Write Failed to run", true);
+        }
+        assertTrue(new File(path+ "TestDrawBoundaries.svg").exists());
     }
 
     /**

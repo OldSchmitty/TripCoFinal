@@ -134,7 +134,7 @@ public class DrawMap {
    */
   private String edgeString(String x1, String y1, String x2, String y2){
     String output = "\n  <line x1=\"" + convertLongToX(x1) + "\" y1=\"" + convertLatToY(y1) +
-            "\" x2=\"" + convertLongToX(y1) + "\" y2=\"" + convertLatToY(y2) +
+            "\" x2=\"" + convertLongToX(x2) + "\" y2=\"" + convertLatToY(y2) +
             "\" stroke-width=\"3\" stroke=\"#00007f\"/>";
 
     return output;
