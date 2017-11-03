@@ -20,7 +20,8 @@ import junit.framework.JUnit4TestAdapter;
     ItineraryTest.class,
     EdgeTest.class,
     ServerTest.class,
-    TwoOptTest.class
+    TwoOptTest.class,
+    NearestNeighborTest.class
 })
 
 public class AllTests
