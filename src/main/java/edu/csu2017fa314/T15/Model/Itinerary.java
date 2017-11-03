@@ -62,13 +62,25 @@ public class Itinerary {
      */
     private void shortestPath(){
 
-        // if no opt is selected then do nothing
-        if(this.opt.equals("None"))
-            return;
-
-
         NearestNeighbor nn = new NearestNeighbor(distanceTable, currentDistance);
         Integer[] currentPath = new Integer[mapCopy.length+1];
+
+        if(this.opt.equals("None")){
+            for(int i = 0; i < keys.size(); i++){
+                currentPath[i] = keys.get(i);
+            }
+
+            currentPath[currentPath.length-1]=keys.get(0);
+            for(int i = 0; i < currentPath.length-1; i++){
+                pathDistance += distanceTable.getDistance(currentPath[i], currentPath[i+1]);
+            }
+            pathDistance += distanceTable.getDistance(currentPath[currentPath.length-1],
+                    currentPath[0]) + 1;
+            currentPath[currentPath.length-1]=keys.get(0);
+            path = currentPath.clone();
+            return;
+        }
+
 
         // try all possible destinations as the starting point
         for (int i=0; i<keys.size(); i++){
@@ -88,9 +100,8 @@ public class Itinerary {
             // loop remaining keys to find shortest path
             int count = 1;
             while (!remainingKeys.isEmpty()){
-                nn.setCurrentDistance(currentDistance);
                 Integer destinationID = nn.nearestNeighbor(currentID, remainingKeys);
-                currentDistance+=nn.getCurrentDistance();
+                currentDistance=nn.getCurrentDistance();
                 // add destination to path and remove from remaining
                 currentPath[count]=destinationID;
                 count++;

@@ -12,6 +12,8 @@ public class TwoOptTest {
 
     @Test
     public void test1(){
+        CalculateDistance.setMiles();
+
         Destination[] map  = new Destination[5];
         Destination b1 = new Destination("A", "Destination 1", "Test City 1", "0", "15", "1000");
         b1.setIdentifier(0);
@@ -37,6 +39,7 @@ public class TwoOptTest {
 
     @Test
     public void test2(){
+        CalculateDistance.setMiles();
         String path =System.getProperty("user.dir") + "/data/input/COrand75.csv";
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap(), "2-Opt");
@@ -47,17 +50,21 @@ public class TwoOptTest {
 
     @Test
     public void test3(){
+        CalculateDistance.setKilometers();
         String path =System.getProperty("user.dir") + "/data/input/airport.csv";
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap(), "2-Opt");
         ArrayList<Edge> a = i.getShortestPath();
+        assertEquals(5934, i.getDistance());
     }
 
     @Test
     public void test4(){
+        CalculateDistance.setKilometers();
         String path =System.getProperty("user.dir") + "/data/input/sprint2heliport.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap(), "3-Opt");
+        Itinerary i = new Itinerary(m.getMap(), "2-Opt");
         ArrayList<Edge> a = i.getShortestPath();
+        assertEquals(4170, i.getDistance());
     }
 }

@@ -34,8 +34,14 @@ public class TableTest {
      * A few tests to assert that the Table constructor builds properly and the getEdge method works
      */
     @Test
-    public void test1() { assertEquals(table.getDistance(0, 1), 68);}
+    public void test1() {
+        CalculateDistance.setMiles();
+        assertEquals(table.getDistance(0, 1), 109);
+    }
 
     @Test
-    public void test2() { assertEquals(table.getDistance(1, 0), 68);}
+    public void test2() {
+        CalculateDistance.setKilometers();
+        assertEquals(table.getDistance(1, 0), 68);
+    }
 }
