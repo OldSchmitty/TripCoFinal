@@ -14,12 +14,14 @@ public class ServerRequest {
     private String doWhat = "";
     private Destination[] dests;
     private String units = "";
+    private String opt;
     static private String[] login = {"jdepoiii", "829840334"};
 
-    public ServerRequest(String[] queries, String doWhat, String units){
+    public ServerRequest(String[] queries, String doWhat, String units, String opt){
         this.queries = queries;
         this.doWhat = doWhat;
         this.units = units;
+        this.opt = opt;
     }
 
     public void searchDatabase() throws SQLException{
@@ -38,10 +40,11 @@ public class ServerRequest {
     @Override
     public String toString() {
         return "Request{" +
-                "queries='" + queries[0] + '\'' +
+                "queries='" + queries + '\'' +
                 '}';
     }
 
     public String getdoWhat(){ return this.doWhat; }
     public String getUnits(){ return this.units; }
+    public String getOpt(){ return this.opt; }
 }

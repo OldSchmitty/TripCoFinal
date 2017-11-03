@@ -7,6 +7,7 @@ import spark.Request;
 import spark.Response;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -86,7 +87,9 @@ public class Server {
 
             Destination[] trip;
             trip = sRec.planTrip();
-            Itinerary i = new Itinerary(trip);
+            System.out.println(Arrays.toString(trip));
+
+            Itinerary i = new Itinerary(trip, sRec.getOpt());
             ArrayList<Edge> edges = i.getShortestPath();
             View v = new View(buildPath, baseMap);
             String svg = v.drawMapString(trip,edges);

@@ -68,7 +68,6 @@ public class CalculateDistance {
     double arcLength = Math.atan2(Math.sqrt(Math.pow(dividendPart1,2)+Math.pow(dividendPart2,2)),divisor);
 
     return Math.round(arcLength*earthRadius);// radius of earth in miles or kilometers
-
   }
 
   /**
