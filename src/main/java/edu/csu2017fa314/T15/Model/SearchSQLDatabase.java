@@ -5,6 +5,7 @@ import java.security.InvalidParameterException;
 import java.sql.Connection; // https://docs.oracle.com/javase/tutorial/jdbc/basics/index.html
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager; // https://www.tutorialspoint.com/jdbc/
+import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,10 +14,19 @@ import java.util.HashMap;
 
 public class SearchSQLDatabase {
 
-  private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
-  private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314?connectTimeout=3000";
+  /**
+   * Driver for SQl Connection
+   */
+  static final private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
+  /**
+   * Server location for school sql database
+   */
+  static final private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
+  /**
+   * Connection to sql sever
+   */
   private Connection conn;
-  private String table = "airports";
+
 
   /**
    * Constructor for connecting to the CS314 sql database.
@@ -24,7 +34,7 @@ public class SearchSQLDatabase {
    *                  [1] - student number
    */
   public SearchSQLDatabase(String[] loginInfo) throws SQLException {
-    this(loginInfo, "jdbc:mysql://faure.cs.colostate.edu/cs314");
+    this(loginInfo, myUrl);
   }
 
   /**
@@ -84,10 +94,11 @@ public class SearchSQLDatabase {
   public Destination[] query(String[] searchFor, String[] inColumns)
       throws SQLException {
     Destination[] rt;
-    String qry  = makeQueryStatement(searchFor, inColumns);
+    final String[] tables ={".continents", ".countries", ".regions", ""}; // list of tables in order of search
+    //PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);
     try {
-      try (Statement st = conn.createStatement()) {
-        ResultSet rs = st.executeQuery(qry);
+      try (PreparedStatement qry  = makeQueryStatement(searchFor, inColumns)) {
+        ResultSet rs = qry.executeQuery();
         ResultSetMetaData meta = rs.getMetaData();
         int size = meta.getColumnCount() + 1;
         int numRows = 0;
@@ -97,12 +108,21 @@ public class SearchSQLDatabase {
         }
         rt = new Destination[numRows];
         int count = 0;
+
         while (rs.next()) {
+          int tableCount = -1;// loop through the tables in search
           Destination des = new Destination();
-          for (int i = 2; i < size; i++) {
+          for (int i = 1; i < size; i++) {
             String field = meta.getColumnName(i);
-            String info = rs.getString(field);
-            des.setValue(field, info);
+            String info = rs.getString(i);
+            // Add the table to the search term to prevent overriding keys in desinations
+            if(!field.equals("id")){
+              des.setValue(field+tables[tableCount], info);
+            }
+            else
+            {
+              tableCount++; // used to skip id in returns and move table count
+            }
           }
           des.setIdentifier(count);
           rt[count] = des;
@@ -117,79 +137,67 @@ public class SearchSQLDatabase {
   }
 
   /**
-   * Builds the string for the query
+   * Builds builds a prepared statement based on a search type
    * @param searchFor What to search for
-   * @param inColumns Where to search
-   * @return Complete query string
+   * @param searchType Where to search
+   *                    <p>"*" default search</p>
+   *                    <p>"CODE" airport id/code</p>
+   * @return PreparedStatement
    */
-  public String makeQueryStatement(String[] searchFor, String[] inColumns) throws SQLException {
+  private PreparedStatement makeQueryStatement(String[] searchFor, String[] searchType) throws SQLException {
     if(searchFor.length == 0)
     { throw new IllegalArgumentException("No items to search for\n");}
-    if(inColumns.length == 0)
+    if(searchType.length == 0)
     { throw new IllegalArgumentException("No Columns to search for\n");}
-    String search = "";
-    String where;
-    String front = "SELECT * FROM " + table + " WHERE";
+    String search; // What we are searching for
+    String where; // What tables to search in
+    String front = "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
+        + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
+        + "ON airports.iso_region = regions.code WHERE "; // Common start for all searches
+    // Looking for in (?,?,..)
     if(searchFor.length > 1)
     {
-      where = "IN ( ";
+      search = " ( ";
       for (String s: searchFor) {
-        where += "'" + s + "' ,";
+        search += " ? ,";
       }
-      where = where.substring(0, where.length() -1);
-      where += " )";
+      search = search.substring(0, search.length() -1);
+      search += " )";
     }
+    //Basic query
     else{
-      where = "LIKE '%" + searchFor[0] +"%'";
+      search = "%" + searchFor[0] +"%";
     }
-    if(inColumns[0].equals("*")) {
-      try {
-        Statement st = conn.createStatement();
-        try {
-          ResultSet rs = st.executeQuery("Select * from " + table);
-          ResultSetMetaData meta = rs.getMetaData();
-          int stop = meta.getColumnCount() +1;
-          for (int i=2; i <stop;){
-            search += " " + meta.getColumnName(i) + " " + where;
-            if(++i != stop){
-              search += " OR";
-            }
-          }
-          rs.close();
+    PreparedStatement rt;
+    try {
+      // Search in all tables for possible matches
+      if(searchType[0].equals("*")) {
+        where = "airports.name like ? or municipality like ? or regions.name like ? "
+            + "or countries.name like ? or continents.name like ? limit 100";
+        rt = conn.prepareStatement(front + where);
+        rt.setString(1, search);
+        rt.setString(2, search);
+        rt.setString(3, search);
+        rt.setString(4, search);
+        rt.setString(5, search);
 
-        } finally { st.close(); }
-      } catch (SQLException e) {
-        System.err.printf("SearchSQLDatabase:makeQueryStatement error "
-            + "in getting column names\n%s\n", e.getMessage());
-        throw e;
-      }
+      } else if(searchType[0].equals("CODE")) {
+        // look by id
+        where = "airports.code in "+ search;
+        rt = conn.prepareStatement(front+where);
+        for(int i = 0; i <searchFor.length; i++) {
+        rt.setString(i+1, searchFor[i]);
+        }
     }
     else {
-      search = " " + inColumns[0] + " " + where;
-    }
-
-    return front + search + "LIMIT 100";
+        // This should not happen yet
+        throw new IllegalArgumentException("Invalid search term " + searchType[0] + "\n");}
+    } catch (SQLException e) {
+      System.err.printf("SearchSQLDatabase:makeQueryStatement error "
+        + "in getting column names\n%s\n", e.getMessage());
+      throw e;
   }
 
-  public void setTable(String t){
-    this.table = t;
-  }
-
-  public static void main(String[] args){
-    String travis = getenv("TRAVIS");
-    if (travis == null)
-    {
-      try {
-        String[] login = {"josiahm", "831085445"};
-        SearchSQLDatabase test = new SearchSQLDatabase(login);
-        String[] ser = {"Denver"};
-        String[] id = {"ID"};
-        Destination[] rt = test.query(ser);
-        test.close();
-      } catch (Exception e){
-        System.err.println(e.getMessage());
-
-      }
-    }
+    return rt;
   }
 }
