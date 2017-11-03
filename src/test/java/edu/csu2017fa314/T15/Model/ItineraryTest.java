@@ -44,7 +44,7 @@ public class ItineraryTest {
         CalculateDistance.setMiles();
         String path =System.getProperty("user.dir") + "/data/input/COrand50.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap(),"None");
+        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"None");
         this.path = i.getShortestPath();
         assertEquals(i.getDistance(), 7710);
     }
@@ -54,7 +54,7 @@ public class ItineraryTest {
         CalculateDistance.setKilometers();
         String path =System.getProperty("user.dir") + "/data/input/COrand75.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap(), "None");
+        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"None");
         this.path = i.getShortestPath();
         assertEquals(i.getDistance(), 19807);
     }
@@ -64,9 +64,9 @@ public class ItineraryTest {
         CalculateDistance.setMiles();
         String input = System.getProperty("user.dir") + "/data/test_input/NoOptTest.csv";
         Model m = new Model(input);
-        Itinerary iten = new Itinerary(m.getMap(), "None");
-        this.path = iten.getShortestPath();
-        assertEquals(iten.getDistance(), 38554);
+        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"None");
+        this.path = i.getShortestPath();
+        assertEquals(i.getDistance(), 38554);
     }
 }
 

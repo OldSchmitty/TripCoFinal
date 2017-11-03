@@ -34,7 +34,7 @@ public class NearestNeighborTest {
         CalculateDistance.setMiles();
         String path =System.getProperty("user.dir") + "/data/input/COrand50.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap(),"Nearest Neighbor");
+        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
         this.path = i.getShortestPath();
         assertEquals(i.getDistance(), 2078);
     }
@@ -44,7 +44,7 @@ public class NearestNeighborTest {
         CalculateDistance.setMiles();
         String path =System.getProperty("user.dir") + "/data/input/COrand75.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap(), "Nearest Neighbor");
+        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
         this.path = i.getShortestPath();
         assertEquals(i.getDistance(), 2591);
     }
@@ -54,7 +54,7 @@ public class NearestNeighborTest {
         CalculateDistance.setKilometers();
         String path =System.getProperty("user.dir") + "/data/input/CO14ers.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap(), "Nearest Neighbor");
+        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
         this.path = i.getShortestPath();
         assertEquals(i.getDistance(), 1348);
     }
@@ -64,7 +64,7 @@ public class NearestNeighborTest {
         CalculateDistance.setKilometers();
         String path =System.getProperty("user.dir") + "/data/input/ski.csv";
         Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap(), "Nearest Neighbor");
+        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
         this.path = i.getShortestPath();
         assertEquals(i.getDistance(), 1207);
     }
