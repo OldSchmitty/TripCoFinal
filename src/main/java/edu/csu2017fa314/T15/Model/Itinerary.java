@@ -8,10 +8,10 @@ public class Itinerary {
     private Integer[] path;
     private long pathDistance;
     private ArrayList<Integer> keys;
-    private Table distanceTable;
-    private boolean test;
+    private final Table distanceTable;
+    private final boolean test;
     private long currentDistance;
-    private String opt;
+    private final String opt;
 
     /**
      * build a table of edges
