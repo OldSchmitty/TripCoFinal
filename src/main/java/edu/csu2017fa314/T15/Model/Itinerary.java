@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Itinerary {
 
-    private Destination[] mapCopy;
+    private final int mapLength;
     private Integer[] path;
     private long pathDistance;
     private ArrayList<Integer> keys;
@@ -23,13 +23,13 @@ public class Itinerary {
 
     public Itinerary(Destination[] map, String opt, Boolean test){
         this.opt = opt; this.test = test;
-        mapCopy = map;
-        keys = new ArrayList<Integer>();
+        mapLength = map.length;
+        keys = new ArrayList<>();
         for (Destination des : map){
             keys.add(des.getIdentifier());
         }
-        distanceTable = new Table(mapCopy);
-        path = new Integer[mapCopy.length+1];
+        distanceTable = new Table(map);
+        path = new Integer[mapLength+1];
         pathDistance = -1;
         currentDistance = 0;
     }
@@ -47,7 +47,7 @@ public class Itinerary {
     private void shortestPath(){
 
         NearestNeighbor nn = new NearestNeighbor(distanceTable, currentDistance);
-        Integer[] currentPath = new Integer[mapCopy.length+1];
+        Integer[] currentPath = new Integer[mapLength+1];
 
         if(this.opt.equals("None")){
             for(int i = 0; i < keys.size(); i++){
