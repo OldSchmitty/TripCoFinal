@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Itinerary {
 
-    private final int mapLength; // the number of destinations in the map
     private Integer[] path; // the trip path to be planned later
     private long pathDistance; // the absolute total distance of the current planned trip
     private ArrayList<Integer> keys; // list of the destination codes for accessing information in the distances table
@@ -34,13 +33,12 @@ public class Itinerary {
 
     public Itinerary(Destination[] map, String opt, Boolean test){
         this.opt = opt; this.test = test;
-        mapLength = map.length;
         keys = new ArrayList<>();
         for (Destination des : map){
             keys.add(des.getIdentifier());
         }
         distanceTable = new Table(map);
-        path = new Integer[mapLength+1];
+        path = new Integer[keys.size()+1];
         pathDistance = -1;
         currentDistance = 0;
     }
@@ -53,7 +51,7 @@ public class Itinerary {
     private void shortestPath(){
 
         NearestNeighbor nn = new NearestNeighbor(distanceTable, currentDistance);
-        Integer[] currentPath = new Integer[mapLength+1];
+        Integer[] currentPath = new Integer[keys.size()+1];
 
         // If no opt is chosen, build the path and pathDistance by just adding everything in the order they came in
         if(this.opt.equals("None")){
