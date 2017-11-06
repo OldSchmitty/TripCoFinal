@@ -20,7 +20,8 @@ export default class App extends React.Component {
             locations: [],
             currentTrip: [],
             units: "Miles",
-            opt: "None"
+            opt: "None",
+            results: ""
         }
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
@@ -183,7 +184,7 @@ export default class App extends React.Component {
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results {this.state.results}</TableHeaderColumn>
                             <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>index</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
@@ -453,6 +454,7 @@ export default class App extends React.Component {
                 this.state.locations.push({name:serverLocations[i]["map"]["name"],code:serverLocations[i]["map"]["code"], index:counter});
                 counter++;
             }
+            this.setState({results: "- Found " + (serverLocations.length)})
             this.forceUpdate();
             /*
             newMap = {
