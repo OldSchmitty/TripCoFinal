@@ -1,5 +1,5 @@
 const Server = require('./server.js')
-const port = (process.env.PORT || 9325)
+const port = (process.env.PORT || 9329)
 const app = Server.app()
 
 app.listen(port)

@@ -18,7 +18,8 @@ export default class App extends React.Component {
             locations: [],
             currentTrip: [],
             units: "Miles",
-            opt: "None"
+            opt: "None",
+            results: ""
         }
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
@@ -35,6 +36,7 @@ export default class App extends React.Component {
                     this.state.currentTrip.push({name: locs[i]['name'], code: locs[i]['code']});
                 }
             }
+            this.setState({results: "- Found " + (this.state.currentTrip.length - 1)})
             this.forceUpdate();
         };
         this.createCustomInsertButton = (onClick) => {
@@ -181,7 +183,7 @@ export default class App extends React.Component {
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results {this.state.results}</TableHeaderColumn>
                             <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>index</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
