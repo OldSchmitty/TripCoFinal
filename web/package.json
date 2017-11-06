@@ -48,6 +48,13 @@
     "svg-inline-loader": "^0.8.0",
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-server": "^2.4.2",
+
+    "dom-helpers":"^3.2.1",
+    "keycode":"^2.1.9",
+    "prop-types-extra":"^1.0.1",
+    "react-overlays":"^0.7.4",
+    "uncontrollable":"^4.1.0",
+    "warning":"^3.0.0"
   }
 }

@@ -3,7 +3,7 @@ import Home from './Home/Home.jsx';
 import Pair from './Home/Pair/Pair.jsx';
 import Dropzone from 'react-dropzone';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import {ButtonToolbar} from 'react-bootstrap';
+import ButtonToolbar from "react-bootstrap/es/ButtonToolbar";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -203,12 +203,10 @@ export default class App extends React.Component {
                     </div>
                 </div>
                 <ButtonToolbar className= "Save-Load">
-                  <ButtonToolbar>
                     <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}>
                         <button type="button" >Upload Planned Trip</button>
                     </Dropzone>
                     <button type="button" onClick={this.saveButtonClicked.bind(this)}>Save Trip</button>
-                  </ButtonToolbar>
                 </ButtonToolbar>
                 <h1>
                     {/* In the constructor, this.state.serverReturned.svg is not assigned a value. This means the image
@@ -243,6 +241,7 @@ export default class App extends React.Component {
         return function (e) {
           let JsonObj = JSON.parse(e.target.result);
           console.log(JsonObj);
+
           // Do something with the file:
           this.browseFile(JsonObj);
         };
@@ -411,6 +410,7 @@ export default class App extends React.Component {
             console.error(e);
         }
     }
+
     // This function sends `input` the server and updates the state with whatever is returned
     async fetch(input) {
         // Create object to send to server
