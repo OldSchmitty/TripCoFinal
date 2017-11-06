@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './Home/Home.jsx';
 import Pair from './Home/Pair/Pair.jsx';
+import Dropzone from 'react-dropzone';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 export default class App extends React.Component {
@@ -171,6 +172,10 @@ export default class App extends React.Component {
                 <br/>
                 {/* Display the array of HTML list items created on line 18 */}
 
+
+
+
+
                 <div>
                     <div className = "search-button" style={{width:"33%"}}>
                         <BootstrapTable data={this.state.locations}
@@ -200,6 +205,12 @@ export default class App extends React.Component {
                         </BootstrapTable>
                     </div>
                 </div>
+                <div className= "Save-Load">
+                    <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}>
+                        <button type="button" >Upload Planned Trip</button>
+                    </Dropzone>
+                    <button type="button" onClick={this.saveButtonClicked.bind(this)}>Save Trip</button>
+                </div>
                 <h1>
                     {/* In the constructor, this.state.serverReturned.svg is not assigned a value. This means the image
                     will only display once the serverReturned state variable is set to the received json in line 73*/}
@@ -217,6 +228,74 @@ export default class App extends React.Component {
             </div>
         )
     }
+
+  saveButtonClicked(event) {
+    this.getFile();
+  }
+
+  // File reading is almost identical how you did it in Sprint 1
+  uploadButtonClicked(acceptedFiles) {
+    console.log("Accepting drop");
+    acceptedFiles.forEach(file => {
+      console.log("Filename:", file.name, "File:", file);
+      console.log(JSON.stringify(file));
+      let fr = new FileReader();
+      fr.onload = (function () {
+        return function (e) {
+          let JsonObj = JSON.parse(e.target.result);
+          console.log(JsonObj);
+          // Do something with the file:
+          this.browseFile(JsonObj);
+        };
+      })(file).bind(this);
+
+      fr.readAsText(file);
+    });
+  }
+
+  async getFile() {
+    // assign all the airport codes of the displayed locations to an array
+    let locs = this.getQueryTableData().map((location) => {
+      return location.code;
+    });
+
+    // create an object in the format of the download file:
+    let locationFile = {
+      title: "selection",
+      destinations: locs
+    };
+
+    // stringify the object
+    let asJSONString = JSON.stringify(locationFile);
+
+    // Javascript code to create an <a> element with a link to the file
+    let pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,'
+        + encodeURIComponent(asJSONString));
+    // Download the file instead of opening it:
+    pom.setAttribute('download', "download.json");
+
+    // Javascript to click the hidden link we created, causing the file to download
+    if (document.createEvent) {
+      let event = document.createEvent('MouseEvents');
+      event.initEvent('click', true, true);
+      pom.dispatchEvent(event);
+    } else {
+      pom.click();
+    }
+
+    // remove hidden link from page
+    pom.parentNode.removeChild(pom);
+  }
+  // Set the uploaded JSON file to a state variable and send it to fetch method
+  async browseFile(file) {
+    console.log("Got file:", file);
+    this.setState({
+      sysFile: file
+    })
+    this.fetch("upload", this.state.sysFile.destinations);
+  }
+
 
 
     getQueryTableData() {
