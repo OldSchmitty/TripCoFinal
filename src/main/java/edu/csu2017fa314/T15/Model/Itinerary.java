@@ -17,8 +17,12 @@ public class Itinerary {
      * build a table of edges
      * @param map
      */
-    public Itinerary(Destination[] map, String opt){
-        this.opt = opt;
+    public Itinerary(Destination[] map, String opt) {
+        this(map, opt, false);
+    }
+
+    public Itinerary(Destination[] map, String opt, Boolean test){
+        this.opt = opt; this.test = test;
         mapCopy = map;
         keys = new ArrayList<Integer>();
         for (Destination des : map){
@@ -27,7 +31,6 @@ public class Itinerary {
         distanceTable = new Table(mapCopy);
         path = new Integer[mapCopy.length+1];
         pathDistance = -1;
-        test = false;
         currentDistance = 0;
     }
 
