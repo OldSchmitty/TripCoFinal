@@ -204,9 +204,6 @@ export default class App extends React.Component {
                     </div>
                 </div>
                 <ButtonToolbar className= "Save-Load">
-                    <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}>
-                        <button type="button" >Upload Planned Trip</button>
-                    </Dropzone>
                     <button type="button" onClick={this.saveButtonClicked.bind(this)}>Save Trip</button>
                 </ButtonToolbar>
                 <h1>
@@ -231,7 +228,7 @@ export default class App extends React.Component {
     this.getFile();
   }
 
-  // File reading is almost identical how you did it in Sprint 1
+  /*// File reading is almost identical how you did it in Sprint 1
   uploadButtonClicked(acceptedFiles) {
     console.log("Accepting drop");
     acceptedFiles.forEach(file => {
@@ -250,7 +247,7 @@ export default class App extends React.Component {
 
       fr.readAsText(file);
     });
-  }
+  }*/
 
   async getFile() {
     // assign all the airport codes of the displayed locations to an array
@@ -286,14 +283,14 @@ export default class App extends React.Component {
     // remove hidden link from page
     pom.parentNode.removeChild(pom);
   }
-  // Set the uploaded JSON file to a state variable and send it to fetch method
+  /*// Set the uploaded JSON file to a state variable and send it to fetch method
   async browseFile(file) {
     console.log("Got file:", file);
     this.setState({
       sysFile: file
     })
     this.fetch("upload", this.state.sysFile.destinations);
-  }
+  }*/
 
 
 
