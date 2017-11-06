@@ -3,6 +3,7 @@ import Home from './Home/Home.jsx';
 import Pair from './Home/Pair/Pair.jsx';
 import Dropzone from 'react-dropzone';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import {ButtonToolbar} from 'react-bootstrap';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -172,10 +173,6 @@ export default class App extends React.Component {
                 <br/>
                 {/* Display the array of HTML list items created on line 18 */}
 
-
-
-
-
                 <div>
                     <div className = "search-button" style={{width:"33%"}}>
                         <BootstrapTable data={this.state.locations}
@@ -205,12 +202,14 @@ export default class App extends React.Component {
                         </BootstrapTable>
                     </div>
                 </div>
-                <div className= "Save-Load">
+                <ButtonToolbar className= "Save-Load">
+                  <ButtonToolbar>
                     <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}>
                         <button type="button" >Upload Planned Trip</button>
                     </Dropzone>
                     <button type="button" onClick={this.saveButtonClicked.bind(this)}>Save Trip</button>
-                </div>
+                  </ButtonToolbar>
+                </ButtonToolbar>
                 <h1>
                     {/* In the constructor, this.state.serverReturned.svg is not assigned a value. This means the image
                     will only display once the serverReturned state variable is set to the received json in line 73*/}
