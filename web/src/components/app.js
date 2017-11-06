@@ -36,7 +36,6 @@ export default class App extends React.Component {
                     this.state.currentTrip.push({name: locs[i]['name'], code: locs[i]['code']});
                 }
             }
-            this.setState({results: "- Found " + (this.state.currentTrip.length - 1)})
             this.forceUpdate();
         };
         this.createCustomInsertButton = (onClick) => {
@@ -377,6 +376,7 @@ export default class App extends React.Component {
                 this.state.locations.push({name:serverLocations[i]["map"]["name"],code:serverLocations[i]["map"]["code"], index:counter});
                 counter++;
             }
+            this.setState({results: "- Found " + (this.state.currentTrip.length - 1)})
             this.forceUpdate();
             /*
             newMap = {
