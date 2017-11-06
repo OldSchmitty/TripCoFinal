@@ -376,7 +376,7 @@ export default class App extends React.Component {
                 this.state.locations.push({name:serverLocations[i]["map"]["name"],code:serverLocations[i]["map"]["code"], index:counter});
                 counter++;
             }
-            this.setState({results: "- Found " + (serverLocations.length - 1)})
+            this.setState({results: "- Found " + (serverLocations.length})
             this.forceUpdate();
             /*
             newMap = {
