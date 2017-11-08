@@ -184,8 +184,10 @@ export default class App extends React.Component {
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results {this.state.results}</TableHeaderColumn>
-                            <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>index</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name'>
+                                Search Result {this.state.results}</TableHeaderColumn>
+                            <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>
+                                index</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
 
@@ -199,7 +201,8 @@ export default class App extends React.Component {
 
                                         options={{btnGroup:this.buttons}}
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>Current Trip</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
+                                Current Trip</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>
@@ -475,7 +478,8 @@ export default class App extends React.Component {
             let counter = 0;
             for (let i in serverLocations){
                 trip.push(serverLocations[i]["map"]["code"]);
-                this.state.locations.push({name:serverLocations[i]["map"]["name"],code:serverLocations[i]["map"]["code"], index:counter});
+                this.state.locations.push({name:serverLocations[i]["map"]["name"],
+                    code:serverLocations[i]["map"]["code"], index:counter});
                 counter++;
             }
             this.setState({results: "- Found " + (serverLocations.length)})
