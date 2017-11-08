@@ -96,6 +96,12 @@ public class Server {
             ServerPlanTrip servP = new ServerPlanTrip(svg,trip,edges);
             return gson.toJson(servP, ServerPlanTrip.class);
         }
+        else if(sRec.getdoWhat().equals("upload")){
+            Destination[] trip = sRec.planTrip(); // look for the airports by code
+            ServerResponse sRes = new ServerResponse(trip);
+            return gson.toJson(sRes, ServerResponse.class);
+
+        }
         return null;
     }
 

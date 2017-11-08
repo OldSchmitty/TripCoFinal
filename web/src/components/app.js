@@ -184,8 +184,10 @@ export default class App extends React.Component {
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results {this.state.results}</TableHeaderColumn>
-                            <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>index</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name'>
+                                Search Result {this.state.results}</TableHeaderColumn>
+                            <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>
+                                index</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
 
@@ -199,11 +201,15 @@ export default class App extends React.Component {
 
                                         options={{btnGroup:this.buttons}}
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>Current Trip</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
+                                Current Trip</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>
                 <ButtonToolbar className= "Save-Load">
+                    <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}>
+                        <button type="button" >Upload Planned Trip</button>
+                    </Dropzone>
                     <button type="button" onClick={this.saveButtonClicked.bind(this)}>Save Trip</button>
                 </ButtonToolbar>
                 <h1>
@@ -224,11 +230,35 @@ export default class App extends React.Component {
         )
     }
 
+  /**
+   * Fills the trip plan with the selected destinations
+   * @param input The server return info
+   * TODO find way to send only the array of destination
+   *
+   */
+  fillTripTable(input){
+    for (let i in input) {
+      let dup = false;
+      for (let j in this.state.currentTrip) {
+        if (this.state.currentTrip[j]['name'] == input[i]['map']['name']) {
+          dup = true;
+          break;
+        }
+      }
+      if (!dup) {
+        this.state.currentTrip.push({
+          name: input[i]['map']['name'],
+          code: input[i]['map']['code']
+        });
+      }
+    }
+    this.forceUpdate();
+  }
   saveButtonClicked(event) {
     this.getFile();
   }
 
-  /*// File reading is almost identical how you did it in Sprint 1
+  // File reading is almost identical how you did it in Sprint 1
   uploadButtonClicked(acceptedFiles) {
     console.log("Accepting drop");
     acceptedFiles.forEach(file => {
@@ -247,7 +277,7 @@ export default class App extends React.Component {
 
       fr.readAsText(file);
     });
-  }*/
+  }
 
   async getFile() {
     // assign all the airport codes of the displayed locations to an array
@@ -283,14 +313,14 @@ export default class App extends React.Component {
     // remove hidden link from page
     pom.parentNode.removeChild(pom);
   }
-  /*// Set the uploaded JSON file to a state variable and send it to fetch method
+  // Set the uploaded JSON file to a state variable and send it to fetch method
   async browseFile(file) {
     console.log("Got file:", file);
     this.setState({
       sysFile: file
     })
-    this.fetch("upload", this.state.sysFile.destinations);
-  }*/
+    this.fetch2("upload", this.state.sysFile.destinations);
+  }
 
 
 
@@ -448,7 +478,8 @@ export default class App extends React.Component {
             let counter = 0;
             for (let i in serverLocations){
                 trip.push(serverLocations[i]["map"]["code"]);
-                this.state.locations.push({name:serverLocations[i]["map"]["name"],code:serverLocations[i]["map"]["code"], index:counter});
+                this.state.locations.push({name:serverLocations[i]["map"]["name"],
+                    code:serverLocations[i]["map"]["code"], index:counter});
                 counter++;
             }
             this.setState({results: "- Found " + (serverLocations.length)})
@@ -489,4 +520,72 @@ export default class App extends React.Component {
             console.error(e);
         }
     }
+
+  // This function sends `input` the server and updates the state with whatever is returned
+  /**
+   * New server request method, One method to control the logic for request
+   * TODO add logic for query and plan
+   * @param type Type of request
+   * @param input what to look for
+   * @returns {Promise.<void>}
+   */
+  async fetch2(type, input) {
+    console.log("entered fetch");
+    // Create object to send to server
+
+    /*  IMPORTANT: This object must match the structure of whatever
+        object the server is reading into (in this case ServerRequest).
+        Notice how we give both requests the same format */
+    let clientRequest;
+    // if "enter" is pressed in the input box
+    if (type === "query") {
+      /* We now pass input as an element of an array
+         because we changed the ServerRequest class to take an ArrayList
+      */
+      clientRequest = {
+        request: "query",
+        description: [input],
+        units: this.state.units,
+        opt: this.state.opt,
+      };
+
+      // if the button is clicked:
+    } else if (type === "upload") {
+      // Send entire destinations array
+      clientRequest = {
+        doWhat: "upload",
+        queries: input,
+        units: this.state.units,
+        opt: this.state.opt,
+      }
+    } else {
+      console.log("No valid type found")
+    }
+    try {
+      // Attempt to send `clientRequest` via a POST request
+      // Notice how the end of the url below matches what the server is listening on (found in java code)
+      // By default, Spark uses port 4567
+      let serverUrl = window.location.href.substring(0, window.location.href.length - 6) + ":4567/receive";
+      console.log("Client Request: ", clientRequest);
+      let jsonReturned = await fetch(serverUrl,
+          {
+            method: "POST",
+            body: JSON.stringify(clientRequest)
+          });
+      // Wait for server to return and convert it to json.
+      let ret = await jsonReturned.json();
+      let returnedJson = JSON.parse(ret);
+      // Log the received JSON to the browser console
+      console.log("Got back ", returnedJson);
+      if(type === "upload"){
+        this.setState({
+          serverReturned: returnedJson,
+          currentTrip:[],})
+        this.fillTripTable(this.state.serverReturned.items);
+      }
+    } catch (e) {
+      console.error("Error talking to server");
+      console.error(e);
+    }
+  }
 }
