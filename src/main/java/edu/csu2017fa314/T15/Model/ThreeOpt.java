@@ -207,6 +207,20 @@ public class ThreeOpt {
         return route;
     }
 
+    /**
+     * Allows users to get the current distance of the current route
+     * @returns the distance of the route in its current state
+     */
+    public long getDistance(){
 
+        long distance = 0;
+
+        // calculate route distance
+        for (int i=0; i<route.length-1; i++){
+            distance += distanceTable.getDistance(route[i], route[i+1]);
+        }
+
+        return distance;
+    }
 
 }
