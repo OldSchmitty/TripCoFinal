@@ -15,7 +15,7 @@ export default class App extends React.Component {
             ps: [],
             addInfo: "",
             serverReturned: null,
-            svg: false,
+            svg: null,
             bottomRow: [],
             locations: [],
             currentTrip: [],
@@ -111,7 +111,7 @@ export default class App extends React.Component {
             this.setState({opt:e.target.value});
         }
         this.resetPage = (onClick) => {
-            this.setState({currentTrip: [], units: "Miles", opt: "None", svg: false, addInfo: [], bottomRow: [],
+            this.setState({currentTrip: [], units: "Miles", opt: "None", svg: null, addInfo: [], bottomRow: [],
                 pairs: [], options: [], allPairs: [], results: "", locations: []});
         }
 
@@ -153,7 +153,6 @@ export default class App extends React.Component {
                 </label>
             )
         }
-        let svg;
         if (this.state.serverReturned) { // if this.state.serverReturned is not null
             //Get list of numbers
 
@@ -164,9 +163,6 @@ export default class App extends React.Component {
             * [<li>[name1]</li>,<li>[name2]</li>...]
             */
             // set the local variable scg to this.state.serverReturned.svg
-        }
-        if(this.state.svg){
-            svg = this.state.serverReturned.svg;
         }
 
         return (
@@ -224,7 +220,7 @@ export default class App extends React.Component {
                 <h1>
                     {/* In the constructor, this.state.serverReturned.svg is not assigned a value. This means the image
                     will only display once the serverReturned state variable is set to the received json in line 73*/}
-                    <span dangerouslySetInnerHTML={{__html: svg}} />
+                    <span dangerouslySetInnerHTML={{__html: this.state.svg}} />
                 </h1>
                 <Home
                     getData={this.getData.bind(this)}
@@ -440,10 +436,15 @@ export default class App extends React.Component {
 
             this.setState({
                 serverReturned: JSON.parse(ret),
-                svg: true,
                 currentTrip:[],
                 locations: []
             });
+
+            if(this.state.serverReturned.svg){
+                this.setState({svg: this.state.serverReturned.svg});
+            }
+
+            
             console.log("route is: ", this.state.serverReturned.items);
             this.getData(this.state.serverReturned.itinerary, this.state.serverReturned.items);
 
