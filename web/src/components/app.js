@@ -63,21 +63,24 @@ export default class App extends React.Component {
             );
         };
         this.makeTrip = (onClick) => {
-            this.getItinerary()
+            if(this.getTripTableData().length != 0)
+                this.getItinerary()
         };
         this.createUnitsButton = (onClick) => {
             return (
                     <button type='button'
                             className={'btn btn-primary'}
-                            onClick={ () => this.changeUnits(onClick) }>
+                            onClick={ () => this.changeUnits(onClick) }
+                            style={{height: 35, width: 92.14}}>
                         {this.state.units}
                     </button>
             );
         };
         this.buttons = props => {
             return(
-                <ButtonGroup className='my-custom-class' sizeClass='btn-group-md'>
+                <ButtonGroup className='my-custom-class' sizeClass='btn-group-md' style={{width: "150%"}}>
                     {this.createTripButton()}
+                    {this.createCustomDeleteButton()}
                     {this.createUnitsButton()}
                     {this.createSelectButton()}
                     </ButtonGroup>
@@ -96,6 +99,7 @@ export default class App extends React.Component {
         this.createSelectButton = (onClick) => {
             return(
                 <select
+                    style={{height: 35}}
                     onChange = {this.handleChange}
                 >
                     <option value="None">None</option>
@@ -113,6 +117,33 @@ export default class App extends React.Component {
         this.resetPage = (onClick) => {
             this.setState({currentTrip: [], units: "Miles", opt: "None", svg: null, addInfo: [], bottomRow: [],
                 pairs: [], options: [], allPairs: [], results: "", locations: []});
+        }
+
+        this.handleDeleteButtonClick = (onClick) => {
+            let keys = this.refs.tripTable.state.selectedRowKeys;
+            let trip = this.state.currentTrip.slice();
+
+            for(let i in keys){
+                for(let j in trip) {
+                    if (trip[j]['name'] == keys[i]) {
+                        delete trip[j];
+                    }
+                        }
+            }
+
+            this.setState({currentTrip: trip});
+            this.forceUpdate;
+        }
+
+        this.createCustomDeleteButton = (onClick) => {
+            return (
+                <DeleteButton
+                    btnText='Delete Selected'
+                    btnContextual='btn-danger'
+                    className='my-custom-class'
+                    btnGlyphicon='glyphicon-edit'
+                    onClick={e => this.handleDeleteButtonClick(onClick)}/>
+            );
         }
 
     };
@@ -174,8 +205,8 @@ export default class App extends React.Component {
                 <br/>
                 {/* Display the array of HTML list items created on line 18 */}
 
-                <div>
-                    <div className = "search-button" style={{width:"33%"}}>
+                <div style={{width:"40%"}}>
+                    <div className = "search-button">
                         <BootstrapTable data={this.state.locations}
                                         selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
                                         height = "200"
@@ -191,16 +222,15 @@ export default class App extends React.Component {
                         </BootstrapTable>
                     </div>
 
-                    <div className = "search-button" style={{width:"33%"}}>
+                    <div className = "search-button">
                         <BootstrapTable data={this.state.currentTrip}
-                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)'}}
+                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
                                         height = "200"
                                         striped={true}
                                         ref='tripTable'
-                                        deleteRow
 
                                         options={{btnGroup:this.buttons}}
-                                        insertRow>
+                                        insertRow deleteRow>
                             <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
                                 Current Trip</TableHeaderColumn>
                         </BootstrapTable>
@@ -444,7 +474,7 @@ export default class App extends React.Component {
                 this.setState({svg: this.state.serverReturned.svg});
             }
 
-            
+
             console.log("route is: ", this.state.serverReturned.items);
             this.getData(this.state.serverReturned.itinerary, this.state.serverReturned.items);
 
