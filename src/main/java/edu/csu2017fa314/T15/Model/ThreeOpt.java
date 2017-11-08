@@ -198,6 +198,15 @@ public class ThreeOpt {
         this.testMode = false;
     }
 
+    /**
+     * Allows users to run ThreeOpt from other classes
+     * @returns the optimized route
+     */
+    public Integer[] getThreeOpt(){
+        threeOpt();
+        return route;
+    }
+
 
 
 }
