@@ -26,16 +26,17 @@ public class ThreeOpt {
      * base case and determining which case to use by selecting the one with the lowest total distance of the three
      * edges. It does not physically delete and re-add edges, but rather inverts and swaps sections of the route to
      * 'redraw' the edges in place.
+     *
      *              edge 1       edge 2        edge 3           new edges:
-     * original     i   i+1 --> j     j+1 --> k    k+1          (i,i+1)     (j,j+1)     (k,k+1)
-     * 2-opt        i   j   <-- i+1   j+1 --> k    k+1          (i,j)       (i+1,j+1)   (k,k+1)
-     * 2-opt        i   i+1 --> j     k   <-- j+1  k+1          (i,i+1)     (j,k)       (j+1,k+1)
-     * 2-opt        i   k   <-- j+1   j   <-- i+1  k+1          (i,k)       (j+1,j)     (i+1,k+1)
-     * 3-opt        i   j   <-- i+1   k   <-- j+1  k+1          (i,j)       (i+1,k)     (j+1,k+1)
-     * 3-opt        i   k   <-- j+1   i+1 --> j    k+1          (i,k)       (j+1,i+1)   (j,k+1)
-     * 3-opt        i   j+1 --> k     j   <-- i+1  k+1          (i,j+1)     (k,j)       (i+1,k+1)
-     * 3-opt        i   j+1 --> k     i+1 --> j    k+1          (i,j+1)     (k,i+1)     (j,k+1)
-     * distances    (i, ?)       (?, ?)        (?, k+1)
+     * case 0:  original     i   i+1 --> j     j+1 --> k    k+1          (i,i+1)     (j,j+1)     (k,k+1)
+     * case 1:  2-opt        i   j   <-- i+1   j+1 --> k    k+1          (i,j)       (i+1,j+1)   (k,k+1)
+     * case 2:  2-opt        i   i+1 --> j     k   <-- j+1  k+1          (i,i+1)     (j,k)       (j+1,k+1)
+     * case 3:  2-opt        i   k   <-- j+1   j   <-- i+1  k+1          (i,k)       (j+1,j)     (i+1,k+1)
+     * case 4:  3-opt        i   j   <-- i+1   k   <-- j+1  k+1          (i,j)       (i+1,k)     (j+1,k+1)
+     * case 5:  3-opt        i   k   <-- j+1   i+1 --> j    k+1          (i,k)       (j+1,i+1)   (j,k+1)
+     * case 6:  3-opt        i   j+1 --> k     j   <-- i+1  k+1          (i,j+1)     (k,j)       (i+1,k+1)
+     * case 7:  3-opt        i   j+1 --> k     i+1 --> j    k+1          (i,j+1)     (k,i+1)     (j,k+1)
+     *          distances    (i, ?)       (?, ?)        (?, k+1)
      */
     private void threeOpt(){
 
@@ -46,22 +47,29 @@ public class ThreeOpt {
                 for (int k=j+1; k<=n-1; k++){
                     switch(chooseOption(i,j,k)) {   // determines which 3 edges will replace (i,i+1), (j,j+1), (k,k+1)
                         case 0:
+                            // No action taken, use edges (i,i+1), (k,k+1), (j,j+1)
                             break;
                         case 1:
+                            // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,j), (i+1,j+1), (k,k+1)
                             break;
                         case 2:
+                            // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,i+1), (j,k), (j+1,k+1)
                             break;
                         case 3:
+                            // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,k), (j+1,j), (i+1,k+1)
                             break;
                         case 4:
+                            // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,j), (i+1,k), (j+1,k+1)
                             break;
                         case 5:
+                            // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,k), (j+1,i+1), (j,k+1)
                             break;
                         case 6:
+                            // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,j+1), (k,j), (i+1,k+1)
                             break;
                         case 7:
+                            // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,j+1), (k,i+1), (j,k+1)
                             break;
-
                     }
                 }
             }
@@ -80,6 +88,7 @@ public class ThreeOpt {
      */
     private int chooseOption(int i, int j, int k){
 
+        // if testMode is on, use the 3-opt case that is being tested
         if ( testMode ){
             return optCase;
         }
@@ -87,6 +96,16 @@ public class ThreeOpt {
         return 0;
     }
 
+
+    /**
+     * Calculates the distance between two destinations
+     * @param i index of first destination
+     * @param j index of second destination
+     * @return  distance between two destinations
+     */
+    private long dist(int i, int j){
+        return distanceTable.getDistance(route[i], route[j]);
+    }
 
     /**
      * Prints the route in its current state, it could be partially optimized, fully optimized, or un-optimized.
