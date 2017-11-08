@@ -1,5 +1,7 @@
 package edu.csu2017fa314.T15.Model;
 
+import java.util.Arrays;
+
 public class ThreeOpt {
 
     private Table distanceTable;    // table for calculating distances between two destinations
@@ -96,10 +98,54 @@ public class ThreeOpt {
         return 0;
     }
 
+    /**
+     * Swaps 2 sections of destinations in a path.
+     * If path is 0,1,...section1,...,section2,...,0
+     * if becomes 0,1,...section2,...,section1,...,0
+     * @param start1    start index of first section
+     * @param end1      end index of first section
+     * @param start2    start index of second section
+     * @param end2      end index of second section
+     */
+    private void swapSections(int start1, int end1, int start2, int end2){
+
+        // section that precedes the first section to be swapped
+        Integer[] source = Arrays.copyOfRange(route,0,start1);
+        //first section to be swapped
+        Integer[] section1 = Arrays.copyOfRange(route,start1,end1+1);
+        // section between two sections to be swapped
+        Integer[] midsection = Arrays.copyOfRange(route,end1+1,start2);
+        // second section to be swapped
+        Integer[] section2 = Arrays.copyOfRange(route,start2,end2+1);
+        // section that follows the second section to be swapped
+        Integer[] terminal = Arrays.copyOfRange(route,end2+1,route.length);
+
+        // Concatenates the array segments, swapping the position of the two sections being swapped
+        this.route = (Integer[]) joinArrays(source, section2, midsection, section1, terminal);
+    }
+
+    /**
+     * Concatenates multiple arrays into a single array.
+     * @param params    arrays to concatenate
+     * @return          array of concatenated arrays
+     */
+    private Integer[] joinArrays(Integer[] ... params) {
+
+        Integer[] result = new Integer[route.length]; // size of the new array should be the same size as the route
+        int j = 0; // write position in new array
+
+        for(Integer[] array : params){  // loop the array segments
+            for (Integer s : array) {   // add each element of each segment
+                result[j++] = s;
+            }
+        }
+
+        return result;
+    }
 
     /**
      * Inverts the order of destinations from the start index to the end index of the destinations in the route array.
-     * Useful for 'adding' new edges by inverting sections of the route in place.
+     * Useful for 'deleting' and 'adding' new edges by inverting sections of the route in place.
      * @param i index of destination to start at
      * @param j index of destination to end at
      */
