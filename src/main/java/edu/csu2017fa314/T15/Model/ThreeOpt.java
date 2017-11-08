@@ -89,8 +89,20 @@ public class ThreeOpt {
 
 
     /**
+     * Prints the route in its current state, it could be partially optimized, fully optimized, or un-optimized.
+     * For Testing Purposes
+     */
+    private void printRoute(){
+        System.out.print("Route: ");
+        for (int i=0; i<route.length; i++){
+            System.out.print(route[i] + " ");
+        }
+        System.out.println();
+    }
+
+    /**
      * Enables test mode, allowing specific cases to be selected.
-     * optCase is the 3-Opt case to be tested
+     * @params optCase the 3-Opt case to be tested
      */
     public void enableTestMode(int optCase){
         this.optCase = optCase;
