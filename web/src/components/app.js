@@ -15,7 +15,7 @@ export default class App extends React.Component {
             ps: [],
             addInfo: "",
             serverReturned: null,
-            svg: false,
+            svg: null,
             bottomRow: [],
             locations: [],
             currentTrip: [],
@@ -110,6 +110,10 @@ export default class App extends React.Component {
             console.log("Changing Opt to",e.target.value);
             this.setState({opt:e.target.value});
         }
+        this.resetPage = (onClick) => {
+            this.setState({currentTrip: [], units: "Miles", opt: "None", svg: null, addInfo: [], bottomRow: [],
+                pairs: [], options: [], allPairs: [], results: "", locations: []});
+        }
 
     };
 
@@ -149,7 +153,6 @@ export default class App extends React.Component {
                 </label>
             )
         }
-        let svg;
         if (this.state.serverReturned) { // if this.state.serverReturned is not null
             //Get list of numbers
 
@@ -160,9 +163,6 @@ export default class App extends React.Component {
             * [<li>[name1]</li>,<li>[name2]</li>...]
             */
             // set the local variable scg to this.state.serverReturned.svg
-        }
-        if(this.state.svg){
-            svg = this.state.serverReturned.svg;
         }
 
         return (
@@ -177,7 +177,7 @@ export default class App extends React.Component {
                 <div>
                     <div className = "search-button" style={{width:"33%"}}>
                         <BootstrapTable data={this.state.locations}
-                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)'}}
+                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
                                         height = "200"
                                         striped={true}
 
@@ -207,15 +207,20 @@ export default class App extends React.Component {
                     </div>
                 </div>
                 <ButtonToolbar className= "Save-Load">
-                    <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}>
-                        <button type="button" >Upload Planned Trip</button>
+                    <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}
+                    style={{"width": "15%"}}>
+                        <button type="button" onClick={this.uploadButtonClicked.bind(this)}>
+                            Upload Planned Trip</button>
                     </Dropzone>
-                    <button type="button" onClick={this.saveButtonClicked.bind(this)}>Save Trip</button>
+
+                    <button type="button" onClick={this.saveButtonClicked.bind(this)}>
+                        Save Trip</button>
+                    <button type="button" onClick={this.resetPage.bind(this)}>Reset</button>
                 </ButtonToolbar>
                 <h1>
                     {/* In the constructor, this.state.serverReturned.svg is not assigned a value. This means the image
                     will only display once the serverReturned state variable is set to the received json in line 73*/}
-                    <span dangerouslySetInnerHTML={{__html: svg}} />
+                    <span dangerouslySetInnerHTML={{__html: this.state.svg}} />
                 </h1>
                 <Home
                     getData={this.getData.bind(this)}
@@ -377,10 +382,10 @@ export default class App extends React.Component {
 
 
         let totalRow =
-                <tr>
-                    <td colSpan="2">Total:</td>
-                    <td>{totalDist}</td>
-                </tr>;
+            <tr>
+                <td colSpan="2">Total:</td>
+                <td>{totalDist}</td>
+            </tr>;
         this.setState({
             allPairs: pairs,
             totalDist: totalDist,
@@ -389,6 +394,7 @@ export default class App extends React.Component {
         });
 
     }
+
     // This function waits until enter is pressed on the event (input)
     // A better implementation would be to have a Javascript form with an onSubmit event that calls fetch
     keyUp(event) {
@@ -404,6 +410,8 @@ export default class App extends React.Component {
         for (let i in queries) {
             trip.push(queries[i]['code']);
         }
+
+        this.setState({results: ""})
 
         let newMap = {
             queries : trip,
@@ -428,10 +436,15 @@ export default class App extends React.Component {
 
             this.setState({
                 serverReturned: JSON.parse(ret),
-                svg: true,
                 currentTrip:[],
                 locations: []
             });
+
+            if(this.state.serverReturned.svg){
+                this.setState({svg: this.state.serverReturned.svg});
+            }
+
+            
             console.log("route is: ", this.state.serverReturned.items);
             this.getData(this.state.serverReturned.itinerary, this.state.serverReturned.items);
 
@@ -447,6 +460,8 @@ export default class App extends React.Component {
 
         /*  IMPORTANT: This object must match the structure of whatever
             object the server is reading into (in this case DataClass) */
+        this.setState({locations: []})
+
         let newMap = {
             queries : [input],
             doWhat: "query",
