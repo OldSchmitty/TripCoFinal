@@ -98,6 +98,23 @@ public class ThreeOpt {
 
 
     /**
+     * Inverts the order of destinations from the start index to the end index of the destinations in the route array.
+     * Useful for 'adding' new edges by inverting sections of the route in place.
+     * @param i index of destination to start at
+     * @param j index of destination to end at
+     */
+    private void invert(int i, int j){
+
+        // A simple in-place swap that starts on boundaries and works towards the center of of a segment
+        while (i < j) {
+            Integer temp = route[i];
+            route[i] = route[j];
+            route[j] = temp;
+            i++; j--;   // move from outer elements towards the center to swap the next pair
+        }
+    }
+
+    /**
      * Calculates the distance between two destinations
      * @param i index of first destination
      * @param j index of second destination
