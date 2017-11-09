@@ -32,9 +32,9 @@ export default class App extends React.Component {
 
                 dup = false;
                 for (let j in locs){
-                    if(locs[j]['name'] === keys[i]){
+                    if(locs[j]['code'] === keys[i]){
                         for(let k in this.state.currentTrip){
-                            if(this.state.currentTrip[k]['name'] === keys[i])
+                            if(this.state.currentTrip[k]['code'] === keys[i])
                                 dup = true;
                         }
 
@@ -44,6 +44,8 @@ export default class App extends React.Component {
                 }
             }
             this.forceUpdate();
+
+            console.log(this.state.currentTrip);
         };
         this.createCustomInsertButton = (onClick) => {
             return (
@@ -227,8 +229,10 @@ export default class App extends React.Component {
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name'>
                                 Search Results {this.state.results}</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign = 'right' hidden= {true} dataField='code' isKey>
+                                Codes</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
 
@@ -326,7 +330,7 @@ export default class App extends React.Component {
 
   async getFile() {
     // assign all the airport codes of the displayed locations to an array
-    let locs = this.getQueryTableData().map((location) => {
+    let locs = this.getTripTableData().map((location) => {
       return location.code;
     });
 
