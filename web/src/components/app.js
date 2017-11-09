@@ -26,17 +26,22 @@ export default class App extends React.Component {
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
             let keys=this.getQueryTableKeys();
+
             for (let i in keys){
                 let dup = false;
-                for(let j in this.state.currentTrip){
-                    if (this.state.currentTrip[j]['name']== locs[i]['name']){
-                        dup = true;
-                        break;
+
+                if(this.state.currentTrip.length != 0) {
+                    for (let j in this.state.currentTrip) {
+                        if (this.state.currentTrip[j]['name'] == locs[i]['name']) {
+                            dup = true;
+                            break;
+                        }
                     }
                 }
-                if(!dup) {
-                    this.state.currentTrip.push({name: locs[i]['name'], code: locs[i]['code']});
-                }
+                    if (!dup) {
+                        this.state.currentTrip.push({name: locs[i]['name'], code: locs[i]['code']});
+                    }
+
             }
             this.forceUpdate();
         };
@@ -127,7 +132,7 @@ export default class App extends React.Component {
             for(let i in keys){
                 for(let j in trip) {
                     if (trip[j]['name'] == keys[i]) {
-                        delete trip[j];
+                        delete trip[j]; break;
                     }
                         }
             }
