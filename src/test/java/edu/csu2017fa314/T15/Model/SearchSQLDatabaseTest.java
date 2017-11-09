@@ -229,7 +229,7 @@ public class SearchSQLDatabaseTest {
 
     assertTrue(rt.length == 3);
     // Test to see if the correct airports were found
-    String[] ids ={"4XA8", "CKZ7", "KINK"};
+    String[] ids ={ "CKZ7", "4XA8","KINK"};
     for (int i = 0; i < ids.length; i++) {
       assertEquals(rt[i].getId(), ids[i]);
     }
