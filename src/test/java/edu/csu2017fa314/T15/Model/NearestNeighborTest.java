@@ -36,7 +36,7 @@ public class NearestNeighborTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
         this.path = i.getShortestPath();
-        assertEquals(i.getDistance(), 2078);
+        assertEquals(i.getDistance(), 1834);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class NearestNeighborTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
         this.path = i.getShortestPath();
-        assertEquals(i.getDistance(), 2591);
+        assertEquals(i.getDistance(), 2454);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class NearestNeighborTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
         this.path = i.getShortestPath();
-        assertEquals(i.getDistance(), 1348);
+        assertEquals(i.getDistance(), 1322);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class NearestNeighborTest {
         Model m = new Model(path);
         Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
         this.path = i.getShortestPath();
-        assertEquals(i.getDistance(), 1207);
+        assertEquals(i.getDistance(), 1076);
     }
 
 

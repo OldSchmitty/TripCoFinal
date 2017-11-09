@@ -81,10 +81,6 @@ public class DrawMap {
     double x2 = CalculateDistance.stringToDoubleForCoordinate(longEnd);
     double y2 = CalculateDistance.stringToDoubleForCoordinate(latEnd);
 
-    if (sameHemisphere(x1,x2)) { // same hemisphere, line does not cross
-      add += edgeString(Double.toString(x1), Double.toString(y1),
-              Double.toString(x2), Double.toString(y2));
-    } else {
       if (crossesBoundary(x1, y1, x2, y2)){ // line crosses, draw 2 lines
         // draw two lines using slope
         if ((x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180)){
@@ -119,7 +115,6 @@ public class DrawMap {
         //add += edgeString("0", "90", "0", "-90");
       }
 
-    }
     elements.set(edgeLoc,add);
   }
 

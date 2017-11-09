@@ -135,6 +135,7 @@ public class Itinerary {
             while (!remainingKeys.isEmpty()){
 
                 // run Nearest Neighbor starting from the current destination
+                nn.setCurrentDistance(currentDistance);
                 Integer destinationID = nn.nearestNeighbor(currentID, remainingKeys);
                 // update currentDistance with calculation in Nearest Neighbor class
                 currentDistance=nn.getCurrentDistance();
