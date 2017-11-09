@@ -289,7 +289,7 @@ export default class App extends React.Component {
     for (let i in input) {
       let dup = false;
       for (let j in this.state.currentTrip) {
-        if (this.state.currentTrip[j]['name'] == input[i]['map']['name']) {
+        if (this.state.currentTrip[j]['code'] == input[i]['map']['code']) {
           dup = true;
           break;
         }
