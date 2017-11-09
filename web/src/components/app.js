@@ -368,6 +368,8 @@ export default class App extends React.Component {
     this.setState({
       sysFile: file
     })
+
+    console.log("Loaded: " + this.state.sysFile.destinations);
     this.fetch2("upload", this.state.sysFile.destinations);
   }
 
@@ -602,8 +604,8 @@ export default class App extends React.Component {
          because we changed the ServerRequest class to take an ArrayList
       */
       clientRequest = {
-        request: "query",
-        description: [input],
+        queries: [input],
+        doWhat: "query",
         units: this.state.units,
         opt: this.state.opt,
       };
@@ -612,8 +614,8 @@ export default class App extends React.Component {
     } else if (type === "upload") {
       // Send entire destinations array
       clientRequest = {
-        doWhat: "upload",
         queries: input,
+        doWhat: "upload",
         units: this.state.units,
         opt: this.state.opt,
       }
