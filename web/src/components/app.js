@@ -26,19 +26,26 @@ export default class App extends React.Component {
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
             let keys=this.getQueryTableKeys();
+            let dup;
+
             for (let i in keys){
-                let dup = false;
-                for(let j in this.state.currentTrip){
-                    if (this.state.currentTrip[j]['name']== locs[i]['name']){
-                        dup = true;
-                        break;
+
+                dup = false;
+                for (let j in locs){
+                    if(locs[j]['code'] === keys[i]){
+                        for(let k in this.state.currentTrip){
+                            if(this.state.currentTrip[k]['code'] === keys[i])
+                                dup = true;
+                        }
+
+                        if(!dup) this.state.currentTrip.push({'name': locs[j]['name'], 'code': locs[j]['code']});
+
                     }
-                }
-                if(!dup) {
-                    this.state.currentTrip.push({name: locs[i]['name'], code: locs[i]['code']});
                 }
             }
             this.forceUpdate();
+
+            console.log(this.state.currentTrip);
         };
         this.createCustomInsertButton = (onClick) => {
             return (
@@ -127,7 +134,7 @@ export default class App extends React.Component {
             for(let i in keys){
                 for(let j in trip) {
                     if (trip[j]['name'] == keys[i]) {
-                        delete trip[j];
+                        delete trip[j]; break;
                     }
                         }
             }
@@ -138,7 +145,6 @@ export default class App extends React.Component {
                 if (i) newTrip.push(trip[i]);
             }
 
-            console.log("New Trip: " + newTrip);
             this.setState({currentTrip: newTrip});
             this.forceUpdate;
         }
@@ -217,30 +223,30 @@ export default class App extends React.Component {
                     <div className = "search-button">
                         <BootstrapTable data={this.state.locations}
                                         selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
-                                        height = "200"
+                                        height = "200px"
                                         striped={true}
 
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
                             <TableHeaderColumn headerAlign= 'center' dataField='name'>
-                                Search Result {this.state.results}</TableHeaderColumn>
-                            <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>
-                                index</TableHeaderColumn>
+                                Search Results {this.state.results}</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign = 'right' hidden= {true} dataField='code' isKey>
+                                Codes</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
 
                     <div className = "search-button">
                         <BootstrapTable data={this.state.currentTrip}
                                         selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
-                                        height = "200"
+                                        height = "200px"
                                         striped={true}
                                         ref='tripTable'
 
                                         options={{btnGroup:this.buttons}}
                                         insertRow deleteRow>
                             <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
-                                Current Trip</TableHeaderColumn>
+                                Current Trip - {this.state.currentTrip.length} in Trip</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>
@@ -283,7 +289,7 @@ export default class App extends React.Component {
     for (let i in input) {
       let dup = false;
       for (let j in this.state.currentTrip) {
-        if (this.state.currentTrip[j]['name'] == input[i]['map']['name']) {
+        if (this.state.currentTrip[j]['code'] == input[i]['map']['code']) {
           dup = true;
           break;
         }
@@ -324,7 +330,7 @@ export default class App extends React.Component {
 
   async getFile() {
     // assign all the airport codes of the displayed locations to an array
-    let locs = this.getQueryTableData().map((location) => {
+    let locs = this.getTripTableData().map((location) => {
       return location.code;
     });
 
@@ -362,6 +368,8 @@ export default class App extends React.Component {
     this.setState({
       sysFile: file
     })
+
+    console.log("Loaded: " + this.state.sysFile.destinations);
     this.fetch2("upload", this.state.sysFile.destinations);
   }
 
@@ -519,8 +527,7 @@ export default class App extends React.Component {
                 });
             // Wait for server to return and convert it to json.
             let ret = await jsonReturned.json();
-            // Log the received JSON to the browser console
-            console.log("Got back ", JSON.parse(ret));
+
             // set the serverReturned state variable to the received json.
             // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
             this.setState({
@@ -597,8 +604,8 @@ export default class App extends React.Component {
          because we changed the ServerRequest class to take an ArrayList
       */
       clientRequest = {
-        request: "query",
-        description: [input],
+        queries: [input],
+        doWhat: "query",
         units: this.state.units,
         opt: this.state.opt,
       };
@@ -607,8 +614,8 @@ export default class App extends React.Component {
     } else if (type === "upload") {
       // Send entire destinations array
       clientRequest = {
-        doWhat: "upload",
         queries: input,
+        doWhat: "upload",
         units: this.state.units,
         opt: this.state.opt,
       }
