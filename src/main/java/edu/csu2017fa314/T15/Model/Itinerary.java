@@ -17,7 +17,6 @@ public class Itinerary {
      * @param map - array of destinations in trip
      * @param opt - optimization to be performed
      */
-
     public Itinerary(Destination[] map, String opt) {
         this(map, opt, false);
     }
@@ -30,7 +29,6 @@ public class Itinerary {
      * @param opt - optimization to be performed
      * @param test - determines if in debug mode
      */
-
     public Itinerary(Destination[] map, String opt, Boolean test){
         this.opt = opt; this.test = test;
         keys = new ArrayList<>();
@@ -55,6 +53,7 @@ public class Itinerary {
 
         // If no opt is chosen, build the path and pathDistance by just adding everything in the order they came in
         if(this.opt.equals("None")){
+
             for(int i = 0; i < keys.size(); i++){
                 currentPath[i] = keys.get(i);
             }
@@ -67,6 +66,51 @@ public class Itinerary {
                     currentPath[0]) + 1;
             currentPath[currentPath.length-1]=keys.get(0);
             path = currentPath.clone();
+            return;
+        }
+
+        /*
+         * For use testing 3-Opt. It does not perform NN before optimizing the path using 3-opt allowing more predictable
+         * results from input to thoroughly test 3-Opt.
+         *
+         * LEAVE IN PLACE, ThreeOptTest.java WILL USE THIS BLOCK FOR J-UNIT TESTING
+         */
+        if (this.opt.equals("3-Opt Test")){
+
+            // builds a path, using each destination as the start location, w/o using nearest neighbor
+            for (int i=0; i<keys.size(); i++){
+
+                int count = 0; // current write location for current path
+
+                /* Construct The Trip Path */
+                // add keys in order from start key to last key in array
+                for (int j=i; j<keys.size(); j++){
+                    currentPath[count] = keys.get(j);
+                    count++;
+                }
+                // add keys in order from first key in array to the start destination's key
+                for (int j=0; j<i; j++){
+                    currentPath[count] = keys.get(j);
+                    count++;
+                }
+                // add the start destination's key to the end of the path to complete the trip loop
+                currentPath[currentPath.length - 1] = keys.get(i);
+
+                // calculate trips total distance
+                for (int j = 0; j < currentPath.length - 1; j++) {
+                    pathDistance += distanceTable.getDistance(currentPath[j], currentPath[j + 1]);
+                }
+
+                // Run 3-Opt on each path
+                ThreeOpt tOpt = new ThreeOpt(distanceTable, currentPath);
+                currentPath = tOpt.getThreeOpt();
+                currentDistance = tOpt.getDistance();
+
+                // check if the new path is shorter than the current path.
+                isShorter(currentPath);
+                currentDistance = 0;
+            }
+
             return;
         }
 
@@ -144,6 +188,7 @@ public class Itinerary {
                 System.out.println("Found shorter Path." + pathDistance);
             }
 
+            // replace the path with the shorter path
             path = currentPath.clone();
             pathDistance = currentDistance;
         }
