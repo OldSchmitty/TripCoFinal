@@ -162,7 +162,12 @@ public class Itinerary {
             }
 
             if(this.opt.equals("3-Opt")){
-                // do nothing for now
+                // Run 2Opt on each path if chosen
+                ThreeOpt tOpt = new ThreeOpt(distanceTable, currentPath);
+                currentPath = tOpt.getThreeOpt();
+
+                // update currentDistance with calculation in 2-Opt
+                currentDistance = tOpt.getDistance();
             }
 
 
