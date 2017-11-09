@@ -63,7 +63,7 @@ export default class App extends React.Component {
             );
         };
         this.makeTrip = (onClick) => {
-            if(this.getTripTableData().length != 0)
+            if(this.getTripTableData().length > 1)
                 this.getItinerary()
         };
         this.createUnitsButton = (onClick) => {
@@ -101,6 +101,7 @@ export default class App extends React.Component {
                 <select
                     style={{height: 35}}
                     onChange = {this.handleChange}
+                    defaultValue = "Choose an Algorithm"
                 >
                     <option value="None">None</option>
                     <option value="Nearest Neighbor">Nearest Neighbor</option>
@@ -121,7 +122,7 @@ export default class App extends React.Component {
 
         this.handleDeleteButtonClick = (onClick) => {
             let keys = this.refs.tripTable.state.selectedRowKeys;
-            let trip = this.state.currentTrip.slice();
+            let trip = this.state.currentTrip;
 
             for(let i in keys){
                 for(let j in trip) {
@@ -131,7 +132,14 @@ export default class App extends React.Component {
                         }
             }
 
-            this.setState({currentTrip: trip});
+            let newTrip = [];
+
+            for(let i in trip) {
+                if (i) newTrip.push(trip[i]);
+            }
+
+            console.log("New Trip: " + newTrip);
+            this.setState({currentTrip: newTrip});
             this.forceUpdate;
         }
 
@@ -438,7 +446,8 @@ export default class App extends React.Component {
         let queries = this.getTripTableData();
 
         for (let i in queries) {
-            trip.push(queries[i]['code']);
+            if(i != "")
+                trip.push(queries[i]['code']);
         }
 
         this.setState({results: ""})
