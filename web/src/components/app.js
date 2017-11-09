@@ -26,22 +26,22 @@ export default class App extends React.Component {
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
             let keys=this.getQueryTableKeys();
+            let dup;
 
             for (let i in keys){
-                let dup = false;
 
-                if(this.state.currentTrip.length != 0) {
-                    for (let j in this.state.currentTrip) {
-                        if (this.state.currentTrip[j]['name'] == locs[i]['name']) {
-                            dup = true;
-                            break;
+                dup = false;
+                for (let j in locs){
+                    if(locs[j]['name'] === keys[i]){
+                        for(let k in this.state.currentTrip){
+                            if(this.state.currentTrip[k]['name'] === keys[i])
+                                dup = true;
                         }
+
+                        if(!dup) this.state.currentTrip.push({'name': locs[j]['name'], 'code': locs[j]['code']});
+
                     }
                 }
-                    if (!dup) {
-                        this.state.currentTrip.push({name: locs[i]['name'], code: locs[i]['code']});
-                    }
-
             }
             this.forceUpdate();
         };
@@ -143,7 +143,6 @@ export default class App extends React.Component {
                 if (i) newTrip.push(trip[i]);
             }
 
-            console.log("New Trip: " + newTrip);
             this.setState({currentTrip: newTrip});
             this.forceUpdate;
         }
@@ -222,30 +221,28 @@ export default class App extends React.Component {
                     <div className = "search-button">
                         <BootstrapTable data={this.state.locations}
                                         selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
-                                        height = "200"
+                                        height = "200px"
                                         striped={true}
 
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name'>
-                                Search Result {this.state.results}</TableHeaderColumn>
-                            <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>
-                                index</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
+                                Search Results {this.state.results}</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
 
                     <div className = "search-button">
                         <BootstrapTable data={this.state.currentTrip}
                                         selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
-                                        height = "200"
+                                        height = "200px"
                                         striped={true}
                                         ref='tripTable'
 
                                         options={{btnGroup:this.buttons}}
                                         insertRow deleteRow>
                             <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
-                                Current Trip</TableHeaderColumn>
+                                Current Trip - {this.state.currentTrip.length} in Trip</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>
@@ -524,8 +521,7 @@ export default class App extends React.Component {
                 });
             // Wait for server to return and convert it to json.
             let ret = await jsonReturned.json();
-            // Log the received JSON to the browser console
-            console.log("Got back ", JSON.parse(ret));
+
             // set the serverReturned state variable to the received json.
             // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
             this.setState({
