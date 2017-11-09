@@ -35,7 +35,7 @@ export default class App extends React.Component {
                     if(locs[j]['name'] === keys[i]){
                         for(let k in this.state.currentTrip){
                             if(this.state.currentTrip[k]['name'] === keys[i])
-                                dup = true; break;
+                                dup = true;
                         }
 
                         if(!dup) this.state.currentTrip.push({'name': locs[j]['name'], 'code': locs[j]['code']});
