@@ -10,34 +10,13 @@ import org.junit.Test;
 public class DrawMapTest {
 
     private String path = "."+ File.separator+"data" + File.separator + "test_output" + File.separator;
-    private String baseFile = "." + File.separator+"data" +
-            File.separator + "resources" + File.separator + "colorado.svg";
-    private String worldBaseFile = "." + File.separator+"data" +
-            File.separator + "resources" + File.separator + "world.svg";
     private DrawMap d;
     private boolean worked;
 
     @Before
     public void initialize(){
-        d = new DrawMap(path+"test.svg", baseFile);
+        d = new DrawMap(path+"test.svg");
         worked = false;
-    }
-
-
-    /**
-     *Draws an empty map of Colorado
-     */
-    @Test
-    public void drawColorado(){
-        try{
-            d = new DrawMap(path + "TestDrawColo.svg", baseFile);
-            d.drawColorado();
-            d.write();
-        }
-        catch (RuntimeException e){
-            assertFalse("Write Failed to run", true);
-        }
-        assertTrue(new File(path+ "TestDrawColo.svg").exists());
     }
 
     /**
@@ -46,7 +25,7 @@ public class DrawMapTest {
     @Test
     public void addEdge(){
         try{
-            d = new DrawMap(path + "TestDrawPath.svg", baseFile);
+            d = new DrawMap(path + "TestDrawPath.svg");
             d.addEdge("40°33′33″N", "105°4′41″W", "39°45′43″N", "104°52′52″W"); //Fort Collins-Denver
             d.addEdge("39°45′43″N", "104°52′52″W", "39°15′50″N", "103°41′32″W"); //Denver-Limon
             d.addEdge("39°15′50″N", "103°41′32″W", "40°33′33″N", "105°4′41″W"); //Limon-FC
@@ -64,7 +43,7 @@ public class DrawMapTest {
     @Test
     public void addEdgeHorizonatal() {
         try{
-            d = new DrawMap(path + "TestDrawPathHoriz.svg", baseFile);
+            d = new DrawMap(path + "TestDrawPathHoriz.svg");
             d.addEdge("40°33′33″N", "105°4′41″W","40°33′33″N", "102°4′41″W"); //Fort Collins
             d.write();
         }
@@ -80,7 +59,7 @@ public class DrawMapTest {
     @Test
     public void addEdgeVertical(){
         try{
-            d = new DrawMap(path + "TestDrawPathVert.svg", baseFile);
+            d = new DrawMap(path + "TestDrawPathVert.svg");
             d.addEdge("40°33′33″N", "105°4′41″W","30°33′33″N", "105°4′41″W");
             d.write();
         }
@@ -96,7 +75,7 @@ public class DrawMapTest {
     @Test
     public void drawBoundary(){
         try{
-            d = new DrawMap(path + "TestDrawBoundaries.svg", worldBaseFile);
+            d = new DrawMap(path + "TestDrawBoundaries.svg");
             // prime meridian
             d.addEdge("90°N", "0°W","90°S", "0°W");
             // equator
@@ -124,7 +103,7 @@ public class DrawMapTest {
     @Test
     public void crossNoSlope(){
         try{
-            d = new DrawMap(path + "TestDrawCrossNoSlope.svg", worldBaseFile);
+            d = new DrawMap(path + "TestDrawCrossNoSlope.svg");
             // straight across 0,0
             d.addEdge("0","160W","0","160E");
             // straight across north hemisphere
@@ -145,7 +124,7 @@ public class DrawMapTest {
     @Test
     public void crossSlope(){
         try{
-            d = new DrawMap(path + "TestDrawCrossSlope.svg", worldBaseFile);
+            d = new DrawMap(path + "TestDrawCrossSlope.svg");
             // equator and prime maridian
 
             // equator to north
@@ -209,7 +188,7 @@ public class DrawMapTest {
     @Test
     public void atEquator(){
         try{
-            d = new DrawMap(path + "TestDrawPathEquator.svg", baseFile);
+            d = new DrawMap(path + "TestDrawPathEquator.svg");
             d.addEdge("0", "0","1", "1"); //Need to be larger then a pixel to work
             d.write();
         }

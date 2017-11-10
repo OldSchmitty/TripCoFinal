@@ -17,8 +17,6 @@ public class TestView
 
   final private String path = "."+ File.separator+"data"+ File.separator + "test_output" + File.separator;
   private String samplePath = "."+File.separator+"data" + File.separator+ "resources" + File.separator;
-  final private String mapPath = "."+ File.separator+
-      "data"+File.separator+ "resources" + File.separator + "colorado.svg";
   private View v;
   private Destination[] des;
   private ArrayList<Edge> edges;
@@ -28,7 +26,7 @@ public class TestView
    */
   @Before
   public void setUp() {
-    v = new View(path, mapPath);
+    v = new View(path);
     // Set up Hash Map
     String[] key = {"id", "name", "latitude", "longitude"};
     String[] value1 = {"1", "Fort Collins", "40°33′33″N", "105°4′41″W" };
@@ -52,6 +50,7 @@ public class TestView
     edges.add(new Edge(2, 0, 30000));
   }
 
+  @Test
   public void testDrawMap(){
     try {
       v.drawMap(des,edges);
@@ -115,6 +114,7 @@ public class TestView
     }
   }
 
+  @Test
   public void testMapString(){
     String map = v.drawMapString(des, edges);
     assertNotNull(map);
