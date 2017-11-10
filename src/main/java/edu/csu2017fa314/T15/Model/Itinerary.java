@@ -53,6 +53,7 @@ public class Itinerary {
 
         // If no opt is chosen, build the path and pathDistance by just adding everything in the order they came in
         if(this.opt.equals("None")){
+            pathDistance = 0;
 
             for(int i = 0; i < keys.size(); i++){
                 currentPath[i] = keys.get(i);
