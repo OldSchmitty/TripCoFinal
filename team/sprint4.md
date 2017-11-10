@@ -42,32 +42,30 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 11-3 | #276 #300 #266 #265 #279 #304 #268 #270 #273| #271 #298 #297 #275 | JAVASCRIPT | medium
 11-6 | #297 #298 #299 #301 #278 | #275 | Medical/Family/JAVASCRIPT | low
 11-8 | #275 #278 #264 #286 | #320 #271 #283 | JAVASCRIPT | medium
+11-10 | #341 #283 #263 #338 #340 #342 #336 #333 #271 #220 | #326 #323 | None | High
 
 ## Review
 
 #### Completed user stories (epics) in Sprint Backlog 
-* *user story*:  *comments*
-* 
+* #261 #262 #263 #264 #284
 
 Completed *number of issues completed* issues associated with these user stories.
+* 38
 
 #### Incomplete user stories / epics in Sprint Backlog 
-* *user story*: *Explanation...*
-*
+* None
 
 #### What went well
-* *something*
-*
+* Less Javascript problems than normal, website transition, Teamwork!
 
 #### Problems encountered and resolutions
-* *something*
-*
+* app.js is too cumbersome to run and debug probably, we are wanting to break this up into multiple classes, 3-Opt took a lot longer than estimated to complete, numerous bugs found couple days before demo that were found and fixed
 
 ## Retrospective
 
 Topic | Teamwork | Process | Tools
 :--- | :--- | :--- | :---
 What we will change this time |If stuck for an hour, ask a question on discord | Try full scrum | Make local database for SQL access
-What we did well |  |  | 
-What we need to work on |  |  |
-What we will change next time |  |  | 
+What we did well | Collaboration amongst each other while coding | The initial plan was followed almost entirely | Accomplished changes that we had wanted to make things easier 
+What we need to work on | Still need a better way to commuinicate | Limit number of issues per pull - ONLY 1 | React callback functions 
+What we will change next time | Actively find a better way to communicate - possibly Slack | Using code climate better - don't push unless it looks pretty good, Stop putting up pull requests with multiple issues | Switch to Slack for Communication and possibly meeting in CS120 Lab for work
