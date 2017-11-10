@@ -160,6 +160,41 @@ export default class App extends React.Component {
             );
         }
 
+        this.upButton = (cell, row, enumObject, rowIndex) => {
+            return <button
+                type="button"
+                onClick={() =>{
+                    if(rowIndex > 0){
+
+                        let swap = this.state.currentTrip[rowIndex];
+                        this.state.currentTrip[rowIndex] = this.state.currentTrip[rowIndex-1];
+                        this.state.currentTrip[rowIndex-1] = swap;
+                        this.forceUpdate();
+                        console.log(this.state.currentTrip);
+                    }
+                }}>
+                Up
+            </button>;
+        }
+
+        //function for rearranging rows in to table.
+        this.downButton = (cell, row, enumObject, rowIndex) => {
+            return <button
+                type="button"
+                onClick={() =>{
+                    if(rowIndex < this.state.currentTrip.length-1){
+
+                        let swap = this.state.currentTrip[rowIndex];
+                        this.state.currentTrip[rowIndex] = this.state.currentTrip[rowIndex+1];
+                        this.state.currentTrip[rowIndex+1] = swap;
+                        this.forceUpdate();
+                        console.log()
+                    }
+                }}>
+                Down
+            </button>;
+        }
+
     };
 
 
@@ -245,8 +280,16 @@ export default class App extends React.Component {
 
                                         options={{btnGroup:this.buttons}}
                                         insertRow deleteRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
+                            <TableHeaderColumn width = '150'headerAlign= 'center' dataField='name' isKey>
                                 Current Trip - {this.state.currentTrip.length} in Trip</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' width = '75'
+                                               dataFormat = {this.upButton.bind(this)}>
+                                                Move Up
+                            </TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' width = '75'
+                                               dataFormat = {this.downButton.bind(this)}>
+                                                Move Down
+                            </TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>

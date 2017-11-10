@@ -136,6 +136,51 @@ public class SearchSQLDatabase {
     return rt;
   }
 
+
+  /**
+   * Queries all the fields in a database for an a given search term
+   * @param searchFor What to search for
+   * @param inColumns carries a flag for which type of search to do
+   * @return A an Array of Destinations with the results of the search in order
+   * @throws SQLException error in accessing the database
+   */
+  public Destination[] queryInOrder(String[] searchFor, String inColumns)
+          throws SQLException {
+    Destination[] rt = new Destination[searchFor.length];
+    final String[] tables ={".continents", ".countries", ".regions", ""}; // list of tables in order of search
+    String currentCode[] = new String[1];
+    for(int i = 0; i < searchFor.length; i++) {
+      currentCode[0] = searchFor[i];
+      try {
+        try (PreparedStatement qry = makeSingleQueryStatement(searchFor[i], inColumns)) {
+          ResultSet rs = qry.executeQuery();
+          ResultSetMetaData meta = rs.getMetaData();
+          int size = meta.getColumnCount() + 1;
+
+          rs.next();
+          int tableCount = -1;// loop through the tables in search
+          Destination des = new Destination();
+          for (int j = 1; j < size; j++) {
+            String field = meta.getColumnName(j);
+            String info = rs.getString(j);
+            // Add the table to the search term to prevent overriding keys in desinations
+            if (!field.equals("id")) {
+              des.setValue(field + tables[tableCount], info);
+            } else {
+              tableCount++; // used to skip id in returns and move table count
+            }
+          }
+          des.setIdentifier(i);
+          rt[i] = des;
+        }
+      } catch (SQLException e) {
+        System.err.printf("SearchSQLDatabase: bad SQL query\n%s\n", e.getMessage());
+        throw e;
+      }
+    }
+    return rt;
+  }
+
   /**
    * Builds builds a prepared statement based on a search type
    * @param searchFor What to search for
@@ -152,8 +197,8 @@ public class SearchSQLDatabase {
     String search; // What we are searching for
     String where; // What tables to search in
     String front = "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
-        + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
-        + "ON airports.iso_region = regions.code WHERE "; // Common start for all searches
+            + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
+            + "ON airports.iso_region = regions.code WHERE "; // Common start for all searches
     // Looking for in (?,?,..)
     if(searchFor.length > 1)
     {
@@ -173,7 +218,7 @@ public class SearchSQLDatabase {
       // Search in all tables for possible matches
       if(searchType[0].equals("*")) {
         where = "airports.name like ? or municipality like ? or regions.name like ? "
-            + "or countries.name like ? or continents.name like ? limit 100";
+                + "or countries.name like ? or continents.name like ? limit 100";
         rt = conn.prepareStatement(front + where);
         rt.setString(1, search);
         rt.setString(2, search);
@@ -186,12 +231,42 @@ public class SearchSQLDatabase {
         where = "airports.code in "+ search;
         rt = conn.prepareStatement(front+where);
         for(int i = 0; i <searchFor.length; i++) {
-        rt.setString(i+1, searchFor[i]);
+          rt.setString(i+1, searchFor[i]);
         }
-    }
-    else {
+      }
+      else {
         // This should not happen yet
         throw new IllegalArgumentException("Invalid search term " + searchType[0] + "\n");}
+    } catch (SQLException e) {
+      System.err.printf("SearchSQLDatabase:makeQueryStatement error "
+              + "in getting column names\n%s\n", e.getMessage());
+      throw e;
+    }
+
+    return rt;
+  }
+
+
+
+    /**
+     * Builds builds a prepared statement for a single item based on the airport code
+     * @param searchFor What to search for
+     * @param searchType Flag for what kind of search to do
+     *                    <p>"CODE" airport id/code</p>
+     * @return PreparedStatement
+     */
+  private PreparedStatement makeSingleQueryStatement(String searchFor, String searchType) throws SQLException {
+    String query = "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
+        + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
+        + "ON airports.iso_region = regions.code WHERE "; // Common start for all searches
+    //Basic query
+
+    PreparedStatement rt;
+    try {
+      // Search in all tables for possible matches
+        // look by id
+         query += "airports.code = '"+ searchFor + "'";
+        rt = conn.prepareStatement(query);
     } catch (SQLException e) {
       System.err.printf("SearchSQLDatabase:makeQueryStatement error "
         + "in getting column names\n%s\n", e.getMessage());

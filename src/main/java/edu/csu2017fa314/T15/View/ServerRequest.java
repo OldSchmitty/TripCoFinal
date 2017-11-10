@@ -33,7 +33,7 @@ public class ServerRequest {
     public Destination[] planTrip() throws SQLException{
         String[] columns = {"CODE"};
         SearchSQLDatabase sql = new SearchSQLDatabase(login);
-        return sql.query(queries, columns);
+        return sql.queryInOrder(queries, columns[0]);
     }
 
     public Destination[] getDests(){ return this.dests; }
