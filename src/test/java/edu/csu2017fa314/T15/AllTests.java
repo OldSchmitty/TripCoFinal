@@ -21,7 +21,8 @@ import junit.framework.JUnit4TestAdapter;
     EdgeTest.class,
     ServerTest.class,
     TwoOptTest.class,
-    NearestNeighborTest.class
+    NearestNeighborTest.class,
+    ThreeOptTest.class
 })
 
 public class AllTests

@@ -87,7 +87,7 @@ public class Server {
 
             Destination[] trip;
             trip = sRec.planTrip();
-            System.out.println(Arrays.toString(trip));
+            //System.out.println(Arrays.toString(trip));
 
             Itinerary i = new Itinerary(trip, sRec.getOpt());
             ArrayList<Edge> edges = i.getShortestPath();
