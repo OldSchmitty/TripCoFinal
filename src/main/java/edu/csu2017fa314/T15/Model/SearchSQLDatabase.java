@@ -148,9 +148,7 @@ public class SearchSQLDatabase {
           throws SQLException {
     Destination[] rt = new Destination[searchFor.length];
     final String[] tables ={".continents", ".countries", ".regions", ""}; // list of tables in order of search
-    String currentCode[] = new String[1];
     for(int i = 0; i < searchFor.length; i++) {
-      currentCode[0] = searchFor[i];
       try {
         try (PreparedStatement qry = makeSingleQueryStatement(searchFor[i], inColumns)) {
           ResultSet rs = qry.executeQuery();

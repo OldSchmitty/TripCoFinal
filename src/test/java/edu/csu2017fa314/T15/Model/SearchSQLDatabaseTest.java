@@ -199,6 +199,18 @@ public class SearchSQLDatabaseTest {
   }
 
   /**
+   * Test to make sure the new function queryInOrder and its helper function are working
+   */
+  @Test
+  public void testQueryInOrder()throws SQLException{
+    String[] searchFor = {"CK27", "4XA8", "KINK"};
+    Destination[] dests = sql.queryInOrder(searchFor, "CODE");
+    assertEquals(dests[0].getId(),"CK27" );
+    assertEquals(dests[1].getId(),"4XA8" );
+    assertEquals(dests[2].getId(),"KINK" );
+  }
+
+  /**
    * Tests to see if one item is returned from query
    */
   @Test
