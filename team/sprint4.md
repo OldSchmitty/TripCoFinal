@@ -41,6 +41,7 @@ Date | Tasks done this time | Tasks done next time | Impediments | Confidence
 11-1 | #272 #274 #276 #277 #294 | #279 #265 #266| Tests in school SQL | medium
 11-3 | #276 #300 #266 #265 #279 #304 #268 #270 #273| #271 #298 #297 #275 | JAVASCRIPT | medium
 11-6 | #297 #298 #299 #301 #278 | #275 | Medical/Family/JAVASCRIPT | low
+11-8 | #275 #278 #264 #286 | #320 #271 #283 | JAVASCRIPT | medium
 
 ## Review
 

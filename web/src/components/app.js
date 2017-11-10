@@ -15,7 +15,7 @@ export default class App extends React.Component {
             ps: [],
             addInfo: "",
             serverReturned: null,
-            svg: false,
+            svg: null,
             bottomRow: [],
             locations: [],
             currentTrip: [],
@@ -23,31 +23,30 @@ export default class App extends React.Component {
             opt: "None",
             results: ""
         }
-
-        //functions needed by render() need to be declared here otherwise they won't work
-
-
-        //adds selected search items to our trip, protects against duplicates
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
             let keys=this.getQueryTableKeys();
+            let dup;
+
             for (let i in keys){
-                let dup = false;
-                for(let j in this.state.currentTrip){
-                    if (this.state.currentTrip[j]['name']== locs[i]['name']){
-                        dup = true;
-                        break;
+
+                dup = false;
+                for (let j in locs){
+                    if(locs[j]['code'] === keys[i]){
+                        for(let k in this.state.currentTrip){
+                            if(this.state.currentTrip[k]['code'] === keys[i])
+                                dup = true;
+                        }
+
+                        if(!dup) this.state.currentTrip.push({'name': locs[j]['name'], 'code': locs[j]['code']});
+
                     }
-                }
-                if(!dup) {
-                    this.state.currentTrip.push({name: locs[i]['name'], code: locs[i]['code']});
                 }
             }
             this.forceUpdate();
+
             console.log(this.state.currentTrip);
         };
-
-        //custom button creation
         this.createCustomInsertButton = (onClick) => {
             return (
                 <InsertButton
@@ -59,8 +58,6 @@ export default class App extends React.Component {
                 />
             );
         };
-
-        //sends back current trip to spark and gets the trip back
         this.createTripButton = (onClick) => {
             return (
                 <InsertButton
@@ -73,21 +70,24 @@ export default class App extends React.Component {
             );
         };
         this.makeTrip = (onClick) => {
-            this.getItinerary()
+            if(this.getTripTableData().length > 1)
+                this.getItinerary()
         };
         this.createUnitsButton = (onClick) => {
             return (
                     <button type='button'
                             className={'btn btn-primary'}
-                            onClick={ () => this.changeUnits(onClick) }>
+                            onClick={ () => this.changeUnits(onClick) }
+                            style={{height: 35, width: 92.14}}>
                         {this.state.units}
                     </button>
             );
         };
         this.buttons = props => {
             return(
-                <ButtonGroup className='my-custom-class' sizeClass='btn-group-md'>
+                <ButtonGroup className='my-custom-class' sizeClass='btn-group-md' style={{width: "150%"}}>
                     {this.createTripButton()}
+                    {this.createCustomDeleteButton()}
                     {this.createUnitsButton()}
                     {this.createSelectButton()}
                     </ButtonGroup>
@@ -106,7 +106,9 @@ export default class App extends React.Component {
         this.createSelectButton = (onClick) => {
             return(
                 <select
+                    style={{height: 35}}
                     onChange = {this.handleChange}
+                    defaultValue = "Choose an Algorithm"
                 >
                     <option value="None">None</option>
                     <option value="Nearest Neighbor">Nearest Neighbor</option>
@@ -120,41 +122,42 @@ export default class App extends React.Component {
             console.log("Changing Opt to",e.target.value);
             this.setState({opt:e.target.value});
         }
-
-        //function for rearranging rows in the plan table
-        this.upButton = (cell, row, enumObject, rowIndex) => {
-            return <button
-                        type="button"
-                        onClick={() =>{
-                            if(rowIndex > 0){
-
-                                let swap = this.state.currentTrip[rowIndex];
-                                this.state.currentTrip[rowIndex] = this.state.currentTrip[rowIndex-1];
-                                this.state.currentTrip[rowIndex-1] = swap;
-                                this.forceUpdate();
-                                console.log(this.state.currentTrip);
-                            }
-                        }}>
-                        Move Up
-                        </button>;
+        this.resetPage = (onClick) => {
+            this.setState({currentTrip: [], units: "Miles", opt: "None", svg: null, addInfo: [], bottomRow: [],
+                pairs: [], options: [], allPairs: [], results: "", locations: []});
         }
 
-        //function for rearranging rows in to table.
-        this.downButton = (cell, row, enumObject, rowIndex) => {
-            return <button
-                type="button"
-                onClick={() =>{
-                    if(rowIndex < this.state.currentTrip.length-1){
+        this.handleDeleteButtonClick = (onClick) => {
+            let keys = this.refs.tripTable.state.selectedRowKeys;
+            let trip = this.state.currentTrip;
 
-                        let swap = this.state.currentTrip[rowIndex];
-                        this.state.currentTrip[rowIndex] = this.state.currentTrip[rowIndex+1];
-                        this.state.currentTrip[rowIndex+1] = swap;
-                        this.forceUpdate();
-                        console.log()
+            for(let i in keys){
+                for(let j in trip) {
+                    if (trip[j]['name'] == keys[i]) {
+                        delete trip[j]; break;
                     }
-                }}>
-                Move Down
-            </button>;
+                        }
+            }
+
+            let newTrip = [];
+
+            for(let i in trip) {
+                if (i) newTrip.push(trip[i]);
+            }
+
+            this.setState({currentTrip: newTrip});
+            this.forceUpdate;
+        }
+
+        this.createCustomDeleteButton = (onClick) => {
+            return (
+                <DeleteButton
+                    btnText='Delete Selected'
+                    btnContextual='btn-danger'
+                    className='my-custom-class'
+                    btnGlyphicon='glyphicon-edit'
+                    onClick={e => this.handleDeleteButtonClick(onClick)}/>
+            );
         }
 
     };
@@ -195,10 +198,16 @@ export default class App extends React.Component {
                 </label>
             )
         }
-        let svg;
+        if (this.state.serverReturned) { // if this.state.serverReturned is not null
+            //Get list of numbers
 
-        if(this.state.svg){
-            svg = this.state.serverReturned.svg;
+            /*Create an array of HTML list items. The Array.map function in Javascript passes each individual element
+            * of an array (in this case serverLocations is the array and "location" is the name chosen for the
+            individual element) through a function and returns a new array with the mapped elements.
+            * In this case f: location -> <li>location.name</li>, so the array will look like:
+            * [<li>[name1]</li>,<li>[name2]</li>...]
+            */
+            // set the local variable scg to this.state.serverReturned.svg
         }
 
         return (
@@ -210,44 +219,52 @@ export default class App extends React.Component {
                 <br/>
                 {/* Display the array of HTML list items created on line 18 */}
 
-                <div>
-                    <div className = "search-button" style={{width:"33%"}}>
+                <div style={{width:"40%"}}>
+                    <div className = "search-button">
                         <BootstrapTable data={this.state.locations}
-                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)'}}
-                                        height = "200"
+                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
+                                        height = "200px"
                                         striped={true}
 
                                         options={{insertBtn:this.createCustomInsertButton}}
                                         ref='queryTable'
                                         insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name'>Search Results {this.state.results}</TableHeaderColumn>
-                            <TableHeaderColumn dataField = 'index'  hidden = {true} isKey={true}>index</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name'>
+                                Search Results {this.state.results}</TableHeaderColumn>
+                            <TableHeaderColumn headerAlign = 'right' hidden= {true} dataField='code' isKey>
+                                Codes</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
 
-                    <div className = "search-button" style={{width:"50%"}}>
+                    <div className = "search-button">
                         <BootstrapTable data={this.state.currentTrip}
-                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)'}}
-                                        height = "200"
+                                        selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
+                                        height = "200px"
                                         striped={true}
                                         ref='tripTable'
-                                        deleteRow
 
                                         options={{btnGroup:this.buttons}}
-                                        insertRow>
-                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>Current Trip</TableHeaderColumn>
-                            <TableHeaderColumn headerAlign= 'center'  dataFormat = {this.upButton.bind(this)}></TableHeaderColumn>
-                            <TableHeaderColumn headerAlign= 'center'  dataFormat = {this.downButton.bind(this)}></TableHeaderColumn>
+                                        insertRow deleteRow>
+                            <TableHeaderColumn headerAlign= 'center' dataField='name' isKey>
+                                Current Trip - {this.state.currentTrip.length} in Trip</TableHeaderColumn>
                         </BootstrapTable>
                     </div>
                 </div>
                 <ButtonToolbar className= "Save-Load">
-                    <button type="button" onClick={this.saveButtonClicked.bind(this)}>Save Trip</button>
+                    <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}
+                    style={{"width": "15%"}}>
+                        <button type="button" onClick={this.uploadButtonClicked.bind(this)}>
+                            Upload Planned Trip</button>
+                    </Dropzone>
+
+                    <button type="button" onClick={this.saveButtonClicked.bind(this)}>
+                        Save Trip</button>
+                    <button type="button" onClick={this.resetPage.bind(this)}>Reset</button>
                 </ButtonToolbar>
                 <h1>
                     {/* In the constructor, this.state.serverReturned.svg is not assigned a value. This means the image
                     will only display once the serverReturned state variable is set to the received json in line 73*/}
-                    <span dangerouslySetInnerHTML={{__html: svg}} />
+                    <span dangerouslySetInnerHTML={{__html: this.state.svg}} />
                 </h1>
                 <Home
                     getData={this.getData.bind(this)}
@@ -262,13 +279,58 @@ export default class App extends React.Component {
         )
     }
 
+  /**
+   * Fills the trip plan with the selected destinations
+   * @param input The server return info
+   * TODO find way to send only the array of destination
+   *
+   */
+  fillTripTable(input){
+    for (let i in input) {
+      let dup = false;
+      for (let j in this.state.currentTrip) {
+        if (this.state.currentTrip[j]['code'] == input[i]['map']['code']) {
+          dup = true;
+          break;
+        }
+      }
+      if (!dup) {
+        this.state.currentTrip.push({
+          name: input[i]['map']['name'],
+          code: input[i]['map']['code']
+        });
+      }
+    }
+    this.forceUpdate();
+  }
   saveButtonClicked(event) {
     this.getFile();
   }
 
+  // File reading is almost identical how you did it in Sprint 1
+  uploadButtonClicked(acceptedFiles) {
+    console.log("Accepting drop");
+    acceptedFiles.forEach(file => {
+      console.log("Filename:", file.name, "File:", file);
+      console.log(JSON.stringify(file));
+      let fr = new FileReader();
+      fr.onload = (function () {
+        return function (e) {
+          let JsonObj = JSON.parse(e.target.result);
+          console.log(JsonObj);
+
+          // Do something with the file:
+          this.browseFile(JsonObj);
+        };
+      })(file).bind(this);
+
+      fr.readAsText(file);
+    });
+  }
+
   async getFile() {
     // assign all the airport codes of the displayed locations to an array
-    let locs = this.getQueryTableData().map((location) => {
+    let locs = this.getTripTableData().map((location) => {
       return location.code;
     });
 
@@ -300,14 +362,16 @@ export default class App extends React.Component {
     // remove hidden link from page
     pom.parentNode.removeChild(pom);
   }
-  /*// Set the uploaded JSON file to a state variable and send it to fetch method
+  // Set the uploaded JSON file to a state variable and send it to fetch method
   async browseFile(file) {
     console.log("Got file:", file);
     this.setState({
       sysFile: file
     })
-    this.fetch("upload", this.state.sysFile.destinations);
-  }*/
+
+    console.log("Loaded: " + this.state.sysFile.destinations);
+    this.fetch2("upload", this.state.sysFile.destinations);
+  }
 
 
 
@@ -364,10 +428,10 @@ export default class App extends React.Component {
 
 
         let totalRow =
-                <tr>
-                    <td colSpan="2">Total:</td>
-                    <td>{totalDist}</td>
-                </tr>;
+            <tr>
+                <td colSpan="2">Total:</td>
+                <td>{totalDist}</td>
+            </tr>;
         this.setState({
             allPairs: pairs,
             totalDist: totalDist,
@@ -376,6 +440,7 @@ export default class App extends React.Component {
         });
 
     }
+
     // This function waits until enter is pressed on the event (input)
     // A better implementation would be to have a Javascript form with an onSubmit event that calls fetch
     keyUp(event) {
@@ -386,11 +451,15 @@ export default class App extends React.Component {
     }
     async getItinerary() {
         let trip = [];
-        let queries = this.state.currentTrip;
+        let queries = this.getTripTableData();
 
         for (let i in queries) {
-            trip.push(queries[i]['code']);
+            if(i != "")
+                trip.push(queries[i]['code']);
         }
+
+        this.setState({results: ""})
+
         let newMap = {
             queries : trip,
             doWhat: "plan",
@@ -414,10 +483,15 @@ export default class App extends React.Component {
 
             this.setState({
                 serverReturned: JSON.parse(ret),
-                svg: true,
                 currentTrip:[],
                 locations: []
             });
+
+            if(this.state.serverReturned.svg){
+                this.setState({svg: this.state.serverReturned.svg});
+            }
+
+
             console.log("route is: ", this.state.serverReturned.items);
             this.getData(this.state.serverReturned.itinerary, this.state.serverReturned.items);
 
@@ -433,6 +507,8 @@ export default class App extends React.Component {
 
         /*  IMPORTANT: This object must match the structure of whatever
             object the server is reading into (in this case DataClass) */
+        this.setState({locations: []})
+
         let newMap = {
             queries : [input],
             doWhat: "query",
@@ -451,8 +527,7 @@ export default class App extends React.Component {
                 });
             // Wait for server to return and convert it to json.
             let ret = await jsonReturned.json();
-            // Log the received JSON to the browser console
-            console.log("Got back ", JSON.parse(ret));
+
             // set the serverReturned state variable to the received json.
             // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
             this.setState({
@@ -464,15 +539,114 @@ export default class App extends React.Component {
             let counter = 0;
             for (let i in serverLocations){
                 trip.push(serverLocations[i]["map"]["code"]);
-                this.state.locations.push({name:serverLocations[i]["map"]["name"],code:serverLocations[i]["map"]["code"], index:counter});
+                this.state.locations.push({name:serverLocations[i]["map"]["name"],
+                    code:serverLocations[i]["map"]["code"], index:counter});
                 counter++;
             }
             this.setState({results: "- Found " + (serverLocations.length)})
             this.forceUpdate();
+            /*
+            newMap = {
+                queries : trip,
+                doWhat: "plan",
+            };
 
+            jsonReturned = await fetch(`http://localhost:4567/receive`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(newMap)
+                });
+
+            // Wait for server to return and convert it to json.
+            ret = await jsonReturned.json();
+            // Log the received JSON to the browser console
+            console.log("Got back ", JSON.parse(ret));
+            // set the serverReturned state variable to the received json.
+            // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
+
+            this.setState({
+                serverReturned: JSON.parse(ret),
+                svg: true
+            });
+            console.log("route is: ", this.state.serverReturned);
+            let items = [];
+            for (let i in this.state.serverReturned.items){
+                items.push(this.state.serverReturned.items[i]["map"]);
+            }
+
+            this.getData(this.state.serverReturned.itinerary, items);
+            */
         } catch (e) {
             console.error("Error talking to server");
             console.error(e);
         }
     }
+
+  // This function sends `input` the server and updates the state with whatever is returned
+  /**
+   * New server request method, One method to control the logic for request
+   * TODO add logic for query and plan
+   * @param type Type of request
+   * @param input what to look for
+   * @returns {Promise.<void>}
+   */
+  async fetch2(type, input) {
+    console.log("entered fetch");
+    // Create object to send to server
+
+    /*  IMPORTANT: This object must match the structure of whatever
+        object the server is reading into (in this case ServerRequest).
+        Notice how we give both requests the same format */
+    let clientRequest;
+    // if "enter" is pressed in the input box
+    if (type === "query") {
+      /* We now pass input as an element of an array
+         because we changed the ServerRequest class to take an ArrayList
+      */
+      clientRequest = {
+        queries: [input],
+        doWhat: "query",
+        units: this.state.units,
+        opt: this.state.opt,
+      };
+
+      // if the button is clicked:
+    } else if (type === "upload") {
+      // Send entire destinations array
+      clientRequest = {
+        queries: input,
+        doWhat: "upload",
+        units: this.state.units,
+        opt: this.state.opt,
+      }
+    } else {
+      console.log("No valid type found")
+    }
+    try {
+      // Attempt to send `clientRequest` via a POST request
+      // Notice how the end of the url below matches what the server is listening on (found in java code)
+      // By default, Spark uses port 4567
+      let serverUrl = window.location.href.substring(0, window.location.href.length - 6) + ":4567/receive";
+      console.log("Client Request: ", clientRequest);
+      let jsonReturned = await fetch(serverUrl,
+          {
+            method: "POST",
+            body: JSON.stringify(clientRequest)
+          });
+      // Wait for server to return and convert it to json.
+      let ret = await jsonReturned.json();
+      let returnedJson = JSON.parse(ret);
+      // Log the received JSON to the browser console
+      console.log("Got back ", returnedJson);
+      if(type === "upload"){
+        this.setState({
+          serverReturned: returnedJson,
+          currentTrip:[],})
+        this.fillTripTable(this.state.serverReturned.items);
+      }
+    } catch (e) {
+      console.error("Error talking to server");
+      console.error(e);
+    }
+  }
 }
