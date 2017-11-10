@@ -62,7 +62,7 @@ public class ThreeOpt {
                             break;
                         case 3:
                             // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,k), (j+1,j), (i+1,k+1)
-                            invert(j + 1, k);
+                            invert(i + 1, k);
                             break;
                         case 4:
                             // replace edges (i,i+1), (j,j+1), (k,k+1) with (i,j), (i+1,k), (j+1,k+1)

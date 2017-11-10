@@ -112,7 +112,7 @@ public class ThreeOptTest {
         path = tOpt.getThreeOpt();
 
         // Check that the path is {0,1,3,2,0}
-        Integer[] answers = {0,1,3,2,0};
+        Integer[] answers = {0,2,3,1,0};
         for (int i=0; i<path.length; i++){
             assertEquals(path[i], answers[i]);
         }
