@@ -7,7 +7,7 @@ package edu.csu2017fa314.T15.Model;
  */
 public class CalculateDistance {
 
-  private static double earthRadius;
+  private static double earthRadius = 3958.7613;
   /**
    * <p>Converts a string latitude or longitude into its decimal form</p>
    * <p>Can read formats like 106°49'43.24" W, 106°49.24' W, 106.24° W, or -106.24</p>
