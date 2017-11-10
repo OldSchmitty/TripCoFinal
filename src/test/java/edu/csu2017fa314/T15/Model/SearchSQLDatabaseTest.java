@@ -203,9 +203,9 @@ public class SearchSQLDatabaseTest {
    */
   @Test
   public void testQueryInOrder()throws SQLException{
-    String[] searchFor = {"CK27", "4XA8", "KINK"};
+    String[] searchFor = {"CKZ7", "4XA8", "KINK"};
     Destination[] dests = sql.queryInOrder(searchFor, "CODE");
-    assertEquals(dests[0].getId(),"CK27" );
+    assertEquals(dests[0].getId(),"CKZ7" );
     assertEquals(dests[1].getId(),"4XA8" );
     assertEquals(dests[2].getId(),"KINK" );
   }
