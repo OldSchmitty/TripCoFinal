@@ -11,11 +11,11 @@ import java.util.Scanner;
 
 public class DrawMap {
 
-  private String path; // Dir to make file
+  private final String path; // Dir to make file
   private ArrayList<String> elements; // What to write
   private int edgeLoc = 0; //What element[i] the edges are at
-  private double xOffSet = (1024.0)/(-360);
-  private double yOffSet = (512.0)/(180);
+  private final double xOffSet = (1024.0)/(-360);
+  private final double yOffSet = (512.0)/(180);
 
   /**
    * <p>Initializes elements to draw SVG</p>
@@ -39,17 +39,17 @@ public class DrawMap {
     if(edgeLoc == 0) // add start info for path
     {
       edgeLoc = elements.size();
-      String pathSetup = "  <title>RoutePath</title>\n  <!-- Draw The path -->\n";
+      final String pathSetup = "  <title>RoutePath</title>\n  <!-- Draw The path -->\n";
       elements.add(edgeLoc, pathSetup);
     }
 
     String add = elements.get(edgeLoc);
 
     // converts all latitudes and longitudes to doubles
-    double x1 = CalculateDistance.stringToDoubleForCoordinate(longStart);
-    double y1 = CalculateDistance.stringToDoubleForCoordinate(latStart);
-    double x2 = CalculateDistance.stringToDoubleForCoordinate(longEnd);
-    double y2 = CalculateDistance.stringToDoubleForCoordinate(latEnd);
+    final double x1 = CalculateDistance.stringToDoubleForCoordinate(longStart);
+    final double y1 = CalculateDistance.stringToDoubleForCoordinate(latStart);
+    final double x2 = CalculateDistance.stringToDoubleForCoordinate(longEnd);
+    final double y2 = CalculateDistance.stringToDoubleForCoordinate(latEnd);
 
     if (sameHemisphere(x1,x2)) { // same hemisphere, line does not cross
       add += edgeString(Double.toString(x1), Double.toString(y1),
@@ -101,8 +101,8 @@ public class DrawMap {
    * @param y2  latitude of destination 2
    * @return    string to draw line
    */
-  private String edgeString(String x1, String y1, String x2, String y2){
-    String output = "\n  <line x1=\"" + convertLongToX(x1) + "\" y1=\"" + convertLatToY(y1) +
+  private String edgeString(final String x1, final String y1, final String x2, final String y2){
+    final String output = "\n  <line x1=\"" + convertLongToX(x1) + "\" y1=\"" + convertLatToY(y1) +
             "\" x2=\"" + convertLongToX(x2) + "\" y2=\"" + convertLatToY(y2) +
             "\" stroke-width=\"3\" stroke=\"#ff69b4\"/>";
 
@@ -117,10 +117,10 @@ public class DrawMap {
    * @param y2 latitude of destination 2
    * @return   the slope of the line that will be drawn
    */
-  private double crossSlope(double x1, double y1, double x2, double y2){
+  private double crossSlope(final double x1, final double y1, final double x2, final double y2){
     double slope = 0; // slope will remain 0 if y's are the same
-    double rise = latChange(y1, y2);      // always positive
-    double run = crossLongChange(x1, x2); // always positive
+    final double rise = latChange(y1, y2);      // always positive
+    final double run = crossLongChange(x1, x2); // always positive
 
     if ( x1 < 0 ) { // destination 1 is in western hemisphere
       if (y1 > y2) { // slope positive
@@ -147,8 +147,8 @@ public class DrawMap {
    * @param x2 longitude of the second destination
    * @return  the change in longitute across the border
    */
-  private double crossLongChange(double x1, double x2) {
-    double run = 0;
+  private double crossLongChange(final double x1, final double x2) {
+    final double run;
 
     if (x1 < 0){ // x1 west, x2 east
       run = Math.abs(-180 - x1) + (180 - x2);
@@ -166,8 +166,8 @@ public class DrawMap {
    * @param y2    latitude of the second destination
    * @return    returns the change in latitude as a double
    */
-  private double latChange(double y1, double y2){
-    double rise = 0;
+  private double latChange(final double y1, final double y2){
+    final double rise;
     if (sameHemisphere(y1, y2)){  // subtract smaller magnitude from larger
       if (y1 > y2){
         rise = Math.abs(y1) - Math.abs(y2);
@@ -191,8 +191,8 @@ public class DrawMap {
    */
   private boolean crossesBoundary(double x1, double y1, double x2, double y2){
 
-    double runC = 0;  // change in longitude that crosses east/west border
-    double runNC = 0; // change in longitude w/o crossing east/west border
+    final double runC;  // change in longitude that crosses east/west border
+    final double runNC; // change in longitude w/o crossing east/west border
 
     if (x1 >x2){  // x1 east, x2 west
       runC = (180-x1) + Math.abs(-180-x2);
@@ -216,7 +216,7 @@ public class DrawMap {
    * @param end     long or lat of destination 2
    * @return    true if destinations are in same hemisphere, false otherwise
    */
-  private boolean sameHemisphere(double start, double end){
+  private boolean sameHemisphere(final double start, final double end){
 
     if (start > 0 && end < 0){  // start east, end west
       return false;
@@ -259,7 +259,7 @@ public class DrawMap {
   }
 
   private void addFromFile(){
-    InputStream baseFile = getClass().getClassLoader().getResourceAsStream("images/world.svg");
+    final InputStream baseFile = getClass().getClassLoader().getResourceAsStream("images/world.svg");
 
     String baseMap= "";
     String line;
@@ -298,7 +298,7 @@ public class DrawMap {
   public void write(){
 
     BufferedWriter writer;
-    Charset charset = Charset.forName("US-ASCII");
+    final Charset charset = Charset.forName("US-ASCII");
 
     try
     {
