@@ -102,15 +102,15 @@ public class DrawMap {
    * @return    string to draw line
    */
   private String edgeString(final String x1, final String y1, final String x2, final String y2){
-    final String output = "\n  <line x1=\"" +
-        convertLongToX(x1) +
-        "\" y1=\"" +
-        convertLatToY(y1) +
-        "\" x2=\"" +
-        convertLongToX(x2) +
-        "\" y2=\"" +
-        convertLatToY(y2) +
-        "\" stroke-width=\"3\" stroke=\"#ff69b4\"/>";
+    final String output = "\n  <line x1=\""
+        + convertLongToX(x1)
+        + "\" y1=\""
+        + convertLatToY(y1)
+        + "\" x2=\""
+        + convertLongToX(x2)
+        + "\" y2=\""
+        + convertLatToY(y2)
+        + "\" stroke-width=\"3\" stroke=\"#ff69b4\"/>";
 
     return output;
   }
@@ -265,8 +265,8 @@ public class DrawMap {
   }
 
   private void addFromFile(){
-    final InputStream baseFile = getClass().getClassLoader().
-        getResourceAsStream("images/world.svg");
+    final InputStream baseFile = getClass().getClassLoader()
+        .getResourceAsStream("images/world.svg");
 
     String baseMap= "";
     String line;
