@@ -89,8 +89,8 @@ public class Server {
 
             Itinerary i = new Itinerary(trip, sRec.getOpt());
             ArrayList<Edge> edges = i.getShortestPath();
-            View v = new View(buildPath);
-            String svg = v.drawMapString(trip,edges);
+            View view = new View(buildPath);
+            String svg = view.drawMapString(trip,edges);
             ServerPlanTrip servP = new ServerPlanTrip(svg,trip,edges);
             return gson.toJson(servP, ServerPlanTrip.class);
         }

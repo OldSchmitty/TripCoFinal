@@ -16,8 +16,8 @@ public class DrawMap {
   private final String path; // Dir to make file
   private ArrayList<String> elements; // What to write
   private int edgeLoc = 0; //What element[i] the edges are at
-  private final double xOffSet = (1024.0)/(-360);
-  private final double yOffSet = (512.0)/(180);
+  private final double offSetX = (1024.0)/(-360);
+  private final double offSetY = (512.0)/(180);
 
   /**
    * <p>Initializes elements to draw SVG</p>
@@ -104,9 +104,15 @@ public class DrawMap {
    * @return    string to draw line
    */
   private String edgeString(final String x1, final String y1, final String x2, final String y2){
-    final String output = "\n  <line x1=\"" + convertLongToX(x1) + "\" y1=\"" + convertLatToY(y1) +
-            "\" x2=\"" + convertLongToX(x2) + "\" y2=\"" + convertLatToY(y2) +
-            "\" stroke-width=\"3\" stroke=\"#ff69b4\"/>";
+    final String output = "\n  <line x1=\""
+        + convertLongToX(x1)
+        + "\" y1=\""
+        + convertLatToY(y1)
+        + "\" x2=\""
+        + convertLongToX(x2)
+        + "\" y2=\""
+        + convertLatToY(y2)
+        + "\" stroke-width=\"3\" stroke=\"#ff69b4\"/>";
 
     return output;
   }
@@ -194,17 +200,17 @@ public class DrawMap {
   private boolean crossesBoundary(double x1, double y1, double x2, double y2){
 
     final double runC;  // change in longitude that crosses east/west border
-    final double runNC; // change in longitude w/o crossing east/west border
+    final double runNoC; // change in longitude w/o crossing east/west border
 
     if (x1 >x2){  // x1 east, x2 west
       runC = (180-x1) + Math.abs(-180-x2);
-      runNC = Math.abs(x1) + Math.abs(x2);
+      runNoC = Math.abs(x1) + Math.abs(x2);
     } else {      // x1 west, x2 east
       runC = (180-x2) + Math.abs(-180-x1);
-      runNC = Math.abs(x2) + Math.abs(x1);
+      runNoC = Math.abs(x2) + Math.abs(x1);
     }
 
-    if (runNC > runC){  // crossing border is shorter
+    if (runNoC > runC){  // crossing border is shorter
       return true;
     }
 
@@ -238,7 +244,7 @@ public class DrawMap {
    * @return The Y coordinate
    */
   private int convertLatToY(final String lat){
-    return (int)Math.round((90 - CalculateDistance.stringToDoubleForCoordinate(lat)) * yOffSet);
+    return (int)Math.round((90 - CalculateDistance.stringToDoubleForCoordinate(lat)) * offSetY);
   }
 
   /**
@@ -247,7 +253,7 @@ public class DrawMap {
    * @return The Y coordinate
    */
   private int convertLongToX(final String lon){
-    return (int)Math.round((-180 - CalculateDistance.stringToDoubleForCoordinate(lon)) *xOffSet) ;
+    return (int)Math.round((-180 - CalculateDistance.stringToDoubleForCoordinate(lon)) *offSetX) ;
   }
 
   public String mapString(){
@@ -261,7 +267,8 @@ public class DrawMap {
   }
 
   private void addFromFile(){
-    final InputStream baseFile = getClass().getClassLoader().getResourceAsStream("images/world.svg");
+    final InputStream baseFile = getClass().getClassLoader()
+        .getResourceAsStream("images/world.svg");
 
     String baseMap= "";
     String line;

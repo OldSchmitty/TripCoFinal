@@ -15,7 +15,7 @@ public class View
    *
    * @param path Dir where files will be made
    */
-  public View (final String path){
+  public View(final String path){
     this.path = path;
   }
 
