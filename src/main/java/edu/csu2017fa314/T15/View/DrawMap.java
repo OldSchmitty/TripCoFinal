@@ -16,9 +16,6 @@ public class DrawMap {
   private int edgeLoc = 0; //What element[i] the edges are at
   private double xOffSet = (1024.0)/(-360);
   private double yOffSet = (512.0)/(180);
-  private ClassLoader classloader = getClass().getClassLoader();
-  private InputStream baseFile = classloader.getResourceAsStream("images/world.svg");
-  private BufferedWriter writer;
 
   /**
    * <p>Initializes elements to draw SVG</p>
@@ -299,6 +296,8 @@ public class DrawMap {
   }
 
   private void addFromFile(){
+    InputStream baseFile = getClass().getClassLoader().getResourceAsStream("images/world.svg");
+
     String baseMap= "";
     String line;
 
@@ -335,6 +334,7 @@ public class DrawMap {
    */
   public void write(){
 
+    BufferedWriter writer;
     Charset charset = Charset.forName("US-ASCII");
 
     try
