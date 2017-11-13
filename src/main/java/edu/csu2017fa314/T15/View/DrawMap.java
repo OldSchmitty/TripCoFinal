@@ -2,12 +2,14 @@ package edu.csu2017fa314.T15.View;
 
 import edu.csu2017fa314.T15.Model.CalculateDistance;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.Scanner;
 
 public class DrawMap {
 
