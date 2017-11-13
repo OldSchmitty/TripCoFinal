@@ -9,17 +9,14 @@ import java.util.HashMap;
 public class View
 {
   private String path;                    // Dir to make the files
-  private String imagePath = "."+ File.separator+"web" + File.separator + "images" + File.separator;
-  private String baseFile = "." + File.separator+"data" +
-      File.separator + "resources" + File.separator + "colorado.svg";
+
   /**
    * <p>Set path dir to build the destination and edges JSONs and map SVG.</p>
    *
    * @param path Dir where files will be made
    */
-  public View (final String path, final String imagePath){
+  public View(final String path){
     this.path = path;
-    this.imagePath = imagePath;
   }
 
   public View(){
@@ -41,7 +38,7 @@ public class View
     if(path == null)
       throw new RuntimeException("View path not set");
 
-    DrawMap map = new DrawMap(path + "map.svg", imagePath);
+    DrawMap map = new DrawMap(path + "map.svg");
     for (Edge e: edges) {
 
       map.addEdge(des[e.getDestinationID()].getLatitude(),
@@ -61,7 +58,7 @@ public class View
     if(path == null)
       throw new RuntimeException("View path not set");
 
-    DrawMap map = new DrawMap(path + "map.svg", imagePath);
+    DrawMap map = new DrawMap(path + "map.svg");
     for (Edge e: edges) {
 
       map.addEdge(des[e.getSourceID()].getLatitude(),

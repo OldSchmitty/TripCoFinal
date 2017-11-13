@@ -21,37 +21,10 @@ public class DrawMap {
    * <p>Initializes elements to draw SVG</p>
    * @param path - where to build file
    */
-  public DrawMap(final String path, String baseFile){
+  public DrawMap(final String path){
     this.path = path;
     this.elements = new ArrayList<>();
-    //svgHeader();
     addFromFile();
-  }
-
-  public DrawMap(){
-
-  }
-
-  /**
-   * Sets the SVG header
-   */
-  private void svgHeader(){
-    //SVG Code template from https://svg-edit.github.io/svgedit
-    String header ="<?xml version=\"1.0\"?>\n<svg width=\"1066.6073\" "
-        + "height=\"783.0824\" xmlns=\"http://www.w3.org/2000/svg\">\n";
-    elements.add(header);
-  }
-
-  /**
-   * Draws the boundaries of Colorado
-   */
-  public void drawColorado(){
-    String mapElem = "  <title>ColoradoBorders</title>\n  <!-- Draw Colorado -->\n";
-    //SVG Code template from https://svg-edit.github.io/svgedit
-    mapElem += "  <rect id=\"Colorado\" height=\"708.68515\" width=\"991.4014\" y=\"37.4016\" "
-        + "x=\"37.52397\" stroke-linecap=\"null\" stroke-linejoin=\"null\" "
-        + "stroke-dasharray=\"null\" stroke-width=\"5\" stroke=\"#000000\" fill=\"none\"/>";
-    elements.add(mapElem);
   }
 
   /**
@@ -275,16 +248,6 @@ public class DrawMap {
     return (int)Math.round((-180 - CalculateDistance.stringToDoubleForCoordinate(lon)) *xOffSet) ;
   }
 
-  /**
-   * Adds a destination on the route and its name to the map
-   * @param lat - Latitude of destination
-   * @param lon - Longitude of destination
-   * @param name - Name of point
-   */
-  public void addPoint(final String lat, final String lon, final String name){
-
-  }
-
   public String mapString(){
     String rt = elements.get(0);
     for (int i = 1; i < elements.size(); i++){
@@ -350,10 +313,4 @@ public class DrawMap {
     }
   }
 
-  /**
-   * Closes the SVG file
-   */
-  public void close(){
-
-  }
 }

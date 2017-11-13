@@ -26,8 +26,6 @@ import static spark.Spark.post;
 
 public class Server {
 
-    private String svgPath = "."+File.separator + "images" +File.separator + "map.svg";
-    private String baseMap = "colorado.svg";
     private String buildPath = System.getProperty("user.dir") + File.separator + "web" + File.separator + "images"
             +File.separator;
 
@@ -91,7 +89,7 @@ public class Server {
 
             Itinerary i = new Itinerary(trip, sRec.getOpt());
             ArrayList<Edge> edges = i.getShortestPath();
-            View v = new View(buildPath, baseMap);
+            View v = new View(buildPath);
             String svg = v.drawMapString(trip,edges);
             ServerPlanTrip servP = new ServerPlanTrip(svg,trip,edges);
             return gson.toJson(servP, ServerPlanTrip.class);
