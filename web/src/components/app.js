@@ -4,6 +4,7 @@ import Pair from './Home/Pair/Pair.jsx';
 import Dropzone from 'react-dropzone';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ButtonToolbar from "react-bootstrap/es/ButtonToolbar";
+import SearchButton from './SearchButton/SearchButton.jsx';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -251,7 +252,10 @@ export default class App extends React.Component {
                 <h3>TripCo Itinerary</h3>
                 <input className="search-button" type="text" placeholder="Enter a search like denver"
                        onKeyUp={this.keyUp.bind(this)} autoFocus/>
+                <SearchButton units = {this.state.units}
+
                 <br/>
+
                 {/* Display the array of HTML list items created on line 18 */}
 
                 <div style={{width:"40%"}}>
