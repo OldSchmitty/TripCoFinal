@@ -11,7 +11,6 @@ public class NearestNeighborTest {
 
     private static Destination[] map;
     private static Itinerary itinerary;
-    private static ArrayList<Edge> path;
 
     @BeforeClass
     public static void setup() throws Exception{
@@ -26,47 +25,44 @@ public class NearestNeighborTest {
 
         map =  new Destination[] {b1,b2,b4,b5};
         itinerary = new Itinerary(map, "Nearest Neighbor");
-        path = itinerary.getShortestPath();
+        itinerary.getShortestPath();
+    }
+
+    private long testItinerary(String path){
+
+        Model testM = new Model(path);
+        itinerary = new Itinerary(testM.getMap().toArray(new Destination[testM.getMap().size()]),
+                "Nearest Neighbor");
+        itinerary.getShortestPath();
+        return itinerary.getDistance();
     }
 
     @Test
     public void test1(){
         CalculateDistance.setMiles();
-        String path =System.getProperty("user.dir") + "/data/input/COrand50.csv";
-        Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
-        this.path = i.getShortestPath();
-        assertEquals(i.getDistance(), 1834);
+        String path = System.getProperty("user.dir") + "/data/input/COrand50.csv";
+        assertEquals(testItinerary(path), 1834);
     }
 
     @Test
     public void test2() {
         CalculateDistance.setMiles();
         String path =System.getProperty("user.dir") + "/data/input/COrand75.csv";
-        Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
-        this.path = i.getShortestPath();
-        assertEquals(i.getDistance(), 2454);
+        assertEquals(testItinerary(path), 2454);
     }
 
     @Test
     public void test3() {
         CalculateDistance.setKilometers();
-        String path =System.getProperty("user.dir") + "/data/input/CO14ers.csv";
-        Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
-        this.path = i.getShortestPath();
-        assertEquals(i.getDistance(), 1322);
+        String path = System.getProperty("user.dir") + "/data/input/CO14ers.csv";
+        assertEquals(testItinerary(path), 1322);
     }
 
     @Test
     public void test4() {
         CalculateDistance.setKilometers();
-        String path =System.getProperty("user.dir") + "/data/input/ski.csv";
-        Model m = new Model(path);
-        Itinerary i = new Itinerary(m.getMap().toArray(new Destination[m.getMap().size()]),"Nearest Neighbor");
-        this.path = i.getShortestPath();
-        assertEquals(i.getDistance(), 1076);
+        String path = System.getProperty("user.dir") + "/data/input/ski.csv";
+        assertEquals(testItinerary(path), 1076);
     }
 
 
