@@ -78,8 +78,10 @@ class SearchButton extends React.Component {
     render() {
 
         return (
-            <input className="search-button" type="text" placeholder="Enter a search like denver"
-                   onKeyUp={this.keyUp.bind(this)} autoFocus/>
+            <div>
+                <input className="searchButton" type="text" placeholder="Enter a search like denver"
+                    onKeyUp={this.keyUp.bind(this)} autoFocus/>
+            </div>
         )
     }
 
