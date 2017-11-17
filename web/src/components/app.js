@@ -4,6 +4,7 @@ import Pair from './Home/Pair/Pair.jsx';
 import Dropzone from 'react-dropzone';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ButtonToolbar from "react-bootstrap/es/ButtonToolbar";
+import SearchButton from './SearchButton/SearchButton.jsx';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -22,6 +23,10 @@ export default class App extends React.Component {
             units: "Miles",
             opt: "None",
             results: ""
+        }
+
+        this.returnList = (list) => {
+            this.setState({locations : list})
         }
         this.handleInsertButtonClick = (onClick) => {
             let locs=this.getQueryTableData();
@@ -249,9 +254,9 @@ export default class App extends React.Component {
             <div className="app-container">
                 <h1>T15 - Wolf Pack</h1>
                 <h3>TripCo Itinerary</h3>
-                <input className="search-button" type="text" placeholder="Enter a search like denver"
-                       onKeyUp={this.keyUp.bind(this)} autoFocus/>
+                <SearchButton units = {this.state.units} opt = {this.state.opt} returnList = {this.returnList}/>
                 <br/>
+
                 {/* Display the array of HTML list items created on line 18 */}
 
                 <div style={{width:"40%"}}>
@@ -417,7 +422,6 @@ export default class App extends React.Component {
   }
 
 
-
     getQueryTableData() {
         return(this.refs.queryTable.state.data);
     }
@@ -484,14 +488,6 @@ export default class App extends React.Component {
 
     }
 
-    // This function waits until enter is pressed on the event (input)
-    // A better implementation would be to have a Javascript form with an onSubmit event that calls fetch
-    keyUp(event) {
-        if (event.which === 13) { // Waiting for enter to be pressed. Enter is key 13:
-        //https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-            this.fetch(event.target.value); // Call fetch and pass whatever text is in the input box
-        }
-    }
     async getItinerary() {
         let trip = [];
         let queries = this.getTripTableData();
@@ -538,87 +534,6 @@ export default class App extends React.Component {
             console.log("route is: ", this.state.serverReturned.items);
             this.getData(this.state.serverReturned.itinerary, this.state.serverReturned.items);
 
-        } catch (e) {
-            console.error("Error talking to server");
-            console.error(e);
-        }
-    }
-
-    // This function sends `input` the server and updates the state with whatever is returned
-    async fetch(input) {
-        // Create object to send to server
-
-        /*  IMPORTANT: This object must match the structure of whatever
-            object the server is reading into (in this case DataClass) */
-        this.setState({locations: []})
-
-        let newMap = {
-            queries : [input],
-            doWhat: "query",
-            units: this.state.units,
-            opt: this.state.opt,
-        };
-        try {
-            // Attempt to send `newMap` via a POST request
-            // Notice how the end of the url below matches what the server is listening on (found in java code)
-            // By default, Spark uses port 4567
-            let serverUrl = window.location.href.substring(0, window.location.href.length - 6) + ":4567/receive";
-            let jsonReturned = await fetch(serverUrl,
-                {
-                    method: "POST",
-                    body: JSON.stringify(newMap)
-                });
-            // Wait for server to return and convert it to json.
-            let ret = await jsonReturned.json();
-
-            // set the serverReturned state variable to the received json.
-            // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
-            this.setState({
-                serverReturned: JSON.parse(ret)
-            });
-            console.log("search results are: ", this.state.serverReturned);
-            let serverLocations = this.state.serverReturned.items;
-            let trip = [];
-            let counter = 0;
-            for (let i in serverLocations){
-                trip.push(serverLocations[i]["map"]["code"]);
-                this.state.locations.push({name:serverLocations[i]["map"]["name"],
-                    code:serverLocations[i]["map"]["code"], index:counter});
-                counter++;
-            }
-            this.setState({results: "- Found " + (serverLocations.length)})
-            this.forceUpdate();
-            /*
-            newMap = {
-                queries : trip,
-                doWhat: "plan",
-            };
-
-            jsonReturned = await fetch(`http://localhost:4567/receive`,
-                {
-                    method: "POST",
-                    body: JSON.stringify(newMap)
-                });
-
-            // Wait for server to return and convert it to json.
-            ret = await jsonReturned.json();
-            // Log the received JSON to the browser console
-            console.log("Got back ", JSON.parse(ret));
-            // set the serverReturned state variable to the received json.
-            // this way, attributes of the json can be accessed via this.state.serverReturned.[field]
-
-            this.setState({
-                serverReturned: JSON.parse(ret),
-                svg: true
-            });
-            console.log("route is: ", this.state.serverReturned);
-            let items = [];
-            for (let i in this.state.serverReturned.items){
-                items.push(this.state.serverReturned.items[i]["map"]);
-            }
-
-            this.getData(this.state.serverReturned.itinerary, items);
-            */
         } catch (e) {
             console.error("Error talking to server");
             console.error(e);
