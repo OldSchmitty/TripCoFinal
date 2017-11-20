@@ -11,7 +11,7 @@ public class NearestNeighborTest {
 
     private static Destination[] map;
     private static Itinerary itinerary;
-    
+
 
     private long testItinerary(String path){
 
