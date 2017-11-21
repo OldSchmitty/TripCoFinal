@@ -149,14 +149,14 @@ public class Itinerary {
 
             // run Nearest Neighbor starting from the current destination
             nn.setCurrentDistance(currentDistance);
-            Integer destinationID = nn.nearestNeighbor(current, remainingKeys);
+            Integer destination = nn.nearestNeighbor(current, remainingKeys);
             // update currentDistance with calculation in Nearest Neighbor class
             currentDistance = nn.getCurrentDistance();
             // add destination to path and remove from remaining
-            currentPath[count] = destinationID;
+            currentPath[count] = destination;
             count++;
-            remainingKeys.remove(destinationID);
-            current = destinationID;
+            remainingKeys.remove(destination);
+            current = destination;
         }
         return currentPath;
     }
