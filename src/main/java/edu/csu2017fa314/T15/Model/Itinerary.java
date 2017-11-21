@@ -29,7 +29,7 @@ public class Itinerary {
      * @param opt - optimization to be performed
      * @param test - determines if in debug mode
      */
-    public Itinerary(Destination[] map, String opt, Boolean test){
+    public Itinerary(final Destination[] map, final String opt, final Boolean test){
         this.opt = opt; this.test = test;
         keys = new ArrayList<>();
         for (Destination des : map){
@@ -87,13 +87,13 @@ public class Itinerary {
                     }
 
                     // remaining destinations to check distance
-                    ArrayList<Integer> remainingKeys = new ArrayList<Integer>(keys);
+                    ArrayList<Integer> remainingKeys = new ArrayList<>(keys);
 
                     // pop current from remaining keys
                     remainingKeys.remove(keys.get(i));
 
                     // loop remaining keys to find shortest path with Nearest Neighbor
-                    currentPath = runNN(remainingKeys, keys.get(i), currentPath);
+                    currentPath = runNearestNeighbor(remainingKeys, keys.get(i), currentPath);
 
                     // Add the start point to the end of the path to complete the loop
                     currentPath[currentPath.length - 1] = currentPath[0];
@@ -140,21 +140,23 @@ public class Itinerary {
         return currentPath;
     }
 
-    private Integer[] runNN(ArrayList<Integer> remainingKeys, Integer currentID, Integer[] currentPath) {
-        NearestNeighbor nn = new NearestNeighbor(distanceTable); currentPath[0] = currentID;
+    private Integer[] runNearestNeighbor(ArrayList<Integer> remainingKeys, Integer current,
+                                         Integer[] currentPath) {
+        NearestNeighbor nn = new NearestNeighbor(distanceTable);
+        currentPath[0] = current;
         int count = 1;
         while (!remainingKeys.isEmpty()) {
 
             // run Nearest Neighbor starting from the current destination
             nn.setCurrentDistance(currentDistance);
-            Integer destinationID = nn.nearestNeighbor(currentID, remainingKeys);
+            Integer destinationID = nn.nearestNeighbor(current, remainingKeys);
             // update currentDistance with calculation in Nearest Neighbor class
             currentDistance = nn.getCurrentDistance();
             // add destination to path and remove from remaining
             currentPath[count] = destinationID;
             count++;
             remainingKeys.remove(destinationID);
-            currentID = destinationID;
+            current = destinationID;
         }
         return currentPath;
     }

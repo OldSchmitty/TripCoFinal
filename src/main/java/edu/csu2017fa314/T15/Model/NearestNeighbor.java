@@ -13,7 +13,6 @@ public class NearestNeighbor {
      * initialize the distanceTable and currentDistance
      *
      * @param distanceTable
-     * @param
      */
     public NearestNeighbor(Table distanceTable) {
         this.distanceTable = distanceTable;
