@@ -3,10 +3,11 @@ package edu.csu2017fa314.T15.View;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Arrays;
+import java.sql.SQLException;
 
 import edu.csu2017fa314.T15.Model.Destination;
+
+import static org.junit.Assert.assertEquals;
 
 public class ServerTest {
   private Server s;
@@ -24,9 +25,33 @@ public class ServerTest {
   }
 
   @Test
-  public void testServerRequest(){
-      ServerRequest sRec = new ServerRequest(test, "query", "Miles", "2-Opt");
+  public void testServerRequestQuery() throws SQLException{
+    ServerRequest sRec = new ServerRequest(test, "query", "Miles", "2-Opt");
+
+    assertEquals(sRec.getUnits(), "Miles");
+    assertEquals(sRec.getOpt(), "2-Opt");
+    assertEquals(sRec.getdoWhat(), "query");
+    sRec.toString();
+
+    Destination[] dests;
+    sRec.searchDatabase();
+    dests = sRec.getDests();
+    assertEquals(dests.length, 10);
     }
+
+  @Test
+  public void testServerRequestPlan() throws SQLException{
+    ServerRequest sRec = new ServerRequest(test, "plan", "Kilometers", "3-Opt");
+
+    assertEquals(sRec.getUnits(), "Kilometers");
+    assertEquals(sRec.getOpt(), "3-Opt");
+    assertEquals(sRec.getdoWhat(), "plan");
+    sRec.toString();
+
+    Destination[] dests;
+    dests = sRec.planTrip();
+    assertEquals(dests.length, 10 );
+  }
 
   @Test
   public void testServerResponse(){
