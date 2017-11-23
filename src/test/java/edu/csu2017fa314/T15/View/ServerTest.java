@@ -20,11 +20,6 @@ public class ServerTest {
   }
 
   @Test
-  public void testStart(){
-    s.serve();
-  }
-
-  @Test
   public void testServerRequestQuery() throws SQLException{
     ServerRequest serverRequest = new ServerRequest(test, "query", "Miles", "2-Opt");
 
@@ -57,6 +52,11 @@ public class ServerTest {
   public void testServerResponse(){
     ServerResponse sResp = new ServerResponse(testMap);
     sResp.toString();
+  }
+
+  @Test
+  public void testStart(){
+    s.serve();
   }
 
 }
