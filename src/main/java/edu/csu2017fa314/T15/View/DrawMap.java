@@ -69,8 +69,8 @@ public class DrawMap {
 
   private String addCrosses(String add, double x1, double y1, double x2, double y2) {
     // draw two lines using slope
-    if ((x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180)){
-      // verticle line
+    if (isVertical(x1, x2)){
+      // vertical line
       add = addEdgesToString(add, x1, y1, -1*x2, y2);
     } else {
       double slope = crossSlope(x1, y1, x2, y2);
@@ -93,7 +93,11 @@ public class DrawMap {
     return add;
   }
 
-  private String addEdgesToString(String add, double x1, double y1, double x2, double y2) {
+    private boolean isVertical(double x1, double x2) {
+        return (x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180);
+    }
+
+    private String addEdgesToString(String add, double x1, double y1, double x2, double y2) {
     add += edgeString(Double.toString(x1), Double.toString(y1),
             Double.toString(x2), Double.toString(y2));
     return add;
@@ -134,8 +138,9 @@ public class DrawMap {
     final double rise = latChange(y1, y2);      // always positive
     final double run = crossLongChange(x1, x2); // always positive
 
-    if(y1 == y2)
-      return slope;
+    if(y1 == y2) {
+        return slope;
+    }
     else if ( x1 < 0 ) { // destination 1 is in western hemisphere
       if (y1 > y2) { // slope positive
         slope = rise / run;
