@@ -26,30 +26,30 @@ public class ServerTest {
 
   @Test
   public void testServerRequestQuery() throws SQLException{
-    ServerRequest sRec = new ServerRequest(test, "query", "Miles", "2-Opt");
+    ServerRequest serverRequest = new ServerRequest(test, "query", "Miles", "2-Opt");
 
-    assertEquals(sRec.getUnits(), "Miles");
-    assertEquals(sRec.getOpt(), "2-Opt");
-    assertEquals(sRec.getdoWhat(), "query");
-    sRec.toString();
+    assertEquals(serverRequest.getUnits(), "Miles");
+    assertEquals(serverRequest.getOpt(), "2-Opt");
+    assertEquals(serverRequest.getdoWhat(), "query");
+    serverRequest.toString();
 
     Destination[] dests;
-    sRec.searchDatabase();
-    dests = sRec.getDests();
+    serverRequest.searchDatabase();
+    dests = serverRequest.getDests();
     assertEquals(dests.length, 10);
     }
 
   @Test
   public void testServerRequestPlan() throws SQLException{
-    ServerRequest sRec = new ServerRequest(test, "plan", "Kilometers", "3-Opt");
+    ServerRequest serverRequest = new ServerRequest(test, "plan", "Kilometers", "3-Opt");
 
-    assertEquals(sRec.getUnits(), "Kilometers");
-    assertEquals(sRec.getOpt(), "3-Opt");
-    assertEquals(sRec.getdoWhat(), "plan");
-    sRec.toString();
+    assertEquals(serverRequest.getUnits(), "Kilometers");
+    assertEquals(serverRequest.getOpt(), "3-Opt");
+    assertEquals(serverRequest.getdoWhat(), "plan");
+    serverRequest.toString();
 
     Destination[] dests;
-    dests = sRec.planTrip();
+    dests = serverRequest.planTrip();
     assertEquals(dests.length, 10 );
   }
 
