@@ -54,45 +54,49 @@ public class DrawMap {
     final double y2 = CalculateDistance.stringToDoubleForCoordinate(latEnd);
 
     if (sameHemisphere(x1,x2)) { // same hemisphere, line does not cross
-      add += edgeString(Double.toString(x1), Double.toString(y1),
-              Double.toString(x2), Double.toString(y2));
+      add = addEdgesToString(add, x1, y1, x2, y2);
     } else {
       if (crossesBoundary(x1, y1, x2, y2)){ // line crosses, draw 2 lines
-        // draw two lines using slope
-        if ((x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180)){
-          // verticle line
-          add += edgeString(Double.toString(x1), Double.toString(y1),
-                  Double.toString(-1*x2), Double.toString(y2));
-        } else {
-          double slope = crossSlope(x1, y1, x2, y2);
-          // calculate the cross point for east = -west
-          double crossY = 0; // Y coordinate where line crosses east border
-          if (x1 > x2) { // x1 east, x2 west
-            crossY = slope * (180 - x1) + y1;
-            // draw line from destination 1 to (180, crossY)
-            add += edgeString(Double.toString(x1), Double.toString(y1),
-                    Double.toString(180), Double.toString(crossY));
-            // draw line from destination 2 to (-180, crossY)
-            add += edgeString(Double.toString(x2), Double.toString(y2),
-                    Double.toString(-180), Double.toString(crossY));
-          } else { // x1 west, x2 east
-            crossY = slope * (180 - x2) + y2;
-            // draw line from desination 2 to (180, crossY)
-            add += edgeString(Double.toString(x2), Double.toString(y2),
-                    Double.toString(180), Double.toString(crossY));
-            // draw line from destination 1 to (-180, crossY)
-            add += edgeString(Double.toString(x1), Double.toString(y1),
-                    Double.toString(-180), Double.toString(crossY));
-          }
-        }
+        add = addCrosses(add, x1, y1, x2, y2);
+
       } else { // line does not cross
-        add += edgeString(Double.toString(x1), Double.toString(y1),
-                Double.toString(x2), Double.toString(y2));
-        //add += edgeString("0", "90", "0", "-90");
+        add = addEdgesToString(add, x1, y1, x2, y2);
       }
 
     }
     elements.set(edgeLoc,add);
+  }
+
+  private String addCrosses(String add, double x1, double y1, double x2, double y2) {
+    // draw two lines using slope
+    if ((x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180)){
+      // verticle line
+      add = addEdgesToString(add, x1, y1, -1*x2, y2);
+    } else {
+      double slope = crossSlope(x1, y1, x2, y2);
+      // calculate the cross point for east = -west
+      double crossY = 0; // Y coordinate where line crosses east border
+      if (x1 > x2) { // x1 east, x2 west
+        crossY = slope * (180 - x1) + y1;
+        // draw line from destination 1 to (180, crossY)
+        add = addEdgesToString(add, x1, y1, 180, crossY);
+        // draw line from destination 2 to (-180, crossY)
+        add = addEdgesToString(add, x2, y2, -180, crossY);
+      } else { // x1 west, x2 east
+        crossY = slope * (180 - x2) + y2;
+        // draw line from desination 2 to (180, crossY)
+        add = addEdgesToString(add, x2, y2, 180, crossY);
+        // draw line from destination 1 to (-180, crossY)
+        add = addEdgesToString(add, x1, y1, -180, crossY);
+      }
+    }
+    return add;
+  }
+
+  private String addEdgesToString(String add, double x1, double y1, double x2, double y2) {
+    add += edgeString(Double.toString(x1), Double.toString(y1),
+            Double.toString(x2), Double.toString(y2));
+    return add;
   }
 
   /**
@@ -105,14 +109,14 @@ public class DrawMap {
    */
   private String edgeString(final String x1, final String y1, final String x2, final String y2){
     final String output = "\n  <line x1=\""
-        + convertLongToX(x1)
-        + "\" y1=\""
-        + convertLatToY(y1)
-        + "\" x2=\""
-        + convertLongToX(x2)
-        + "\" y2=\""
-        + convertLatToY(y2)
-        + "\" stroke-width=\"3\" stroke=\"#ff69b4\"/>";
+            + convertLongToX(x1)
+            + "\" y1=\""
+            + convertLatToY(y1)
+            + "\" x2=\""
+            + convertLongToX(x2)
+            + "\" y2=\""
+            + convertLatToY(y2)
+            + "\" stroke-width=\"3\" stroke=\"#ff69b4\"/>";
 
     return output;
   }
@@ -130,16 +134,18 @@ public class DrawMap {
     final double rise = latChange(y1, y2);      // always positive
     final double run = crossLongChange(x1, x2); // always positive
 
-    if ( x1 < 0 ) { // destination 1 is in western hemisphere
+    if(y1 == y2)
+      return slope;
+    else if ( x1 < 0 ) { // destination 1 is in western hemisphere
       if (y1 > y2) { // slope positive
         slope = rise / run;
-      } else if (y2 > y1) { // slope negative
+      } else { // slope negative
         slope = -1 * rise / run;
       }
     } else { // destination 2 is in western hemisphere
       if ( y1 > y2) { // slope negative
         slope = -1 * rise / run;
-      } else if (y2 > y1) { // slope positive
+      } else { // slope positive
         slope = rise / run;
       }
     }
@@ -256,6 +262,10 @@ public class DrawMap {
     return (int)Math.round((-180 - CalculateDistance.stringToDoubleForCoordinate(lon)) *offSetX) ;
   }
 
+  /**
+   * Builds a SVG string
+   * @return Complete SVG String
+   */
   public String mapString(){
     String rt = elements.get(0);
     for (int i = 1; i < elements.size(); i++){
@@ -268,7 +278,7 @@ public class DrawMap {
 
   private void addFromFile(){
     final InputStream baseFile = getClass().getClassLoader()
-        .getResourceAsStream("images/world.svg");
+            .getResourceAsStream("images/world.svg");
 
     String baseMap= "";
     String line;
@@ -312,7 +322,7 @@ public class DrawMap {
     try
     {
       writer = Files.newBufferedWriter( Paths.get(path),
-          charset);
+              charset);
 
       writer.write(mapString());
       writer.close();
