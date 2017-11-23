@@ -12,7 +12,8 @@ import static org.junit.Assert.assertEquals;
 public class ServerTest {
   private Server s;
   String[] test = {"Ranch"};
-  Destination[] testMap;
+  Destination destination = new Destination();
+  Destination[] testMap = {destination};
   private static final String travisUrl = "jdbc:mysql://localhost"; //172.0.0.1
   private static final String[] travisLogin = {"root", ""}; // Login info
 
