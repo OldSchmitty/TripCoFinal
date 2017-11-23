@@ -14,8 +14,6 @@ public class ServerTest {
   String[] test = {"Ranch"};
   Destination destination = new Destination();
   Destination[] testMap = {destination};
-  private static final String travisUrl = "jdbc:mysql://localhost"; //172.0.0.1
-  private static final String[] travisLogin = {"root", ""}; // Login info
 
   @Before
   public void initialize(){
