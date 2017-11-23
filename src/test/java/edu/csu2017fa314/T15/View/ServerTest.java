@@ -13,6 +13,8 @@ public class ServerTest {
   private Server s;
   String[] test = {"Ranch"};
   Destination[] testMap;
+  private static final String travisUrl = "jdbc:mysql://localhost"; //172.0.0.1
+  private static final String[] travisLogin = {"root", ""}; // Login info
 
   @Before
   public void initialize(){
@@ -27,11 +29,6 @@ public class ServerTest {
     assertEquals(serverRequest.getOpt(), "2-Opt");
     assertEquals(serverRequest.getdoWhat(), "query");
     serverRequest.toString();
-
-    Destination[] dests;
-    serverRequest.searchDatabase();
-    dests = serverRequest.getDests();
-    assertEquals(dests.length, 10);
     }
 
   @Test
@@ -42,10 +39,6 @@ public class ServerTest {
     assertEquals(serverRequest.getOpt(), "3-Opt");
     assertEquals(serverRequest.getdoWhat(), "plan");
     serverRequest.toString();
-
-    Destination[] dests;
-    dests = serverRequest.planTrip();
-    assertEquals(dests.length, 10 );
   }
 
   @Test
