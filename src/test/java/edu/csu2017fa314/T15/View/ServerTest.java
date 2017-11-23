@@ -54,9 +54,4 @@ public class ServerTest {
     sResp.toString();
   }
 
-  @Test
-  public void testStart(){
-    s.serve();
-  }
-
 }
