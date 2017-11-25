@@ -1,6 +1,5 @@
 import React from 'react';
 import Home from './Home/Home.jsx';
-import Pair from './Home/Pair/Pair.jsx';
 import Dropzone from 'react-dropzone';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ButtonToolbar from "react-bootstrap/es/ButtonToolbar";
@@ -11,10 +10,7 @@ export default class App extends React.Component {
         super(props);
         this.state = {
             allPairs: [],
-            totalDist: [],
             options: {},
-            ps: [],
-            addInfo: "",
             serverReturned: null,
             svg: null,
             bottomRow: [],
@@ -205,50 +201,8 @@ export default class App extends React.Component {
 
 
     render() {
-        let pairs = this.state.allPairs;
-        let displayKeys = this.state.keys;
-        this.state.ps = pairs.map((pp) => {
-            let finalData={};
-            finalData["start name"] = pp["start name"];
-            finalData["end name"] = pp["end name"];
-            finalData["distance"] = pp["distance"];
-            finalData["cumulativeDistance"] = pp["cumulativeDistance"];
 
-            for (let i in this.state.options){
-                if(this.state.options[i]) {
-                    finalData["start " + i] = pp["start " + i];
-                    finalData["end " + i] = pp["end " + i];
-                }
-            }
-            return <Pair {...finalData}/>;
-        });
-        let boxes = [];
-        for (let i in this.state.options) {
-            boxes.push(
-                <label className ="checky">
-                    <input
-                        type="checkbox"
-                        value={i}
-                        onChange={() => {
-                            this.state.options[i] = !this.state.options[i];
-                            this.forceUpdate()
-                        }}
-                    />
-                    {i}
-                </label>
-            )
-        }
-        if (this.state.serverReturned) { // if this.state.serverReturned is not null
-            //Get list of numbers
 
-            /*Create an array of HTML list items. The Array.map function in Javascript passes each individual element
-            * of an array (in this case serverLocations is the array and "location" is the name chosen for the
-            individual element) through a function and returns a new array with the mapped elements.
-            * In this case f: location -> <li>location.name</li>, so the array will look like:
-            * [<li>[name1]</li>,<li>[name2]</li>...]
-            */
-            // set the local variable scg to this.state.serverReturned.svg
-        }
 
         return (
             <div className="app-container">
@@ -315,13 +269,9 @@ export default class App extends React.Component {
                     <span dangerouslySetInnerHTML={{__html: this.state.svg}} />
                 </h1>
                 <Home
-                    getData={this.getData.bind(this)}
-                    pairs={this.state.ps}
-                    totalDistance={this.state.totalDist}
-                    keys={displayKeys}
-                    checkBoxes={boxes}
-                    info={this.state.addInfo}
-                    bottomRow={this.state.bottomRow}
+                    allPairs = {this.state.allPairs}
+                    bottomRow = {this.state.bottomRow}
+                    options = {this.state.options}
                 />
             </div>
         )
@@ -481,9 +431,7 @@ export default class App extends React.Component {
             </tr>;
         this.setState({
             allPairs: pairs,
-            totalDist: totalDist,
-            bottomRow: totalRow,
-            addInfo: "Check boxes below to show/hide information about your trip!"
+            bottomRow: totalRow
         });
 
     }
