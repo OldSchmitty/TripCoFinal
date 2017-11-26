@@ -68,8 +68,8 @@ public class DrawMap {
   }
 
   /**
-   * Adds points (x1,y1) and (x2,y2) to accumulated string when the points are on different hemispheres and
-   * need to cross over to the other
+   * Adds points (x1,y1) and (x2,y2) to accumulated string when the points are on
+   * different hemispheres and need to cross over to the other
    * @param add - accumulated string containing all points and lines to those points
    * @param x1 - point x for location 1
    * @param y1 - point y for location 1
