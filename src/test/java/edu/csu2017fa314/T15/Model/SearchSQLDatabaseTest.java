@@ -112,25 +112,29 @@ public class SearchSQLDatabaseTest {
 
 
         //Populate database tables with test data
-        st.executeUpdate("LOAD DATA LOCAL INFILE '" + System.getProperty("user.dir")+"/data/test_input/airports.csv' "
+        st.executeUpdate("LOAD DATA LOCAL INFILE '" + System.getProperty("user.dir")
+                +"/data/test_input/airports.csv' "
                 + "INTO TABLE airports "
                 + "FIELDS TERMINATED BY ',' "
                 + "LINES TERMINATED BY '\n' "
                 + "IGNORE 1 LINES");
 
-        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/continents.csv' "
+        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")
+                + "/data/test_input/continents.csv' "
                 + "INTO TABLE continents "
                 + "FIELDS TERMINATED BY ',' "
                 + "LINES TERMINATED BY '\n' "
                 + "IGNORE 1 LINES");
-        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/countries.csv' "
+        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")
+                + "/data/test_input/countries.csv' "
                 + "INTO TABLE countries "
                 + "FIELDS TERMINATED BY ',' "
                 + "LINES TERMINATED BY '\n' "
                 + "IGNORE 1 LINES");
-        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/regions.csv' " +
-                "INTO TABLE regions " +
-                "FIELDS TERMINATED BY ',' "
+        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")
+                + "/data/test_input/regions.csv' "
+                + "INTO TABLE regions "
+                + "FIELDS TERMINATED BY ',' "
                 + "LINES TERMINATED BY '\n' "
                 + "IGNORE 1 LINES");
 
