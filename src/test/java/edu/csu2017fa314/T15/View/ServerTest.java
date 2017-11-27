@@ -4,8 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import edu.csu2017fa314.T15.Model.Destination;
+import edu.csu2017fa314.T15.Model.Edge;
 
 import static org.junit.Assert.assertEquals;
 
@@ -44,6 +46,11 @@ public class ServerTest {
   public void testServerResponse(){
     ServerResponse sResp = new ServerResponse(testMap);
     sResp.toString();
+  }
+
+  @Test
+  public void testServerPlanTrip(){
+    ServerPlanTrip sP = new ServerPlanTrip("testing", testMap, new ArrayList<Edge>());
   }
 
 }
