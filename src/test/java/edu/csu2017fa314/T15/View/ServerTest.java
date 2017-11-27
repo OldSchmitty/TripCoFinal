@@ -50,7 +50,7 @@ public class ServerTest {
 
   @Test
   public void testServerPlanTrip(){
-    ServerPlanTrip sP = new ServerPlanTrip("testing", testMap, new ArrayList<Edge>());
+    ServerPlanTrip test = new ServerPlanTrip("testing", testMap, new ArrayList<Edge>());
   }
 
 }
