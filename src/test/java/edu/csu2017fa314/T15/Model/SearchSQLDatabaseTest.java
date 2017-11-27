@@ -1,27 +1,19 @@
 package edu.csu2017fa314.T15.Model;
 
 import static java.lang.System.getenv;
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
-
-import java.io.BufferedReader;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.security.InvalidParameterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SearchSQLDatabaseTest {
@@ -33,8 +25,8 @@ public class SearchSQLDatabaseTest {
   private static final String[] travisLogin = {"root", ""}; // Login info
   private static Statement st; // statements to sql server
   private static Connection conn; // connection to serve
-  private static String testData = "."+ File.separator+"data" + File.separator +
-      "test_input" + File.separator + "DataBaseSetup.csv"; // data file for population
+  private static String testData = "." + File.separator+ "data" + File.separator
+          + "test_input" + File.separator + "DataBaseSetup.csv"; // data file for population
   private static boolean notCSU = true;
 
   /**
@@ -71,76 +63,76 @@ public class SearchSQLDatabaseTest {
 
         // make airports table in TestDatabase314
         st.executeUpdate("DROP TABLE IF EXISTS airports");
-        st.executeUpdate("CREATE TABLE airports " +
-                "(id int(11)," +
-                "code VARCHAR(11)," +
-                "type VARCHAR(1000)," +
-                "name VARCHAR(1000)," +
-                "latitude VARCHAR(1000)," +
-                "longitude VARCHAR(1000)," +
-                "elevation VARCHAR(1000)," +
-                "continent VARCHAR(1000)," +
-                "iso_country VARCHAR(100)," +
-                "iso_region VARCHAR(100)," +
-                "municipality VARCHAR(1000)," +
-                "scheduled_service VARCHAR(1000)," +
-                "gps_code VARCHAR(1000)," +
-                "iata_code VARCHAR(1000)," +
-                "local_code VARCHAR(1000)," +
-                "home_link VARCHAR(1000)," +
-                "wikipedia_link VARCHAR(1000)," +
-                "keywords VARCHAR(1000))");
+        st.executeUpdate("CREATE TABLE airports "
+                + "(id int(11),"
+                + "code VARCHAR(11),"
+                + "type VARCHAR(1000),"
+                + "name VARCHAR(1000),"
+                + "latitude VARCHAR(1000),"
+                + "longitude VARCHAR(1000),"
+                + "elevation VARCHAR(1000),"
+                + "continent VARCHAR(1000),"
+                + "iso_country VARCHAR(100),"
+                + "iso_region VARCHAR(100),"
+                + "municipality VARCHAR(1000),"
+                + "scheduled_service VARCHAR(1000),"
+                + "gps_code VARCHAR(1000),"
+                + "iata_code VARCHAR(1000),"
+                + "local_code VARCHAR(1000),"
+                + "home_link VARCHAR(1000),"
+                + "wikipedia_link VARCHAR(1000),"
+                + "keywords VARCHAR(1000))");
 
         // create continents table
-        st.executeUpdate("CREATE TABLE continents " +
-                "(id int(11)," +
-                "name VARCHAR(100)," +
-                "code VARCHAR(3)," +
-                "wikipedia_link VARCHAR(1000))");
+        st.executeUpdate("CREATE TABLE continents "
+                + "(id int(11),"
+                + "name VARCHAR(100),"
+                + "code VARCHAR(3),"
+                + "wikipedia_link VARCHAR(1000))");
 
         // create countries table
-        st.executeUpdate("CREATE TABLE countries " +
-                "(id int(11)," +
-                "code VARCHAR(100)," +
-                "name VARCHAR(1000)," +
-                "continent VARCHAR(3)," +
-                "wikipedia_link VARCHAR(1000)," +
-                "keywords VARCHAR(1000))");
+        st.executeUpdate("CREATE TABLE countries "
+                + "(id int(11),"
+                + "code VARCHAR(100),"
+                + "name VARCHAR(1000),"
+                + "continent VARCHAR(3),"
+                + "wikipedia_link VARCHAR(1000),"
+                + "keywords VARCHAR(1000))");
 
         // create regions table
-        st.executeUpdate("CREATE TABLE regions " +
-                "(id int(11)," +
-                "code VARCHAR(100)," +
-                "local_code tinytext," +
-                "name tinytext," +
-                "continent tinytext," +
-                "iso_country varchar(100)," +
-                "wikipedia_link tinytext," +
-                "keywords tinytext)");
+        st.executeUpdate("CREATE TABLE regions "
+                + "(id int(11),"
+                + "code VARCHAR(100),"
+                + "local_code tinytext,"
+                + "name tinytext,"
+                + "continent tinytext,"
+                + "iso_country varchar(100),"
+                + "wikipedia_link tinytext,"
+                + "keywords tinytext)");
 
 
         //Populate database tables with test data
-        st.executeUpdate("LOAD DATA LOCAL INFILE '" + System.getProperty("user.dir")+"/data/test_input/airports.csv' " +
-                "INTO TABLE airports " +
-                "FIELDS TERMINATED BY ',' " +
-                "LINES TERMINATED BY '\n' " +
-                "IGNORE 1 LINES");
+        st.executeUpdate("LOAD DATA LOCAL INFILE '" + System.getProperty("user.dir")+"/data/test_input/airports.csv' "
+                + "INTO TABLE airports "
+                + "FIELDS TERMINATED BY ',' "
+                + "LINES TERMINATED BY '\n' "
+                + "IGNORE 1 LINES");
 
-        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/continents.csv' " +
-                "INTO TABLE continents " +
-                "FIELDS TERMINATED BY ',' " +
-                "LINES TERMINATED BY '\n' " +
-                "IGNORE 1 LINES");
-        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/countries.csv' " +
-                "INTO TABLE countries " +
-                "FIELDS TERMINATED BY ',' " +
-                "LINES TERMINATED BY '\n' " +
-                "IGNORE 1 LINES");
+        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/continents.csv' "
+                + "INTO TABLE continents "
+                + "FIELDS TERMINATED BY ',' "
+                + "LINES TERMINATED BY '\n' "
+                + "IGNORE 1 LINES");
+        st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/countries.csv' "
+                + "INTO TABLE countries "
+                + "FIELDS TERMINATED BY ',' "
+                + "LINES TERMINATED BY '\n' "
+                + "IGNORE 1 LINES");
         st.executeUpdate("LOAD DATA LOCAL INFILE '"+ System.getProperty("user.dir")+"/data/test_input/regions.csv' " +
                 "INTO TABLE regions " +
-                "FIELDS TERMINATED BY ',' " +
-                "LINES TERMINATED BY '\n' " +
-                "IGNORE 1 LINES");
+                "FIELDS TERMINATED BY ',' "
+                + "LINES TERMINATED BY '\n' "
+                + "IGNORE 1 LINES");
 
         // Test to see data
       /*ResultSet r = st.executeQuery("select * from airports");
@@ -287,7 +279,7 @@ public class SearchSQLDatabaseTest {
    * @throws SQLException If error in sql code
    */
   @Test (expected = IllegalArgumentException.class)
-  public void queryBADFeild() throws SQLException {
+  public void queryBADField() throws SQLException {
     String[] find ={"0CO3"};
     String[] in = {"BAD"};
     Destination[] rt = sql.query(find, in);
