@@ -16,8 +16,8 @@ public class DrawMap {
   private final String path; // Dir to make file
   private ArrayList<String> elements; // What to write
   private int edgeLoc = 0; //What element[i] the edges are at
-  private final double offSetX = (1024.0)/(-360);
-  private final double offSetY = (512.0)/(180);
+  private final double offSetX = (1024.0)/(-360); // where to start drawing in the x-axis
+  private final double offSetY = (512.0)/(180); // where to start drawing in the y-axis
 
   /**
    * <p>Initializes elements to draw SVG</p>
@@ -67,6 +67,16 @@ public class DrawMap {
     elements.set(edgeLoc,add);
   }
 
+  /**
+   * Adds points (x1,y1) and (x2,y2) to accumulated string when the points are on
+   * different hemispheres and need to cross over to the other
+   * @param add - accumulated string containing all points and lines to those points
+   * @param x1 - point x for location 1
+   * @param y1 - point y for location 1
+   * @param x2 - point x for location 2
+   * @param y2 - pint y for location 2
+   * @return string add with new points added to it
+   */
   private String addCrosses(String add, double x1, double y1, double x2, double y2) {
     // draw two lines using slope
     if (isVertical(x1, x2)){
@@ -93,11 +103,17 @@ public class DrawMap {
     return add;
   }
 
-    private boolean isVertical(double x1, double x2) {
-        return (x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180);
-    }
+  /**
+   * Determines if two x coordinate points form a vertical line
+   * @param x1 - 1st x coordinate point
+   * @param x2 - 2nd x coordinate point
+   * @return - True if the points form a vertical line, False if not
+   */
+  private boolean isVertical(double x1, double x2) {
+    return (x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180);
+  }
 
-    private String addEdgesToString(String add, double x1, double y1, double x2, double y2) {
+  private String addEdgesToString(String add, double x1, double y1, double x2, double y2) {
     add += edgeString(Double.toString(x1), Double.toString(y1),
             Double.toString(x2), Double.toString(y2));
     return add;
@@ -139,7 +155,7 @@ public class DrawMap {
     final double run = crossLongChange(x1, x2); // always positive
 
     if(y1 == y2) {
-        return slope;
+      return slope;
     }
     else if ( x1 < 0 ) { // destination 1 is in western hemisphere
       if (y1 > y2) { // slope positive
@@ -281,6 +297,10 @@ public class DrawMap {
     return rt;
   }
 
+  /**
+   * Loads a pre-built svg file and reads it in so that it can be a base for
+   * all points and lines drawn
+   */
   private void addFromFile(){
     final InputStream baseFile = getClass().getClassLoader()
             .getResourceAsStream("images/world.svg");
@@ -317,7 +337,7 @@ public class DrawMap {
   }
 
   /**
-   * Writes the data to the svg file
+   * Writes the data accumulated to the svg file
    */
   public void write(){
 
