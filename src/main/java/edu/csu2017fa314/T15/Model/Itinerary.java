@@ -29,7 +29,7 @@ public class Itinerary {
      * @param opt - optimization to be performed
      * @param test - determines if in debug mode
      */
-    public Itinerary(Destination[] map, String opt, Boolean test){
+    public Itinerary(final Destination[] map, final String opt, final Boolean test){
         this.opt = opt; this.test = test;
         keys = new ArrayList<>();
         for (Destination des : map){
@@ -41,141 +41,162 @@ public class Itinerary {
         currentDistance = 0;
     }
 
+    private void noOpt(Integer[] currentPath){
+        pathDistance = 0;
+
+        for(int i = 0; i < keys.size(); i++){
+            currentPath[i] = keys.get(i);
+        }
+
+        currentPath[currentPath.length-1]=keys.get(0);
+        for(int i = 0; i < currentPath.length-1; i++){
+            pathDistance += distanceTable.getDistance(currentPath[i], currentPath[i+1]);
+        }
+        pathDistance += distanceTable.getDistance(currentPath[currentPath.length-1],
+                currentPath[0]) + 1;
+        currentPath[currentPath.length-1]=keys.get(0);
+        path = currentPath.clone();
+    }
+
+
     /**
      * Determine the shortest path possible with a given algorithm to all destinations, or just adds everything in
      * order if no algorithm is selected.  Possible algorithms are Nearest Neighbor, 2-Opt, or 3-Opt.  For both 2-Opt
      * and 3-Opt, Nearest Neighbor is run on all with all remaining destinations beforehand.
      */
-    private void shortestPath(){
 
-        NearestNeighbor nn = new NearestNeighbor(distanceTable, currentDistance);
+    private void shortestPath(){
         Integer[] currentPath = new Integer[keys.size()+1];
 
         // If no opt is chosen, build the path and pathDistance by just adding everything in the order they came in
         if(this.opt.equals("None")){
-            pathDistance = 0;
-
-            for(int i = 0; i < keys.size(); i++){
-                currentPath[i] = keys.get(i);
-            }
-
-            currentPath[currentPath.length-1]=keys.get(0);
-            for(int i = 0; i < currentPath.length-1; i++){
-                pathDistance += distanceTable.getDistance(currentPath[i], currentPath[i+1]);
-            }
-            pathDistance += distanceTable.getDistance(currentPath[currentPath.length-1],
-                    currentPath[0]) + 1;
-            currentPath[currentPath.length-1]=keys.get(0);
-            path = currentPath.clone();
-            return;
+            noOpt(currentPath);
         }
+        else {
+            if (this.opt.equals("3-Opt Test")) {
+                threeOptTest(currentPath);
+                return;
+            } else {
 
-        /*
-         * For use testing 3-Opt. It does not perform NN before optimizing the path using 3-opt allowing more predictable
-         * results from input to thoroughly test 3-Opt.
-         *
-         * LEAVE IN PLACE, ThreeOptTest.java WILL USE THIS BLOCK FOR J-UNIT TESTING
-         */
-        if (this.opt.equals("3-Opt Test")){
 
-            // builds a path, using each destination as the start location, w/o using nearest neighbor
-            for (int i=0; i<keys.size(); i++){
+                // try all possible destinations as the starting point to determine the best one to start from
+                for (int i = 0; i < keys.size(); i++) {
 
-                int count = 0; // current write location for current path
+                    if (test) {
+                        System.out.println("start: " + keys.get(i));
+                    }
 
-                /* Construct The Trip Path */
-                // add keys in order from start key to last key in array
-                for (int j=i; j<keys.size(); j++){
-                    currentPath[count] = keys.get(j);
-                    count++;
+                    // remaining destinations to check distance
+                    ArrayList<Integer> remainingKeys = new ArrayList<>(keys);
+
+                    // pop current from remaining keys
+                    remainingKeys.remove(keys.get(i));
+
+                    // loop remaining keys to find shortest path with Nearest Neighbor
+                    currentPath = runNearestNeighbor(remainingKeys, keys.get(i), currentPath);
+
+                    // Add the start point to the end of the path to complete the loop
+                    currentPath[currentPath.length - 1] = currentPath[0];
+                    currentDistance += distanceTable.getDistance(
+                            currentPath[currentPath.length - 2], currentPath[0]);
+
+                    if (this.opt.equals("2-Opt")) {
+                        currentPath = run2Opt(currentPath);
+
+                    }
+
+                    if (this.opt.equals("3-Opt")) {
+                        currentPath = run3Opt(currentPath);
+
+                    }
+
+
+                    // check if the newly calculated path is shorter than the current path and update accordingly
+                    isShorter(currentPath);
+                    // reset the distance for the next loop iteration
+                    currentDistance = 0;
                 }
-                // add keys in order from first key in array to the start destination's key
-                for (int j=0; j<i; j++){
-                    currentPath[count] = keys.get(j);
-                    count++;
-                }
-                // add the start destination's key to the end of the path to complete the trip loop
-                currentPath[currentPath.length - 1] = keys.get(i);
-
-                // calculate trips total distance
-                for (int j = 0; j < currentPath.length - 1; j++) {
-                    pathDistance += distanceTable.getDistance(currentPath[j], currentPath[j + 1]);
-                }
-
-                // Run 3-Opt on each path
-                ThreeOpt tOpt = new ThreeOpt(distanceTable, currentPath);
-                currentPath = tOpt.getThreeOpt();
-                currentDistance = tOpt.getDistance();
-
-                // check if the new path is shorter than the current path.
-                isShorter(currentPath);
-                currentDistance = 0;
             }
-
-            return;
         }
+    }
 
+    private Integer[] run3Opt(Integer[] currentPath) {
+        // Run 3Opt on each path if chosen
+        ThreeOpt threeOpt = new ThreeOpt(distanceTable, currentPath);
+        currentPath = threeOpt.getThreeOpt();
 
-        // try all possible destinations as the starting point to determine the best one to start from
-        for (int i=0; i<keys.size(); i++){
+        // update currentDistance with calculation in 3-Opt
+        currentDistance = threeOpt.getDistance();
+        return currentPath;
+    }
 
-            if (test) {
-                System.out.println("start: " + keys.get(i));
-            }
+    private Integer[] run2Opt(Integer[] currentPath) {
+        // Run 2Opt on each path if chosen
+        TwoOpt twoOpt = new TwoOpt(distanceTable, currentPath);
+        currentPath = twoOpt.getTwoOpt();
 
-            // remaining destinations to check distance
-            ArrayList<Integer> remainingKeys = new ArrayList<Integer>(keys);
+        // update currentDistance with calculation in 2-Opt
+        currentDistance = twoOpt.getDistance();
+        return currentPath;
+    }
 
-            // pop current from remaining keys
-            Integer currentID = keys.get(i);
-            remainingKeys.remove(currentID);     // O(n)
-            currentPath[0] = currentID;
+    private Integer[] runNearestNeighbor(ArrayList<Integer> remainingKeys, Integer current,
+                                         Integer[] currentPath) {
+        NearestNeighbor nn = new NearestNeighbor(distanceTable);
+        currentPath[0] = current;
+        int count = 1;
+        while (!remainingKeys.isEmpty()) {
 
-            // loop remaining keys to find shortest path with Nearest Neighbor
-            int count = 1;
-            while (!remainingKeys.isEmpty()){
+            // run Nearest Neighbor starting from the current destination
+            nn.setCurrentDistance(currentDistance);
+            Integer destination = nn.nearestNeighbor(current, remainingKeys);
+            // update currentDistance with calculation in Nearest Neighbor class
+            currentDistance = nn.getCurrentDistance();
+            // add destination to path and remove from remaining
+            currentPath[count] = destination;
+            count++;
+            remainingKeys.remove(destination);
+            current = destination;
+        }
+        return currentPath;
+    }
 
-                // run Nearest Neighbor starting from the current destination
-                nn.setCurrentDistance(currentDistance);
-                Integer destinationID = nn.nearestNeighbor(currentID, remainingKeys);
-                // update currentDistance with calculation in Nearest Neighbor class
-                currentDistance=nn.getCurrentDistance();
-                // add destination to path and remove from remaining
-                currentPath[count]=destinationID;
+    /*
+    * For use testing 3-Opt. It does not perform NN before optimizing the path using 3-opt allowing more predictable
+    * results from input to thoroughly test 3-Opt.
+    *
+    * LEAVE IN PLACE, ThreeOptTest.java WILL USE THIS BLOCK FOR J-UNIT TESTING
+    */
+    private void threeOptTest(Integer[] currentPath) {
+        // builds a path, using each destination as the start location, w/o using nearest neighbor
+        for (int i = 0; i < keys.size(); i++) {
+
+            int count = 0; // current write location for current path
+
+        /* Construct The Trip Path */
+            // add keys in order from start key to last key in array
+            for (int j = i; j < keys.size(); j++) {
+                currentPath[count] = keys.get(j);
                 count++;
-                remainingKeys.remove(destinationID);
-                currentID = destinationID;
+            }
+            // add keys in order from first key in array to the start destination's key
+            for (int j = 0; j < i; j++) {
+                currentPath[count] = keys.get(j);
+                count++;
+            }
+            // add the start destination's key to the end of the path to complete the trip loop
+            currentPath[currentPath.length - 1] = keys.get(i);
+
+            // calculate trips total distance
+            for (int j = 0; j < currentPath.length - 1; j++) {
+                pathDistance += distanceTable.getDistance(currentPath[j], currentPath[j + 1]);
             }
 
+            // Run 3-Opt on each path
+            currentPath = run3Opt(currentPath);
 
-            // Add the start point to the end of the path to complete the loop
-            Integer startID = currentPath[0];
-            currentPath[currentPath.length-1]=startID;
-            currentDistance += distanceTable.getDistance(
-                    currentPath[currentPath.length-2],currentPath[0]);
-
-            if(this.opt.equals("2-Opt")) {
-                // Run 2Opt on each path if chosen
-                TwoOpt tOpt = new TwoOpt(distanceTable, currentPath);
-                currentPath = tOpt.getTwoOpt();
-
-                // update currentDistance with calculation in 2-Opt
-                currentDistance = tOpt.getDistance();
-            }
-
-            if(this.opt.equals("3-Opt")){
-                // Run 2Opt on each path if chosen
-                ThreeOpt tOpt = new ThreeOpt(distanceTable, currentPath);
-                currentPath = tOpt.getThreeOpt();
-
-                // update currentDistance with calculation in 2-Opt
-                currentDistance = tOpt.getDistance();
-            }
-
-
-            // check if the newly calculated path is shorter than the current path and update accordingly
+            // check if the new path is shorter than the current path.
             isShorter(currentPath);
-            // reset the distance for the next loop iteration
             currentDistance = 0;
         }
     }
