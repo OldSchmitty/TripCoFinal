@@ -8,7 +8,6 @@ class Home extends React.Component {
 
         this.state = {
             options: this.props.options,
-            allPairs: this.props.allPairs,
             ps: []
 
 
@@ -25,8 +24,7 @@ class Home extends React.Component {
 
     render()
     {
-        let pairs = this.state.allPairs;
-        this.state.ps = pairs.map((pp) => {
+        this.state.ps = this.props.allPairs.map((pp) => {
             let finalData={};
             finalData["start name"] = pp["start name"];
             finalData["end name"] = pp["end name"];
@@ -41,6 +39,7 @@ class Home extends React.Component {
             }
             return <Pair {...finalData}/>;
         });
+
 
         return <div className="home-container">
 

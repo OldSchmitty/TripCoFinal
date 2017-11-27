@@ -433,6 +433,7 @@ export default class App extends React.Component {
             allPairs: pairs,
             bottomRow: totalRow
         });
+        console.log("allpairs is: ",this.state.allPairs);
 
     }
 
