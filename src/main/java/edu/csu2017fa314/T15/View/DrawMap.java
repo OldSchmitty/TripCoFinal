@@ -67,6 +67,42 @@ public class DrawMap {
     elements.set(edgeLoc,add);
   }
 
+  private String addCrosses(String add, double x1, double y1, double x2, double y2) {
+    // draw two lines using slope
+    if (isVertical(x1, x2)){
+      // vertical line
+      add = addEdgesToString(add, x1, y1, -1*x2, y2);
+    } else {
+      double slope = crossSlope(x1, y1, x2, y2);
+      // calculate the cross point for east = -west
+      double crossY = 0; // Y coordinate where line crosses east border
+      if (x1 > x2) { // x1 east, x2 west
+        crossY = slope * (180 - x1) + y1;
+        // draw line from destination 1 to (180, crossY)
+        add = addEdgesToString(add, x1, y1, 180, crossY);
+        // draw line from destination 2 to (-180, crossY)
+        add = addEdgesToString(add, x2, y2, -180, crossY);
+      } else { // x1 west, x2 east
+        crossY = slope * (180 - x2) + y2;
+        // draw line from desination 2 to (180, crossY)
+        add = addEdgesToString(add, x2, y2, 180, crossY);
+        // draw line from destination 1 to (-180, crossY)
+        add = addEdgesToString(add, x1, y1, -180, crossY);
+      }
+    }
+    return add;
+  }
+
+    private boolean isVertical(double x1, double x2) {
+        return (x1 == -180 && x2 == 180) || ( x1 == 180 && x2 == -180);
+    }
+
+    private String addEdgesToString(String add, double x1, double y1, double x2, double y2) {
+    add += edgeString(Double.toString(x1), Double.toString(y1),
+            Double.toString(x2), Double.toString(y2));
+    return add;
+  }
+
   /**
    * Adds points (x1,y1) and (x2,y2) to accumulated string when the points are on
    * different hemispheres and need to cross over to the other

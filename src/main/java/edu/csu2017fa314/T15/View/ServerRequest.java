@@ -1,8 +1,6 @@
 package edu.csu2017fa314.T15.View;
 
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
 import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.Model.SearchSQLDatabase;
 
