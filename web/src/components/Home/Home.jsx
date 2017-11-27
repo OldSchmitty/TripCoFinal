@@ -20,10 +20,7 @@ class Home extends React.Component {
 
     }
 
-
-
-    render()
-    {
+    makeTable(){
         this.state.ps = this.props.allPairs.map((pp) => {
             let finalData={};
             finalData["start name"] = pp["start name"];
@@ -39,8 +36,12 @@ class Home extends React.Component {
             }
             return <Pair {...finalData}/>;
         });
+    }
 
 
+    render()
+    {
+        this.makeTable();
         return <div className="home-container">
 
             <div className="inner">
