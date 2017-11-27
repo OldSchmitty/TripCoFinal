@@ -1,28 +1,56 @@
 import React, {Component} from 'react';
-import Dropzone from 'react-dropzone';
+import ItinOptions from "./ItinOptions/ItinOptions.jsx"
+import Pair from './Pair/Pair.jsx';
 
 class Home extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            test: false,
+            options: this.props.options,
+            ps: []
+
+
         };
+
+        this.changeOpts = (i) => {
+            this.state.options[i] = !this.state.options[i];
+            this.forceUpdate();
+        }
+
+    }
+
+    makeTable(){
+        this.state.ps = this.props.allPairs.map((pp) => {
+            let finalData={};
+            finalData["start name"] = pp["start name"];
+            finalData["end name"] = pp["end name"];
+            finalData["distance"] = pp["distance"];
+            finalData["cumulativeDistance"] = pp["cumulativeDistance"];
+
+            for (let i in this.state.options){
+                if(this.state.options[i]) {
+                    finalData["start " + i] = pp["start " + i];
+                    finalData["end " + i] = pp["end " + i];
+                }
+            }
+            return <Pair {...finalData}/>;
+        });
     }
 
 
     render()
     {
+        this.makeTable();
         return <div className="home-container">
+
             <div className="inner">
-                <h3>{this.props.info}</h3>
-                <div >
-                    {this.props.checkBoxes}
-                </div>
+                <h3>Check the boxes below for additional info!</h3>
+                <ItinOptions options = {this.props.options} changeOpts = {this.changeOpts}/>
             </div>
             <div >
                 <table className="pair-table">
-                    {this.props.pairs}
+                    {this.state.ps}
                     <tbody>
                     {this.props.bottomRow}
                     </tbody>
