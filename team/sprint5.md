@@ -56,7 +56,7 @@ Epics planned for this release.
 Date | Tasks done now | Tasks done next | Impediments | Coverage | Smells | Duplication | Technical Debt Ratio
 :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---:
 11-15 | #362 |  | None | 81 | 35 | 55 | 19.7
- | | | | | | | |
+ 11-27|#365 #364 #369 #368 #395 #330 #388| #383 #362 | Other classes, refactoring, React | 83 | 28 | 38 | 14.3 |
  
 
 ## Review
