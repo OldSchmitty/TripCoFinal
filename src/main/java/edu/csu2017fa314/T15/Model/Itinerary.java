@@ -6,10 +6,13 @@ public class Itinerary {
 
     private Integer[] path; // the trip path to be planned later
     private long pathDistance; // the absolute total distance of the current planned trip
-    private ArrayList<Integer> keys; // list of the destination codes for accessing information in the distances table
-    private final Table distanceTable; // a lookup table that stores the distances between each destination
+    // list of the destination codes for accessing information in the distances table
+    private ArrayList<Integer> keys;
+    // a lookup table that stores the distances between each destination
+    private final Table distanceTable;
     private final boolean test; // sets if you get debug information
-    private long currentDistance; // the latest total distance calculated to be compared with the path distance
+    // the latest total distance calculated to be compared with the path distance
+    private long currentDistance;
     private final String opt; // the selected optimization that will be performed when making a path
 
     /**
@@ -22,15 +25,17 @@ public class Itinerary {
     }
 
     /**
-     * Populates the keys ArrayList for indexing into the table with Destination codes, makes the table with the
-     * destinations array, initializes path to be an array of length one more than the number of destinations, sets
-     * pathDistance to -1 and the currentDistance to 0 to start accumulating distance
+     * Populates the keys ArrayList for indexing into the table with Destination codes,
+     * makes the table with the destinations array, initializes path to be an array of length one
+     * more than the number of destinations, sets pathDistance to -1 and the
+     * currentDistance to 0 to start accumulating distance
      * @param map - array of destinations in trip
      * @param opt - optimization to be performed
      * @param test - determines if in debug mode
      */
     public Itinerary(final Destination[] map, final String opt, final Boolean test){
-        this.opt = opt; this.test = test;
+        this.opt = opt;
+        this.test = test;
         keys = new ArrayList<>();
         for (Destination des : map){
             keys.add(des.getIdentifier());
@@ -60,15 +65,17 @@ public class Itinerary {
 
 
     /**
-     * Determine the shortest path possible with a given algorithm to all destinations, or just adds everything in
-     * order if no algorithm is selected.  Possible algorithms are Nearest Neighbor, 2-Opt, or 3-Opt.  For both 2-Opt
-     * and 3-Opt, Nearest Neighbor is run on all with all remaining destinations beforehand.
+     * Determine the shortest path possible with a given algorithm to all destinations,
+     * or just adds everything in order if no algorithm is selected.  Possible algorithms are
+     * Nearest Neighbor, 2-Opt, or 3-Opt.  For both 2-Opt and 3-Opt, Nearest Neighbor is
+     * run on all with all remaining destinations beforehand.
      */
 
     private void shortestPath(){
         Integer[] currentPath = new Integer[keys.size()+1];
 
-        // If no opt is chosen, build the path and pathDistance by just adding everything in the order they came in
+        // If no opt is chosen, build the path and pathDistance by just adding
+        // everything in the order they came in
         if(this.opt.equals("None")){
             noOpt(currentPath);
         }
@@ -79,7 +86,8 @@ public class Itinerary {
             } else {
 
 
-                // try all possible destinations as the starting point to determine the best one to start from
+                // try all possible destinations as the starting point to determine the
+                // best one to start from
                 for (int i = 0; i < keys.size(); i++) {
 
                     if (test) {
@@ -107,11 +115,11 @@ public class Itinerary {
 
                     if (this.opt.equals("3-Opt")) {
                         currentPath = run3Opt(currentPath);
-
                     }
 
 
-                    // check if the newly calculated path is shorter than the current path and update accordingly
+                    // check if the newly calculated path is shorter than the current
+                    // path and update accordingly
                     isShorter(currentPath);
                     // reset the distance for the next loop iteration
                     currentDistance = 0;
@@ -162,8 +170,8 @@ public class Itinerary {
     }
 
     /*
-    * For use testing 3-Opt. It does not perform NN before optimizing the path using 3-opt allowing more predictable
-    * results from input to thoroughly test 3-Opt.
+    * For use testing 3-Opt. It does not perform NN before optimizing the path using
+    * 3-opt allowing more predictable results from input to thoroughly test 3-Opt.
     *
     * LEAVE IN PLACE, ThreeOptTest.java WILL USE THIS BLOCK FOR J-UNIT TESTING
     */
@@ -202,8 +210,8 @@ public class Itinerary {
     }
 
     /**
-     * Checks if the current calculated path is shorter than the current known path, and if so will change path to
-     * the latest calculation
+     * Checks if the current calculated path is shorter than the current known path,
+     * and if so will change path to the latest calculation
      * @param currentPath
      */
     private void isShorter(Integer[] currentPath){
@@ -223,9 +231,10 @@ public class Itinerary {
     }
 
     /**
-     * Plan the trip by calculating the shortest path among destinations and then adds each destination in the path
-     * as an Edge to be displayed in the Itinerary and on the map
-     * @return - ArrayList<Edge>: collection of all legs of the trip after selected optimization is used
+     * Plan the trip by calculating the shortest path among destinations and then adds
+     * each destination in the path as an Edge to be displayed in the Itinerary and on the map
+     * @return - ArrayList<Edge>: collection of all legs of the trip
+     * after selected optimization is used
      */
     public ArrayList<Edge> getShortestPath(){
         ArrayList<Edge> shortPath = new ArrayList<Edge>();
@@ -242,7 +251,7 @@ public class Itinerary {
 
     /**
      * Returns the calculated distance of the entire path through all destinations
-     * @return
+     * @return pathDistance
      */
 
     public long getDistance(){
@@ -251,7 +260,7 @@ public class Itinerary {
 
     /**
      * Returns the table that was populated by the destination array sent in to the constructor
-     * @return
+     * @return distanceTable
      */
 
     public Table getTable(){
@@ -260,7 +269,7 @@ public class Itinerary {
 
     /**
      * Returns the path that was assembled through all destinations with a chosen opt
-     * @return
+     * @return path
      */
 
     public Integer[] getPath(){
