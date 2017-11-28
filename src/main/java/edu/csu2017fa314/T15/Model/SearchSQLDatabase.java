@@ -183,10 +183,7 @@ public class SearchSQLDatabase {
    * @return PreparedStatement
    */
   private PreparedStatement makeQueryStatement(String[] searchFor, String[] searchType) throws SQLException {
-    if(searchFor.length == 0)
-    { throw new IllegalArgumentException("No items to search for\n");}
-    if(searchType.length == 0)
-    { throw new IllegalArgumentException("No Columns to search for\n");}
+    searchDataValidation(searchFor, searchType);
     String search; // What we are searching for
     String where; // What tables to search in
     String front = "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
@@ -239,9 +236,22 @@ public class SearchSQLDatabase {
     return rt;
   }
 
+  /**
+   * Checks to make sure no empty strings arrays are sent to make a query.
+   * @param searchFor Items to search for
+   * @param searchType Type of search
+   * @throws IllegalArgumentException If search item or type is empty
+   */
+  private void searchDataValidation(final String[] searchFor, final String[] searchType)
+      throws IllegalArgumentException {
+    if(searchFor.length == 0)
+    { throw new IllegalArgumentException("No items to search for\n");}
+    if(searchType.length == 0)
+    { throw new IllegalArgumentException("No Columns to search for\n");}
+  }
 
 
-    /**
+  /**
      * Builds builds a prepared statement for a single item based on the airport code
      * @param searchFor What to search for
      * @param searchType Flag for what kind of search to do
