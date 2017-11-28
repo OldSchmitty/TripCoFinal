@@ -12,23 +12,22 @@ public class SearchSQLDatabase {
   /**
    * Driver for SQl Connection
    */
-  static final private String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
+   private static final String myDriver="com.mysql.jdbc.Driver"; // add dependencies in pom.xml
   /**
    * Server location for school sql database
    */
-  static final private String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
+  private static final  String myUrl="jdbc:mysql://faure.cs.colostate.edu/cs314";
   /**
    * Connection to sql sever
    */
   private Connection conn;
-
 
   /**
    * Constructor for connecting to the CS314 sql database.
    * @param loginInfo [0] - eid
    *                  [1] - student number
    */
-  public SearchSQLDatabase(String[] loginInfo) throws SQLException {
+  public SearchSQLDatabase(final String[] loginInfo) throws SQLException {
     this(loginInfo, myUrl);
   }
 
@@ -38,7 +37,7 @@ public class SearchSQLDatabase {
    *                  [1] - student number
    * @param myUrl     Ip address and socket of sql database
    */
-  public SearchSQLDatabase(String[] loginInfo, String myUrl)
+  public SearchSQLDatabase(final String[] loginInfo, final String myUrl)
       throws SQLException {
     try{
       Class.forName(myDriver);
@@ -75,7 +74,7 @@ public class SearchSQLDatabase {
    * @return A Destination array with the results of the search
    * @throws SQLException error in accessing the database
    */
-  public Destination[] query(String[] searchFor) throws SQLException {
+  public Destination[] query(final String[] searchFor) throws SQLException {
     String[] all = {"*"};
     return query(searchFor, all);
   }
@@ -86,7 +85,7 @@ public class SearchSQLDatabase {
    * @param inColumns Where to search for those terms
    * @return A Destination array with all the return results
    */
-  public Destination[] query(String[] searchFor, String[] inColumns)
+  public Destination[] query(final String[] searchFor, final String[] inColumns)
       throws SQLException {
     Destination[] rt;
     // list of tables in order of search
@@ -127,7 +126,7 @@ public class SearchSQLDatabase {
    * @return The data in a destination
    * @throws SQLException Error reading metadata or result
    */
-  private Destination readQueryResults(ResultSet rs, ResultSetMetaData meta, int size)
+  private Destination readQueryResults(ResultSet rs, ResultSetMetaData meta, final int size)
       throws SQLException {
     final String[] tables ={".continents", ".countries", ".regions", ""};
     int tableCount = -1;// loop through the tables in search
@@ -188,7 +187,7 @@ public class SearchSQLDatabase {
    *                    <p>"CODE" airport id/code</p>
    * @return PreparedStatement
    */
-  private PreparedStatement makeQueryStatement(String[] searchFor, String[] searchType)
+  private PreparedStatement makeQueryStatement(final String[] searchFor, final String[] searchType)
       throws SQLException {
     searchDataValidation(searchFor, searchType);
     String search = buildSearchTerm(searchFor);
@@ -242,8 +241,8 @@ public class SearchSQLDatabase {
    * @return PreparedStatement for query
    * @throws SQLException Error in setting prams
    */
-  private PreparedStatement getPreparedStatementByAirportCode(String[] searchFor, String search)
-      throws SQLException {
+  private PreparedStatement getPreparedStatementByAirportCode(final String[] searchFor,
+      final String search) throws SQLException {
     PreparedStatement rt;// look by id
     String where = "airports.code in " + search;
 
@@ -259,7 +258,7 @@ public class SearchSQLDatabase {
    * @param searchFor What to search for
    * @return Search term
    */
-  private String buildSearchTerm(String[] searchFor) {
+  private String buildSearchTerm(final String[] searchFor) {
     StringBuilder search;
     if(searchFor.length > 1)
     {
@@ -299,8 +298,8 @@ public class SearchSQLDatabase {
      *                    <p>"CODE" airport id/code</p>
      * @return PreparedStatement
      */
-  private PreparedStatement makeSingleQueryStatement(String searchFor, String searchType)
-      throws SQLException {
+  private PreparedStatement makeSingleQueryStatement(final String searchFor,
+      final String searchType) throws SQLException {
     String query = getQueryJoinCommands(); // Common start for all searches
     //Basic query
 
