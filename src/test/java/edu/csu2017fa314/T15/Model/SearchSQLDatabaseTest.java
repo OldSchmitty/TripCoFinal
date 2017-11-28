@@ -299,6 +299,7 @@ public class SearchSQLDatabaseTest {
     String[] in = {"*"};
     Destination[] rt = sql.query(find, in);
   }
+
   /**
    * Tests for empty search terms
    * @throws SQLException If error in sql code

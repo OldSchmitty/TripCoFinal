@@ -218,7 +218,7 @@ public class SearchSQLDatabase {
   /**
    * Makes a prepared statement for a general search query.
    * @param search What term is being searched for %?%
-   * PreparedStatement for query
+   * @return PreparedStatement for query
    * @throws SQLException Error in setting prams
    */
   private PreparedStatement getPreparedStatementByAll(String search)
