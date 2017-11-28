@@ -279,13 +279,35 @@ public class SearchSQLDatabaseTest {
   }
 
   /**
-   * Tests for invaild search terms
+   * Tests for invalid search terms
    * @throws SQLException If error in sql code
    */
   @Test (expected = IllegalArgumentException.class)
   public void queryBADField() throws SQLException {
     String[] find ={"0CO3"};
     String[] in = {"BAD"};
+    Destination[] rt = sql.query(find, in);
+  }
+
+  /**
+   * Tests for empty search items
+   * @throws SQLException If error in sql code
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void queryNoSearchItems() throws SQLException {
+    String[] find = {};
+    String[] in = {"*"};
+    Destination[] rt = sql.query(find, in);
+  }
+
+  /**
+   * Tests for empty search terms
+   * @throws SQLException If error in sql code
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void queryNoSearchTerm() throws SQLException {
+    String[] find = {"0CO3"};
+    String[] in = {};
     Destination[] rt = sql.query(find, in);
   }
 
