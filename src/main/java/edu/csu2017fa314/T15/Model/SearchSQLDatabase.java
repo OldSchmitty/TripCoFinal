@@ -191,33 +191,16 @@ public class SearchSQLDatabase {
   private PreparedStatement makeQueryStatement(String[] searchFor, String[] searchType)
       throws SQLException {
     searchDataValidation(searchFor, searchType);
-    String search; // What we are searching for
-    String where; // What tables to search in
-    String front = getQueryJoinCommands(); // Common start for all searches
-    // Looking for in (?,?,..)
-    search = buildSearchTerm(searchFor);
+    String search = buildSearchTerm(searchFor);
     PreparedStatement rt;
     try {
       // Search in all tables for possible matches
       switch (searchType[0]) {
         case "*":
-          where = "airports.name like ? or municipality like ? or regions.name like ? "
-              + "or countries.name like ? or continents.name like ? limit 100";
-          rt = conn.prepareStatement(front + where);
-          rt.setString(1, search);
-          rt.setString(2, search);
-          rt.setString(3, search);
-          rt.setString(4, search);
-          rt.setString(5, search);
-
+          rt = getPreparedStatementByAll(search);
           break;
         case "CODE":
-          // look by id
-          where = "airports.code in " + search;
-          rt = conn.prepareStatement(front + where);
-          for (int i = 0; i < searchFor.length; i++) {
-            rt.setString(i + 1, searchFor[i]);
-          }
+          rt = getPreparedStatementByAirportCode(searchFor, search);
           break;
         default:
           // This should not happen yet
@@ -229,6 +212,45 @@ public class SearchSQLDatabase {
       throw e;
     }
 
+    return rt;
+  }
+
+  /**
+   * Makes a prepared statement for a general search query.
+   * @param search What term is being searched for %?%
+   * PreparedStatement for query
+   * @throws SQLException Error in setting prams
+   */
+  private PreparedStatement getPreparedStatementByAll(String search)
+      throws SQLException {
+    PreparedStatement rt;
+    String where = "airports.name like ? or municipality like ? or regions.name like ? "
+        + "or countries.name like ? or continents.name like ? limit 100";
+    rt = conn.prepareStatement(getQueryJoinCommands() + where);
+    rt.setString(1, search);
+    rt.setString(2, search);
+    rt.setString(3, search);
+    rt.setString(4, search);
+    rt.setString(5, search);
+    return rt;
+  }
+
+  /**
+   * Makes a prepared statement for airport codes
+   * @param searchFor Codes to search for
+   * @param search build search string ( ? , ? , ... ,? )
+   * @return PreparedStatement for query
+   * @throws SQLException Error in setting prams
+   */
+  private PreparedStatement getPreparedStatementByAirportCode(String[] searchFor, String search)
+      throws SQLException {
+    PreparedStatement rt;// look by id
+    String where = "airports.code in " + search;
+
+    rt = conn.prepareStatement(getQueryJoinCommands() + where);
+    for (int i = 0; i < searchFor.length; i++) {
+      rt.setString(i + 1, searchFor[i]);
+    }
     return rt;
   }
 
