@@ -191,43 +191,34 @@ public class SearchSQLDatabase {
     String where; // What tables to search in
     String front = getQueryJoinCommands(); // Common start for all searches
     // Looking for in (?,?,..)
-    if(searchFor.length > 1)
-    {
-      search = " ( ";
-      for (String s: searchFor) {
-        search += " ? ,";
-      }
-      search = search.substring(0, search.length() -1);
-      search += " )";
-    }
-    //Basic query
-    else{
-      search = "%" + searchFor[0] +"%";
-    }
+    search = buildSearchTerm(searchFor);
     PreparedStatement rt;
     try {
       // Search in all tables for possible matches
-      if(searchType[0].equals("*")) {
-        where = "airports.name like ? or municipality like ? or regions.name like ? "
-                + "or countries.name like ? or continents.name like ? limit 100";
-        rt = conn.prepareStatement(front + where);
-        rt.setString(1, search);
-        rt.setString(2, search);
-        rt.setString(3, search);
-        rt.setString(4, search);
-        rt.setString(5, search);
+      switch (searchType[0]) {
+        case "*":
+          where = "airports.name like ? or municipality like ? or regions.name like ? "
+              + "or countries.name like ? or continents.name like ? limit 100";
+          rt = conn.prepareStatement(front + where);
+          rt.setString(1, search);
+          rt.setString(2, search);
+          rt.setString(3, search);
+          rt.setString(4, search);
+          rt.setString(5, search);
 
-      } else if(searchType[0].equals("CODE")) {
-        // look by id
-        where = "airports.code in "+ search;
-        rt = conn.prepareStatement(front+where);
-        for(int i = 0; i <searchFor.length; i++) {
-          rt.setString(i+1, searchFor[i]);
-        }
+          break;
+        case "CODE":
+          // look by id
+          where = "airports.code in " + search;
+          rt = conn.prepareStatement(front + where);
+          for (int i = 0; i < searchFor.length; i++) {
+            rt.setString(i + 1, searchFor[i]);
+          }
+          break;
+        default:
+          // This should not happen yet
+          throw new IllegalArgumentException("Invalid search term " + searchType[0] + "\n");
       }
-      else {
-        // This should not happen yet
-        throw new IllegalArgumentException("Invalid search term " + searchType[0] + "\n");}
     } catch (SQLException e) {
       System.err.printf("SearchSQLDatabase:makeQueryStatement error "
               + "in getting column names\n%s\n", e.getMessage());
@@ -235,6 +226,29 @@ public class SearchSQLDatabase {
     }
 
     return rt;
+  }
+
+  /**
+   * Builds the search term for a query based on the size of the search
+   * @param searchFor What to search for
+   * @return Search term
+   */
+  private String buildSearchTerm(String[] searchFor) {
+    StringBuilder search;
+    if(searchFor.length > 1)
+    {
+      search = new StringBuilder(" ( ");
+      for (String s: searchFor) {
+        search.append(" ? ,");
+      }
+      search = new StringBuilder(search.substring(0, search.length() - 1));
+      search.append(" )");
+    }
+    //Basic query
+    else{
+      search = new StringBuilder("%" + searchFor[0] + "%");
+    }
+    return search.toString();
   }
 
   /**
