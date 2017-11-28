@@ -89,8 +89,8 @@ public class SearchSQLDatabase {
   public Destination[] query(String[] searchFor, String[] inColumns)
       throws SQLException {
     Destination[] rt;
-    final String[] tables ={".continents", ".countries", ".regions", ""}; // list of tables in order of search
-    //PreparedStatement qry  = makeQueryStatement(searchFor, inColumns);
+    // list of tables in order of search
+    final String[] tables ={".continents", ".countries", ".regions", ""};
     try {
       try (PreparedStatement qry  = makeQueryStatement(searchFor, inColumns)) {
         ResultSet rs = qry.executeQuery();
@@ -99,7 +99,8 @@ public class SearchSQLDatabase {
         int numRows = 0;
         if (rs.last()) {
           numRows = rs.getRow();
-          rs.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
+          // not rs.first() because the rs.next() below will move on, missing the first element
+          rs.beforeFirst();
         }
         rt = new Destination[numRows];
         int count = 0;
@@ -142,7 +143,8 @@ public class SearchSQLDatabase {
   public Destination[] queryInOrder(String[] searchFor, String inColumns)
           throws SQLException {
     Destination[] rt = new Destination[searchFor.length];
-    final String[] tables ={".continents", ".countries", ".regions", ""}; // list of tables in order of search
+    // list of tables in order of search
+    final String[] tables ={".continents", ".countries", ".regions", ""};
     for(int i = 0; i < searchFor.length; i++) {
       try {
         try (PreparedStatement qry = makeSingleQueryStatement(searchFor[i], inColumns)) {
@@ -182,13 +184,12 @@ public class SearchSQLDatabase {
    *                    <p>"CODE" airport id/code</p>
    * @return PreparedStatement
    */
-  private PreparedStatement makeQueryStatement(String[] searchFor, String[] searchType) throws SQLException {
+  private PreparedStatement makeQueryStatement(String[] searchFor, String[] searchType)
+      throws SQLException {
     searchDataValidation(searchFor, searchType);
     String search; // What we are searching for
     String where; // What tables to search in
-    String front = "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
-            + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
-            + "ON airports.iso_region = regions.code WHERE "; // Common start for all searches
+    String front = getQueryJoinCommands(); // Common start for all searches
     // Looking for in (?,?,..)
     if(searchFor.length > 1)
     {
@@ -258,10 +259,9 @@ public class SearchSQLDatabase {
      *                    <p>"CODE" airport id/code</p>
      * @return PreparedStatement
      */
-  private PreparedStatement makeSingleQueryStatement(String searchFor, String searchType) throws SQLException {
-    String query = "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
-        + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
-        + "ON airports.iso_region = regions.code WHERE "; // Common start for all searches
+  private PreparedStatement makeSingleQueryStatement(String searchFor, String searchType)
+      throws SQLException {
+    String query = getQueryJoinCommands(); // Common start for all searches
     //Basic query
 
     PreparedStatement rt;
@@ -277,5 +277,15 @@ public class SearchSQLDatabase {
   }
 
     return rt;
+  }
+
+  /**
+   * The common start for all queries
+   * @return Starting select statement for all queries
+   */
+  private String getQueryJoinCommands() {
+    return "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
+        + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
+        + "ON airports.iso_region = regions.code WHERE ";
   }
 }
