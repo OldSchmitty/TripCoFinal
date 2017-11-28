@@ -90,7 +90,7 @@ public class SearchSQLDatabase {
       throws SQLException {
     Destination[] rt;
     // list of tables in order of search
-    final String[] tables ={".continents", ".countries", ".regions", ""};
+
     try {
       try (PreparedStatement qry  = makeQueryStatement(searchFor, inColumns)) {
         ResultSet rs = qry.executeQuery();
@@ -106,20 +106,7 @@ public class SearchSQLDatabase {
         int count = 0;
 
         while (rs.next()) {
-          int tableCount = -1;// loop through the tables in search
-          Destination des = new Destination();
-          for (int i = 1; i < size; i++) {
-            String field = meta.getColumnName(i);
-            String info = rs.getString(i);
-            // Add the table to the search term to prevent overriding keys in desinations
-            if(!field.equals("id")){
-              des.setValue(field+tables[tableCount], info);
-            }
-            else
-            {
-              tableCount++; // used to skip id in returns and move table count
-            }
-          }
+          Destination des = readQueryResults(rs, meta, size);
           des.setIdentifier(count);
           rt[count] = des;
           count++;
@@ -130,6 +117,34 @@ public class SearchSQLDatabase {
       throw e;
     }
     return rt;
+  }
+
+  /**
+   * Reads a query result and converts it's data into a destination
+   * @param rs  The query result
+   * @param meta Meta data for column names
+   * @param size number of columns
+   * @return The data in a destination
+   * @throws SQLException Error reading metadata or result
+   */
+  private Destination readQueryResults(ResultSet rs, ResultSetMetaData meta, int size)
+      throws SQLException {
+    final String[] tables ={".continents", ".countries", ".regions", ""};
+    int tableCount = -1;// loop through the tables in search
+    Destination des = new Destination();
+    for (int i = 1; i < size; i++) {
+      String field = meta.getColumnName(i);
+      String info = rs.getString(i);
+      // Add the table to the search term to prevent overriding keys in designations
+      if(!field.equals("id")){
+        des.setValue(field+tables[tableCount], info);
+      }
+      else
+      {
+        tableCount++; // used to skip id in returns and move table count
+      }
+    }
+    return des;
   }
 
 
@@ -144,7 +159,7 @@ public class SearchSQLDatabase {
           throws SQLException {
     Destination[] rt = new Destination[searchFor.length];
     // list of tables in order of search
-    final String[] tables ={".continents", ".countries", ".regions", ""};
+
     for(int i = 0; i < searchFor.length; i++) {
       try {
         try (PreparedStatement qry = makeSingleQueryStatement(searchFor[i], inColumns)) {
@@ -153,18 +168,7 @@ public class SearchSQLDatabase {
           int size = meta.getColumnCount() + 1;
 
           rs.next();
-          int tableCount = -1;// loop through the tables in search
-          Destination des = new Destination();
-          for (int j = 1; j < size; j++) {
-            String field = meta.getColumnName(j);
-            String info = rs.getString(j);
-            // Add the table to the search term to prevent overriding keys in desinations
-            if (!field.equals("id")) {
-              des.setValue(field + tables[tableCount], info);
-            } else {
-              tableCount++; // used to skip id in returns and move table count
-            }
-          }
+          Destination des = readQueryResults(rs, meta, size);
           des.setIdentifier(i);
           rt[i] = des;
         }
