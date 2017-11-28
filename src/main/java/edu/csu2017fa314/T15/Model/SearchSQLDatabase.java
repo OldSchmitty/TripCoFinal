@@ -1,16 +1,11 @@
 package edu.csu2017fa314.T15.Model;
-import static java.lang.System.getenv;
 
-import java.security.InvalidParameterException;
 import java.sql.Connection; // https://docs.oracle.com/javase/tutorial/jdbc/basics/index.html
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager; // https://www.tutorialspoint.com/jdbc/
 import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.ResultSet;
-import java.util.HashMap;
 
 public class SearchSQLDatabase {
 
