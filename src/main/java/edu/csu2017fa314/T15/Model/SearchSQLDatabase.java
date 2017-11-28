@@ -72,7 +72,7 @@ public class SearchSQLDatabase {
   /**
    * Queries all the fields in a database for an a given search term
    * @param searchFor What to search for
-   * @return A hashmap with the results of the search
+   * @return A Destination array with the results of the search
    * @throws SQLException error in accessing the database
    */
   public Destination[] query(String[] searchFor) throws SQLException {
@@ -84,7 +84,7 @@ public class SearchSQLDatabase {
    * Makes an sql query for entries that are like the given search terms in given columns
    * @param searchFor All the terms to search for
    * @param inColumns Where to search for those terms
-   * @return A hashmap with all the return results saved as Destinations and id as the key
+   * @return A Destination array with all the return results
    */
   public Destination[] query(String[] searchFor, String[] inColumns)
       throws SQLException {
