@@ -140,18 +140,23 @@ class PlanTable extends React.Component {
 
     deleteDups(keys, trip) {
         for (let i in keys) {
-            for (let j in trip) {
-                if (trip[j]['name'] === keys[i]) {
-                    trip.splice(j, 1);
-                    break;
-                }
-            }
+          this.checkIfToBeDeleted(trip, keys, i);
         }
         return trip;
     }
 
-    createCustomDeleteButton(onClick) {
-        return (
+  // Looks through the plan table for an entry to delete
+  checkIfToBeDeleted(trip, keys, i) {
+    for (let j in trip) {
+      if (trip[j]['name'] === keys[i]) {
+        trip.splice(j, 1);
+        break;
+      }
+    }
+  }
+
+  createCustomDeleteButton(onClick) {
+    return (
             <DeleteButton
                 btnText='Delete Selected'
                 btnContextual='btn-danger'
