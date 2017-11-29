@@ -20,25 +20,17 @@ public class ThreeOptTest {
         CalculateDistance.setMiles(); // set distance calculations to miles
 
         // Creates a map of 4 destinations
-        Destination[] map = new Destination[4];
-        Destination b1 = new Destination("A", "Destination 1", "Test City 1",
+        final Destination b1 = new Destination("A", "Destination 1", "Test City 1",
                 "-30", "0", "1000");
-        Destination b2 = new Destination("B", "Destination 2", "Test City 2",
+        final Destination b2 = new Destination("B", "Destination 2", "Test City 2",
                 "-30", "40", "1000");
-        Destination b3 = new Destination("C", "Destination 3", "Test City 3",
+        final Destination b3 = new Destination("C", "Destination 3", "Test City 3",
                 "30", "0", "1000");
-        Destination b4 = new Destination("D", "Destination 4", "Test City 4",
+        final Destination b4 = new Destination("D", "Destination 4", "Test City 4",
                 "30", "40", "1000");
 
-        b1.setIdentifier(0);
-        b2.setIdentifier(1);
-        b3.setIdentifier(2);
-        b4.setIdentifier(3);
-
-        map[0] = b1;
-        map[1] = b2;
-        map[2] = b3;
-        map[3] = b4;
+        Destination[] map = new Destination[4];
+        map = storeMap(map, b1, b2, b3, b4);
 
         // Build a distance table and path
         Itinerary itinerary = new Itinerary(map, "None");
@@ -58,6 +50,21 @@ public class ThreeOptTest {
         }
     }
 
+    private Destination[] storeMap(Destination[] map, Destination b1, Destination b2,
+                                   Destination b3, Destination b4) {
+        b1.setIdentifier(0);
+        b2.setIdentifier(1);
+        b3.setIdentifier(2);
+        b4.setIdentifier(3);
+
+        map[0] = b1;
+        map[1] = b2;
+        map[2] = b3;
+        map[3] = b4;
+
+        return map;
+    }
+
     /**
      * Tests the second of seven options of 3-opt. The four destinations make an hourglass before
      * optimization.  Optimization using this method should uncross them so the path is square.
@@ -68,7 +75,6 @@ public class ThreeOptTest {
         CalculateDistance.setMiles(); // set distance calculations to miles
 
         // Creates a map of 4 destinations
-        Destination[] map = new Destination[4];
         Destination b1 = new Destination("A", "Destination 1", "Test City 1",
                 "-30", "0", "1000");
         Destination b2 = new Destination("B", "Destination 2", "Test City 2",
@@ -78,15 +84,8 @@ public class ThreeOptTest {
         Destination b4 = new Destination("D", "Destination 4", "Test City 4",
                 "30", "40", "1000");
 
-        b1.setIdentifier(0);
-        b2.setIdentifier(1);
-        b3.setIdentifier(2);
-        b4.setIdentifier(3);
-
-        map[0] = b1;
-        map[1] = b2;
-        map[2] = b3;
-        map[3] = b4;
+        Destination[] map = new Destination[4];
+        map = storeMap(map, b1, b2, b3, b4);
 
         // Build a distance table and path
         Itinerary itinerary = new Itinerary(map, "None");
@@ -116,7 +115,6 @@ public class ThreeOptTest {
         CalculateDistance.setMiles(); // set distance calculations to miles
 
         // Creates a map of 4 destinations
-        Destination[] map = new Destination[4];
         Destination b1 = new Destination("A", "Destination 1", "Test City 1",
                 "-30", "0", "1000");
         Destination b2 = new Destination("B", "Destination 2", "Test City 2",
@@ -126,15 +124,8 @@ public class ThreeOptTest {
         Destination b4 = new Destination("D", "Destination 4", "Test City 4",
                 "30", "40", "1000");
 
-        b1.setIdentifier(0);
-        b2.setIdentifier(1);
-        b3.setIdentifier(2);
-        b4.setIdentifier(3);
-
-        map[0] = b1;
-        map[1] = b2;
-        map[2] = b3;
-        map[3] = b4;
+        Destination[] map = new Destination[4];
+        map = storeMap(map, b1, b2, b3, b4);
 
         // Build a distance table and path
         Itinerary itinerary = new Itinerary(map, "None");
@@ -163,7 +154,6 @@ public class ThreeOptTest {
         CalculateDistance.setMiles(); // set distance calculations to miles
 
         // Creates a map of 4 destinations
-        Destination[] map = new Destination[6];
         Destination b1 = new Destination("A", "Destination 1", "Test City 1",
                 "-30", "-20", "1000");//
         Destination b2 = new Destination("B", "Destination 2", "Test City 2",
@@ -177,6 +167,24 @@ public class ThreeOptTest {
         Destination b6 = new Destination("F", "Destination 6", "Test City 6",
                 "0", "40", "1000");//
 
+        Destination[] map = new Destination[6];
+        map = storeMap6(map, b1, b2, b3, b4, b5, b6);
+
+        // Build a distance table and path
+        Itinerary itinerary = new Itinerary(map, "3-Opt Test");
+        itinerary.getShortestPath();
+        Integer[] path = itinerary.getPath();
+
+        // Check that the path is {5,2,4,1,0,3,5}
+        Integer[] answers = {5,2,4,1,0,3,5};
+        for (int i=0; i<path.length; i++){
+            assertEquals(path[i], answers[i]);
+        }
+    }
+
+    private Destination[] storeMap6(Destination[] map, Destination b1, Destination b2,
+                                    Destination b3, Destination b4,
+                                    Destination b5, Destination b6) {
         b1.setIdentifier(0);
         b2.setIdentifier(1);
         b3.setIdentifier(2);
@@ -191,16 +199,7 @@ public class ThreeOptTest {
         map[4] = b5;
         map[5] = b6;
 
-        // Build a distance table and path
-        Itinerary itinerary = new Itinerary(map, "3-Opt Test");
-        itinerary.getShortestPath();
-        Integer[] path = itinerary.getPath();
-
-        // Check that the path is {5,2,4,1,0,3,5}
-        Integer[] answers = {5,2,4,1,0,3,5};
-        for (int i=0; i<path.length; i++){
-            assertEquals(path[i], answers[i]);
-        }
+        return map;
     }
 
     /**
