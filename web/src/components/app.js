@@ -169,24 +169,37 @@ export default class App extends React.Component {
 
             dup = false;
             for (let j in locs){
-                if(locs[j]['code'] === keys[i]){
-                    for(let k in this.state.currentTrip){
-                        if(this.state.currentTrip[k]['code'] === keys[i])
-                            dup = true;
-                    }
-
-                    if(!dup) this.state.currentTrip.push({'name': locs[j]['name'], 'code': locs[j]['code']});
-
-                }
+                dup = this.checkForInsertDup(locs, j, keys, i, dup);
             }
         }
         this.forceUpdate();
         console.log(this.state.currentTrip);
     };
 
-    createCustomInsertButton(onClick) {
-        return (
-            <InsertButton
+  // Checks for duplicates before inserting a destination
+  checkForInsertDup(locs, j, keys, i, dup) {
+    if (locs[j]['code'] === keys[i]) {
+      dup = this.checkIfDuplicate(keys, i, dup);
+
+      if (!dup) this.state.currentTrip.push(
+          {'name': locs[j]['name'], 'code': locs[j]['code']});
+
+    }
+    return dup;
+  }
+
+  // Is the current key is already in the table
+  checkIfDuplicate(keys, i, dup) {
+    for (let k in this.state.currentTrip) {
+      if (this.state.currentTrip[k]['code'] === keys[i])
+        dup = true;
+    }
+    return dup;
+  }
+
+  createCustomInsertButton(onClick) {
+    return (
+        <InsertButton
                 btnText='Add Selected to Trip'
                 btnContextual='btn-success'
                 className='my-custom-class'
