@@ -1,20 +1,19 @@
 import React, {Component} from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-
+import SaveLoad from './SaveLoad/SaveLoad.jsx';
+import PlanTripButton from "./PlanTripButton/PlanTripButton.jsx";
 class PlanTable extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             units: "Miles",
-            serverReturned: null,
+            serverReturned: this.props.serverReturned,
             svg: null,
             currentTrip: this.props.currentTrip,
             opt: "None"
         };
 
-        this.createTripButton = this.createTripButton.bind(this);
-        this.makeTrip = this.makeTrip.bind(this);
         this.createUnitsButton = this.createUnitsButton.bind(this);
         this.buttons = this.buttons.bind(this);
         this.changeUnits = this.changeUnits.bind(this);
@@ -24,21 +23,27 @@ class PlanTable extends React.Component {
         this.downButton = this.downButton.bind(this);
         this.createSelectButton = this.createSelectButton.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.getTripTableData = this.getTripTableData.bind(this);
+        this.fillTripTable= this.fillTripTable.bind(this);
+        this.resetPage = this.resetPage.bind(this);
+        this.clearTrip = this.clearTrip.bind(this);
+        this.setSVG = this.setSVG.bind(this);
     }
-
 
     componentWillReceiveProps(nextProps) {
         // You don't have to do this check first, but it can help prevent an unneeded render
         if (nextProps.currentTrip !== this.props.currentTrip) {
             this.setState({currentTrip: nextProps.currentTrip});
-            console.log(this.state.currentTrip);
+        }
+        if (nextProps.serverReturned !== this.props.serverReturned) {
+            this.setState({serverReturned: nextProps.serverReturned});
+        }
+        if (nextProps.serverReturned !== this.props.serverReturned) {
+            this.setState({serverReturned: nextProps.serverReturned});
         }
     }
 
-
     render() {
-
-
         return (
                 <div className = "table">
                     <BootstrapTable data={this.props.currentTrip}
@@ -57,50 +62,17 @@ class PlanTable extends React.Component {
                             Move Down
                         </TableHeaderColumn>
                     </BootstrapTable>
+                    <div>
+                        <PlanTripButton units = {this.state.units} opt = {this.state.opt} query = {this.props.query}
+                            serverReturned = {this.state.serverReturned} getData = {this.props.getData}
+                            getTripTableData = {this.getTripTableData} setSVG = {this.setSVG}/>
+                    </div>
+                    <SaveLoad resetPage = {this.resetPage} units = {this.state.units}
+                              getTripTableData = {this.getTripTableData} opt = {this.state.opt}
+                              fillTripTable={this.fillTripTable}    clearTrip={this.clearTrip}
+                                query = {this.props.query} serverReturned = {this.state.serverReturned}/>
                     <h1> <span dangerouslySetInnerHTML={{__html: this.state.svg}} /> </h1>
                 </div>)
-    }
-
-    async getItinerary() {
-        let trip = [];
-        let queries = this.getTripTableData();
-
-        for (let i in queries) {
-            if(i !== "") {
-                trip.push(queries[i]['code']);
-            }
-        }
-
-        let newMap = {
-            queries : trip,
-            doWhat: "plan",
-            units: this.state.units,
-            opt: this.state.opt,
-        };
-        try{
-
-            let serverUrl = window.location.href.substring(0, window.location.href.length - 6) + ":4567/receive";
-            let jsonReturned = await fetch(serverUrl,
-                {
-                    method: "POST",
-                    body: JSON.stringify(newMap)
-                });
-
-            let ret = await jsonReturned.json();
-            this.setState({
-                serverReturned: JSON.parse(ret),
-            });
-
-            if(this.state.serverReturned.svg){
-                this.setState({svg: this.state.serverReturned.svg});
-            }
-
-            this.props.getData(this.state.serverReturned.itinerary, this.state.serverReturned.items);
-
-        } catch (e) {
-            console.error("Error talking to server");
-            console.error(e);
-        }
     }
 
     getTripTableData(){
@@ -112,8 +84,7 @@ class PlanTable extends React.Component {
             <select
                 style={{height: 35}}
                 onChange = {this.handleChange}
-                defaultValue = "Choose an Algorithm"
-            >
+                defaultValue = "Choose an Algorithm">
                 <option value="None">None</option>
                 <option value="Nearest Neighbor">Nearest Neighbor</option>
                 <option value="2-Opt">2-Opt</option>
@@ -122,23 +93,6 @@ class PlanTable extends React.Component {
         );
     }
 
-    createTripButton(onClick) {
-        return (
-            <InsertButton
-                btnText='Create your Itinerary'
-                btnContextual='btn-success'
-                className='my-custom-class'
-                btnGlyphicon='glyphicon-edit'
-                onClick={() => this.makeTrip(onClick)}
-            />
-        );
-    };
-
-    makeTrip(onClick) {
-        if (this.getTripTableData().length > 1) {
-            this.getItinerary();
-        }
-    };
 
     createUnitsButton(onClick) {
         return (
@@ -154,7 +108,6 @@ class PlanTable extends React.Component {
     buttons(props) {
         return (
             <ButtonGroup className='my-custom-class' sizeClass='btn-group-md' style={{width: "150%"}}>
-                {this.createTripButton()}
                 {this.createCustomDeleteButton()}
                 {this.createUnitsButton()}
                 {this.createSelectButton()}
@@ -187,13 +140,12 @@ class PlanTable extends React.Component {
         }
 
         let newTrip = [];
-
         for (let i in trip) {
             if (i) newTrip.push(trip[i]);
         }
 
         this.setState({currentTrip: newTrip});
-        this.props.updateTrip(newTrip);
+        this.props.updateTrip(this.state.currentTrip);
     }
 
     createCustomDeleteButton(onClick) {
@@ -212,7 +164,6 @@ class PlanTable extends React.Component {
             type="button"
             onClick={() =>{
                 if(rowIndex > 0){
-
                     let swap = this.state.currentTrip[rowIndex];
                     this.state.currentTrip[rowIndex] = this.state.currentTrip[rowIndex-1];
                     this.state.currentTrip[rowIndex-1] = swap;
@@ -227,7 +178,6 @@ class PlanTable extends React.Component {
             type="button"
             onClick={() =>{
                 if(rowIndex < this.state.currentTrip.length-1){
-
                     let swap = this.state.currentTrip[rowIndex];
                     this.state.currentTrip[rowIndex] = this.state.currentTrip[rowIndex+1];
                     this.state.currentTrip[rowIndex+1] = swap;
@@ -242,6 +192,51 @@ class PlanTable extends React.Component {
         console.log("Changing Opt to",e.target.value);
         this.setState({opt:e.target.value});
     }
-}
 
+    /**
+     * Fills the trip plan with the selected destinations
+     * @param input The server return info
+     */
+    fillTripTable(input){
+        for (let i in input) {
+            let dup = false;
+            for (let j in this.state.currentTrip) {
+                if (this.state.currentTrip[j]['code'] == input[i]['map']['code']) {
+                    dup = true;
+                    break;
+                }
+            }
+            if (!dup) {
+                this.state.currentTrip.push({
+                    name: input[i]['map']['name'],
+                    code: input[i]['map']['code']
+                });
+            }
+        }
+        this.forceUpdate();
+        this.props.updateTrip(this.state.currentTrip);
+    }
+
+    resetPage(){
+        this.setState({
+            units: "Miles",
+            opt: "None",
+            svg: null,
+            currentTrip: []
+        });
+        console.log("Plantable: ", this.state);
+        this.props.resetPage();
+    }
+
+    clearTrip(){
+        this.state.currentTrip = [];
+        this.forceUpdate();
+        this.props.updateTrip(this.state.currentTrip);
+    }
+
+    setSVG(){
+        this.setState({svg: this.state.serverReturned.svg});
+    }
+
+}
 export default PlanTable;

@@ -9,8 +9,6 @@ class Home extends React.Component {
         this.state = {
             options: this.props.options,
             ps: []
-
-
         };
 
         this.changeOpts = (i) => {
@@ -19,6 +17,16 @@ class Home extends React.Component {
         }
 
     }
+
+    componentWillReceiveProps(nextProps) {
+        // You don't have to do this check first, but it can help prevent an unneeded render
+        if (nextProps.options !== this.props.options) {
+            this.setState({options: nextProps.options});
+        }
+        this.forceUpdate();
+    }
+
+
 
     makeTable(){
         this.state.ps = this.props.allPairs.map((pp) => {

@@ -1,11 +1,13 @@
 @import "Home/Home";
 @import "Home/Pair/Pair";
+@import "PlanTable/PlanTable";
+@import "PlanTable/PlanTripButton/PlanTripButton";
+@import "PlanTable/SaveLoad/SaveLoad";
+@import "SearchButton/SearchButton";
+@import "Home/ItinOptions/ItinOptions";
 @import "~react-bootstrap-table/dist/react-bootstrap-table.min.css";
 @import "~react-bootstrap-table/css/react-bootstrap-table.css";
 
-.searchButton {
-  margin-bottom: 30px
-}
 .app-container {
 }
 .Save-Load {
@@ -26,7 +28,13 @@
     margin: 5px;
   }
 }
+
 .col-hidden {
   display: none
 }
+
+.table {
+  margin-bottom: 30px
+}
+
 
