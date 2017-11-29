@@ -30,6 +30,7 @@ public class ThreeOpt {
      * with the lowest total distance of the three edges. It does not physically delete and re-add
      * edges, but rather inverts and swaps sections of the route to 'redraw' the edges in place.
      *
+     * <p>
      * edge 1       edge 2        edge 3           new edges:
      * case 0:  original     i   i+1 --> j     j+1 --> k    k+1   (i,i+1)     (j,j+1)     (k,k+1)
      * case 1:  2-opt        i   j   <-- i+1   j+1 --> k    k+1   (i,j)       (i+1,j+1)   (k,k+1)
@@ -39,7 +40,7 @@ public class ThreeOpt {
      * case 5:  3-opt        i   k   <-- j+1   i+1 --> j    k+1   (i,k)       (j+1,i+1)   (j,k+1)
      * case 6:  3-opt        i   j+1 --> k     j   <-- i+1  k+1   (i,j+1)     (k,j)       (i+1,k+1)
      * case 7:  3-opt        i   j+1 --> k     i+1 --> j    k+1   (i,j+1)     (k,i+1)     (j,k+1)
-     * distances    (i, ?)       (?, ?)        (?, k+1)
+     * distances    (i, ?)       (?, ?)        (?, k+1) </p>
      */
     private void threeOpt() {
 
@@ -106,7 +107,7 @@ public class ThreeOpt {
      * @param j index of destination j
      * @param k index of destination k
      * @returns 0-7, indicating which 3-opt case should be used - 0 is the current edges, 1-7
-     * indicates there are three edges that produce a shorter path
+     *          indicates there are three edges that produce a shorter path
      */
     private int chooseOption(int i, int j, int k) {
 
