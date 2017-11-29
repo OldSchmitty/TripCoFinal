@@ -33,10 +33,6 @@ public class Table {
         }
     }
 
-    private int idxOfKey(String key){
-        return keys.indexOf(key);
-    }
-
     public long getDistance(Integer id1, Integer id2){
         return distanceTable[id1][id2];
     }
