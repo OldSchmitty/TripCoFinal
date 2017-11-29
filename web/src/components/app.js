@@ -15,51 +15,15 @@ export default class App extends React.Component {
             locations: [],
             currentTrip: []
         }
-
         this.returnList = (list) => {
             this.setState({locations : list});
         }
-
         this.updateCurrentTrip = (trip) => {
             this.setState({currentTrip: trip});
         }
-
         this.resetPage = this.resetPage.bind(this);
-
-        this.handleInsertButtonClick = (onClick) => {
-            let locs=this.getQueryTableData();
-            let keys=this.getQueryTableKeys();
-            let dup;
-
-            for (let i in keys){
-
-                dup = false;
-                for (let j in locs){
-                    if(locs[j]['code'] === keys[i]){
-                        for(let k in this.state.currentTrip){
-                            if(this.state.currentTrip[k]['code'] === keys[i])
-                                dup = true;
-                        }
-
-                        if(!dup) this.state.currentTrip.push({'name': locs[j]['name'], 'code': locs[j]['code']});
-
-                    }
-                }
-            }
-            this.forceUpdate();
-        };
-        this.createCustomInsertButton = (onClick) => {
-            return (
-                <InsertButton
-                    btnText='Add Selected to Trip'
-                    btnContextual='btn-success'
-                    className='my-custom-class'
-                    btnGlyphicon='glyphicon-edit'
-                    onClick={ () => this.handleInsertButtonClick(onClick) }
-                />
-            );
-        };
-
+        this.handleInsertButtonClick = this.handleInsertButtonClick.bind(this);
+        this.createCustomInsertButton = this.createCustomInsertButton.bind(this);
         this.getData = this.getData.bind(this);
         this.query = this.query.bind(this);
     };
@@ -67,7 +31,6 @@ export default class App extends React.Component {
 
 
     render() {
-
         return (
             <div className="app-container">
                 <h1>T15 - Wolf Pack</h1>
@@ -195,4 +158,39 @@ export default class App extends React.Component {
         });
         console.log("app reset", this.state);
     }
+
+    handleInsertButtonClick(onClick) {
+        let locs=this.getQueryTableData();
+        let keys=this.getQueryTableKeys();
+        let dup;
+
+        for (let i in keys){
+
+            dup = false;
+            for (let j in locs){
+                if(locs[j]['code'] === keys[i]){
+                    for(let k in this.state.currentTrip){
+                        if(this.state.currentTrip[k]['code'] === keys[i])
+                            dup = true;
+                    }
+
+                    if(!dup) this.state.currentTrip.push({'name': locs[j]['name'], 'code': locs[j]['code']});
+
+                }
+            }
+        }
+        this.forceUpdate();
+    };
+
+    createCustomInsertButton(onClick) {
+        return (
+            <InsertButton
+                btnText='Add Selected to Trip'
+                btnContextual='btn-success'
+                className='my-custom-class'
+                btnGlyphicon='glyphicon-edit'
+                onClick={ () => this.handleInsertButtonClick(onClick) }
+            />
+        );
+    };
 }

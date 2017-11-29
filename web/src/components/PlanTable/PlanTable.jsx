@@ -126,7 +126,7 @@ class PlanTable extends React.Component {
         let keys = this.refs.tripTable.state.selectedRowKeys;
         let trip = this.state.currentTrip;
 
-        this.deleteDupsDups(keys, trip);
+        this.deleteDups(keys, trip);
 
         let newTrip = [];
         for (let i in trip) {
