@@ -28,6 +28,7 @@ class PlanTable extends React.Component {
         this.resetPage = this.resetPage.bind(this);
         this.clearTrip = this.clearTrip.bind(this);
         this.setSVG = this.setSVG.bind(this);
+        this.swap = this.swap.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -48,25 +49,20 @@ class PlanTable extends React.Component {
                 <div className = "table">
                     <BootstrapTable data={this.props.currentTrip}
                                     selectRow={{mode:'checkbox',bgColor: 'rgb(255, 255, 0)', selected: []}}
-                                    height = "200px" striped={true}
-                                    ref='tripTable' options={{btnGroup:this.buttons}}
+                                    height = "200px" striped={true} ref='tripTable' options={{btnGroup:this.buttons}}
                                     insertRow deleteRow>
                         <TableHeaderColumn width = '150' headerAlign= 'center' dataField='name' isKey>
                             Current Trip - {this.props.currentTrip.length} in Trip</TableHeaderColumn>
                         <TableHeaderColumn headerAlign= 'center' width = '75'
-                                           dataFormat = {this.upButton.bind(this)}>
-                            Move Up
+                                           dataFormat = {this.upButton.bind(this)}>Move Up
                         </TableHeaderColumn>
                         <TableHeaderColumn headerAlign= 'center' width = '75'
-                                           dataFormat = {this.downButton.bind(this)}>
-                            Move Down
+                                           dataFormat = {this.downButton.bind(this)}>Move Down
                         </TableHeaderColumn>
                     </BootstrapTable>
-                    <div>
-                        <PlanTripButton units = {this.state.units} opt = {this.state.opt} query = {this.props.query}
+                    <PlanTripButton units = {this.state.units} opt = {this.state.opt} query = {this.props.query}
                             serverReturned = {this.state.serverReturned} getData = {this.props.getData}
                             getTripTableData = {this.getTripTableData} setSVG = {this.setSVG}/>
-                    </div>
                     <SaveLoad resetPage = {this.resetPage} units = {this.state.units}
                               getTripTableData = {this.getTripTableData} opt = {this.state.opt}
                               fillTripTable={this.fillTripTable}    clearTrip={this.clearTrip}
@@ -130,14 +126,7 @@ class PlanTable extends React.Component {
         let keys = this.refs.tripTable.state.selectedRowKeys;
         let trip = this.state.currentTrip;
 
-        for (let i in keys) {
-            for (let j in trip) {
-                if (trip[j]['name'] === keys[i]) {
-                    delete trip[j];
-                    break;
-                }
-            }
-        }
+        this.deleteDupsDups(keys, trip);
 
         let newTrip = [];
         for (let i in trip) {
@@ -146,6 +135,17 @@ class PlanTable extends React.Component {
 
         this.setState({currentTrip: newTrip});
         this.props.updateTrip(this.state.currentTrip);
+    }
+
+    deleteDups(keys, trip) {
+        for (let i in keys) {
+            for (let j in trip) {
+                if (trip[j]['name'] === keys[i]) {
+                    delete trip[j];
+                    break;
+                }
+            }
+        }
     }
 
     createCustomDeleteButton(onClick) {
@@ -159,15 +159,20 @@ class PlanTable extends React.Component {
         );
     }
 
+    swap(index1, index2){
+        let swap = this.state.currentTrip[index1];
+        this.state.currentTrip[index1] = this.state.currentTrip[index2];
+        this.state.currentTrip[index2] = swap;
+        this.props.updateTrip(this.state.currentTrip);
+    }
+
     upButton(cell, row, enumObject, rowIndex) {
         return <button
             type="button"
             onClick={() =>{
                 if(rowIndex > 0){
-                    let swap = this.state.currentTrip[rowIndex];
-                    this.state.currentTrip[rowIndex] = this.state.currentTrip[rowIndex-1];
-                    this.state.currentTrip[rowIndex-1] = swap;
-                    this.props.updateTrip(this.state.currentTrip);                    }
+                    this.swap(rowIndex, rowIndex-1);
+                }
             }}>
             Up
         </button>;
@@ -178,15 +183,13 @@ class PlanTable extends React.Component {
             type="button"
             onClick={() =>{
                 if(rowIndex < this.state.currentTrip.length-1){
-                    let swap = this.state.currentTrip[rowIndex];
-                    this.state.currentTrip[rowIndex] = this.state.currentTrip[rowIndex+1];
-                    this.state.currentTrip[rowIndex+1] = swap;
-                    this.props.updateTrip(this.state.currentTrip);
+                  this.swap(rowIndex, rowIndex+1);
                 }
             }}>
             Down
         </button>;
     }
+
 
     handleChange(e) {
         console.log("Changing Opt to",e.target.value);
@@ -200,12 +203,7 @@ class PlanTable extends React.Component {
     fillTripTable(input){
         for (let i in input) {
             let dup = false;
-            for (let j in this.state.currentTrip) {
-                if (this.state.currentTrip[j]['code'] == input[i]['map']['code']) {
-                    dup = true;
-                    break;
-                }
-            }
+            dup = this.checkForDups(input, i, dup);
             if (!dup) {
                 this.state.currentTrip.push({
                     name: input[i]['map']['name'],
@@ -215,6 +213,16 @@ class PlanTable extends React.Component {
         }
         this.forceUpdate();
         this.props.updateTrip(this.state.currentTrip);
+    }
+
+    checkForDups(input, i, dup) {
+        for (let j in this.state.currentTrip) {
+            if (this.state.currentTrip[j]['code'] == input[i]['map']['code']) {
+                dup = true;
+                break;
+            }
+        }
+        return dup;
     }
 
     resetPage(){
