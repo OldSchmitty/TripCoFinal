@@ -33,8 +33,9 @@ class PlanTable extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         // You don't have to do this check first, but it can help prevent an unneeded render
-        if (nextProps.currentTrip !== this.props.currentTrip) {
+        if (nextProps.currentTrip !== this.state.currentTrip) {
             this.setState({currentTrip: nextProps.currentTrip});
+            console.log("on table ", this.state.currentTrip)
         }
         if (nextProps.serverReturned !== this.props.serverReturned) {
             this.setState({serverReturned: nextProps.serverReturned});
@@ -52,7 +53,7 @@ class PlanTable extends React.Component {
                                     height = "200px" striped={true} ref='tripTable' options={{btnGroup:this.buttons}}
                                     insertRow deleteRow>
                         <TableHeaderColumn width = '150' headerAlign= 'center' dataField='name' isKey>
-                            Current Trip - {this.props.currentTrip.length} in Trip</TableHeaderColumn>
+                            Current Trip - {this.state.currentTrip.length} in Trip</TableHeaderColumn>
                         <TableHeaderColumn headerAlign= 'center' width = '75'
                                            dataFormat = {this.upButton.bind(this)}>Move Up
                         </TableHeaderColumn>
@@ -126,7 +127,7 @@ class PlanTable extends React.Component {
         let keys = this.refs.tripTable.state.selectedRowKeys;
         let trip = this.state.currentTrip;
 
-        this.deleteDups(keys, trip);
+        trip = this.deleteDups(keys, trip);
 
         let newTrip = [];
         for (let i in trip) {
@@ -141,11 +142,12 @@ class PlanTable extends React.Component {
         for (let i in keys) {
             for (let j in trip) {
                 if (trip[j]['name'] === keys[i]) {
-                    delete trip[j];
+                    trip.splice(j, 1);
                     break;
                 }
             }
         }
+        return trip;
     }
 
     createCustomDeleteButton(onClick) {
