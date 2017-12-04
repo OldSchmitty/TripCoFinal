@@ -32,51 +32,56 @@ class Map extends React.Component {
         var trip = []
 
         if (this.state.currentTrip) {
-            console.log('Map Trip', this.state.currentTrip)
-
-            /* optimization has occured - build array based on itinerary */
-            if ("itinerary" in this.state.currentTrip) {
-                trip = buildFromItinerary()
+            /* builds the trip and sorts using the itinerary */
+            if ("itinerary" in this.state.currentTrip){
+                trip = this.buildFromItinerary()
             }
+            /* builds the trip without sorting by itinerary */
             else {
-                trip = buildFromItems()
+                trip = this.buildFromItems()
             }
         }
 
         return trip
-            /* An optimazation has been run - build array using itinerary*/
-            //if (this.state.serverReturned.itinerary){
-
-           // }
-            //else {
-
-          //  }
-/*
-            for (let i in this.state.currentTrip.items) {
-
-                sourceID = this.state.currentTrip.itinerary[i].source
-                console.log('source', sourceID)
-
-                var lat = this.state.currentTrip.items[i].map.latitude
-                var lng = this.state.currentTrip.items[i].map.longitude
-                trip.push({lat: parseFloat(lat), lng: parseFloat(lng)})
-            }
-
-
-            trip.push({lat: parseFloat(this.state.currentTrip.items[0].map.latitude),
-                lng: parseFloat(this.state.currentTrip.items[0].map.longitude)})
-
-            console.log('Trip', trip)
-*/
-
     }
 
+    /* Builds the coordinate array from the items, and sorts it using the itinerary*/
     buildFromItinerary(){
-        return []
+
+        var trip = this.buildFromItems()
+        var sortedTrip = []
+
+        /* remove last item - no longer round trip*/
+        trip.pop()
+
+        /* sort trip based on itinerary order */
+        for (let i in this.state.currentTrip['itinerary']){
+            var id = this.state.currentTrip['itinerary'][i]['sourceID']
+            sortedTrip.push(trip[id])
+        }
+
+        /* Make round trip again */
+        sortedTrip.push(sortedTrip[0])
+
+        return sortedTrip
     }
 
+    /* build from currentTrip.items - used when optimization has not been selected */
     buildFromItems(){
-        return []
+        var trip = []
+
+        /* For earh item, add its coordinates to the array */
+        for (let i in this.state.currentTrip.items) {
+            var lat = this.state.currentTrip.items[i].map.latitude
+            var lng = this.state.currentTrip.items[i].map.longitude
+            trip.push({lat: parseFloat(lat), lng: parseFloat(lng)})
+        }
+
+        /* Make round trip - add coordinates of start destination to end of array to return home */
+        trip.push({lat: parseFloat(this.state.currentTrip.items[0].map.latitude),
+            lng: parseFloat(this.state.currentTrip.items[0].map.longitude)})
+
+        return trip
     }
 
     // Render method of the Map component
