@@ -27,7 +27,6 @@ class PlanTable extends React.Component {
         this.fillTripTable= this.fillTripTable.bind(this);
         this.resetPage = this.resetPage.bind(this);
         this.clearTrip = this.clearTrip.bind(this);
-        this.setSVG = this.setSVG.bind(this);
         this.swap = this.swap.bind(this);
     }
 
@@ -63,7 +62,7 @@ class PlanTable extends React.Component {
                     </BootstrapTable>
                     <PlanTripButton units = {this.state.units} opt = {this.state.opt} query = {this.props.query}
                             serverReturned = {this.state.serverReturned} getData = {this.props.getData}
-                            getTripTableData = {this.getTripTableData} setSVG = {this.setSVG}/>
+                            getTripTableData = {this.getTripTableData} />
                     <SaveLoad resetPage = {this.resetPage} units = {this.state.units}
                               getTripTableData = {this.getTripTableData} opt = {this.state.opt}
                               fillTripTable={this.fillTripTable}    clearTrip={this.clearTrip}

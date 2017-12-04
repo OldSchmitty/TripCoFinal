@@ -59,7 +59,6 @@ class PlanTripButton extends React.Component {
         };
         await this.props.query(newMap);
         await this.forceUpdate();
-        this.props.setSVG();
         this.props.getData(this.state.serverReturned.itinerary, this.state.serverReturned.items);
     }
 
