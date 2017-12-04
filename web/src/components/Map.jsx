@@ -9,13 +9,12 @@ class Map extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentTrip : this.props.currentTrip
+            currentTrip : this.props.currentTrip,
         };
     }
 
     /* Re-renders the map when currentTrip is updated*/
     componentWillReceiveProps(nextProps) {
-        // You don't have to do this check first, but it can help prevent an unneeded render
         if (nextProps.currentTrip !== this.props.currentTrip) {
             this.setState({currentTrip: nextProps.currentTrip});
         }
@@ -32,22 +31,52 @@ class Map extends React.Component {
 
         var trip = []
 
-        if (this.state.currentTrip){
+        if (this.state.currentTrip) {
+            console.log('Map Trip', this.state.currentTrip)
+
+            /* optimization has occured - build array based on itinerary */
+            if ("itinerary" in this.state.currentTrip) {
+                trip = buildFromItinerary()
+            }
+            else {
+                trip = buildFromItems()
+            }
+        }
+
+        return trip
+            /* An optimazation has been run - build array using itinerary*/
+            //if (this.state.serverReturned.itinerary){
+
+           // }
+            //else {
+
+          //  }
+/*
             for (let i in this.state.currentTrip.items) {
-                /* Loop through trip and add to coordinate array */
+
+                sourceID = this.state.currentTrip.itinerary[i].source
+                console.log('source', sourceID)
+
                 var lat = this.state.currentTrip.items[i].map.latitude
                 var lng = this.state.currentTrip.items[i].map.longitude
                 trip.push({lat: parseFloat(lat), lng: parseFloat(lng)})
             }
 
-            /* make a round trip by adding a line back the start location */
+
             trip.push({lat: parseFloat(this.state.currentTrip.items[0].map.latitude),
                 lng: parseFloat(this.state.currentTrip.items[0].map.longitude)})
 
             console.log('Trip', trip)
-        }
+*/
 
-        return trip
+    }
+
+    buildFromItinerary(){
+        return []
+    }
+
+    buildFromItems(){
+        return []
     }
 
     // Render method of the Map component
