@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // This imports all of the external functionality we want from react-google-maps
-import {GoogleMap, Polyline, withGoogleMap} from 'react-google-maps';
+import {GoogleMap, Marker, Polyline, withGoogleMap} from 'react-google-maps';
 
 
 class Map extends React.Component {
@@ -11,6 +11,8 @@ class Map extends React.Component {
         this.state = {
             currentTrip : this.props.currentTrip,
         };
+
+        this.startLocation
     }
 
     /* Re-renders the map when currentTrip is updated*/
@@ -59,6 +61,7 @@ class Map extends React.Component {
         /* Make round trip again */
         sortedTrip.push(sortedTrip[0])
 
+        this.startLocation = sortedTrip[0]
         return sortedTrip
     }
 
@@ -78,6 +81,15 @@ class Map extends React.Component {
             lng: parseFloat(this.state.currentTrip.items[0].map.longitude)})
 
         return trip
+    }
+
+    /* returns the starting location coordinates */
+    getStartLocation(){
+
+        if (this.startLocation){
+            return this.startLocation
+        }
+        return null
     }
 
     // Render method of the Map component
@@ -103,6 +115,10 @@ class Map extends React.Component {
                         strokeColor: '#ff31a6',
                         strokeWeight: 4,
                     }}
+                />
+                <Marker
+                    name = {"Start"}
+                    position = {this.getStartLocation() /* Set start location */}
                 />
 
             { /*Close our GoogleMap*/}
