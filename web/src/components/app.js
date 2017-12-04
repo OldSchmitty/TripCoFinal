@@ -3,6 +3,7 @@ import Home from './Home/Home.jsx';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SearchButton from './SearchButton/SearchButton.jsx';
 import PlanTable from './PlanTable/PlanTable.jsx';
+import Map from "./Map.jsx";
 
 export default class App extends React.Component {
     constructor(props) {

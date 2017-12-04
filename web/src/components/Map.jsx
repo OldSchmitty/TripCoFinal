@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {GoogleMap, Polyline, withGoogleMap} from 'react-google-maps';
 
 
-class Map extends Component {
+class Map extends React.Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +13,7 @@ class Map extends Component {
         };
     }
 
-    /* Rerenders the map when currentTrip is updated */
+    /* Re-renders the map when currentTrip is updated*/
     componentWillReceiveProps(nextProps) {
         // You don't have to do this check first, but it can help prevent an unneeded render
         if (nextProps.currentTrip !== this.props.currentTrip) {
@@ -28,13 +28,16 @@ class Map extends Component {
         if (this.state.currentTrip){
             for (let i in this.state.currentTrip.items) {
                 /* Loop through trip and add to coordinate array */
-                lat = this.state.currentTrip.items[i]['maps']['latitude']
-                lat = this.state.currentTrip.items[i]['maps']['longitude']
-                trip.push({lat: lat, lng: lng})
+                var lat = this.state.currentTrip.items[i].map.latitude
+                var lng = this.state.currentTrip.items[i].map.longitude
+                trip.push({lat: parseFloat(lat), lng: parseFloat(lng)})
             }
 
             /* make a round trip by adding a line back the start location */
-            trip.push[trip[trip.length]]
+            trip.push({lat: parseFloat(this.state.currentTrip.items[0].map.latitude),
+                lng: parseFloat(this.state.currentTrip.items[0].map.longitude)})
+
+            console.log('Trip', trip)
         }
 
         return trip
@@ -69,12 +72,12 @@ class Map extends Component {
                 <Polyline
                     visible={true /*Make sure the map is visable on screen*/}
 
-                    path={this.buildCoordinateArray() /* Set polyline path to the coordiates array*/}
+                    path={this.buildCoordinateArray()/* Set polyline path to the coordiates array*/}
 
                     options={{
                         /* This is a list of optional things line line color and line weight this does not
                         need to be included. See documentation for more options*/
-                        strokeColor: '#ff64b4',
+                        strokeColor: '#ff31a6',
                         strokeWeight: 4,
                     }}
                 />
