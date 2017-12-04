@@ -21,6 +21,25 @@ class Map extends Component {
         }
     }
 
+    buildCoordinateArray(){
+
+        var trip = []
+
+        if (this.state.currentTrip){
+            for (let i in this.state.currentTrip.items) {
+                /* Loop through trip and add to coordinate array */
+                lat = this.state.currentTrip.items[i]['maps']['latitude']
+                lat = this.state.currentTrip.items[i]['maps']['longitude']
+                trip.push({lat: lat, lng: lng})
+            }
+
+            /* make a round trip by adding a line back the start location */
+            trip.push[trip[trip.length]]
+        }
+
+        return trip
+    }
+
     // Render method of the Map component
     render() {
 
@@ -50,12 +69,12 @@ class Map extends Component {
                 <Polyline
                     visible={true /*Make sure the map is visable on screen*/}
 
-                    path={exampleCoordinates /* Set polyline path to the coordiates array*/}
+                    path={this.buildCoordinateArray() /* Set polyline path to the coordiates array*/}
 
                     options={{
                         /* This is a list of optional things line line color and line weight this does not
                         need to be included. See documentation for more options*/
-                        strokeColor: '#ff2527',
+                        strokeColor: '#ff64b4',
                         strokeWeight: 4,
                     }}
                 />
