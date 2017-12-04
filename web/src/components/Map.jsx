@@ -92,7 +92,7 @@ class Map extends React.Component {
             { /*GoogleMap is an imported component from react-google-maps*/ },
             <GoogleMap
                 defaultCenter={{lat: 0, lng: 0} /*Sets the default center for the map to start at */}
-                defaultZoom={1 /* Sets the default zoom ie how much of the world is on the screen*/}
+                defaultZoom={3 /* Sets the default zoom ie how much of the world is on the screen*/}
             >
             {/* Everything that is in between <GoogleMap> and </GoogleMap> get rendered onto the
                 map. Polyline is an easy google library that draws lines from coordiates.*/ }
