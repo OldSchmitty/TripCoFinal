@@ -21,6 +21,13 @@ class Map extends React.Component {
         }
     }
 
+    /* Path of lat and lng coordinates. Inorder for this to work path must be an array
+           that contains objects that have a lat and lng property. This array can have other
+           properties but it must at minimum have lat and lng.
+
+           From my testing polyline will not draw a line if the path is invalid.
+           Ie lat and lng must be valid cooridantes to work
+    */
     buildCoordinateArray(){
 
         var trip = []
@@ -45,20 +52,6 @@ class Map extends React.Component {
 
     // Render method of the Map component
     render() {
-
-        /* Path of lat and lng coordinates. Inorder for this to work path must be an array
-           that contains objects that have a lat and lng property. This array can have other
-           properties but it must at minimum have lat and lng.
-
-           From my testing polyline will not draw a line if the path is invalid.
-           Ie lat and lng must be valid cooridantes to work
-        */
-        const exampleCoordinates = [
-            {lat: 37.772, lng: -122.214},
-            {lat: 21.291, lng: -157.821},
-            {lat: -18.142, lng: 178.431},
-            {lat: -27.467, lng: 153.027}
-        ];
 
         // Return the stuff we actually want rendered on the page
         return (
