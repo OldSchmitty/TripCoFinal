@@ -50,6 +50,9 @@ class Home extends React.Component {
 
    reorderItinerary(key, value){
         for (let i = 0; i < this.props.allPairs.length; i++){
+            /*since no actual function exists in javascript to search for substrings
+              we use indexOf function which returns -1 if item not found
+            */
             if(this.props.allPairs[0][key].toLowerCase().indexOf(value.toLowerCase()) == -1){
                 let temp = this.props.allPairs[0]
                 this.props.allPairs.splice(this.props.allPairs[0], 1);
