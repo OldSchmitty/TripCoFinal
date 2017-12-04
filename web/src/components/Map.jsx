@@ -36,10 +36,6 @@ class Map extends React.Component {
             if ("itinerary" in this.state.currentTrip){
                 trip = this.buildFromItinerary()
             }
-            /* builds the trip without sorting by itinerary */
-            else {
-                trip = this.buildFromItems()
-            }
         }
 
         return trip
