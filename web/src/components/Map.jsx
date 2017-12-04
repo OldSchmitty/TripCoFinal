@@ -6,6 +6,21 @@ import {GoogleMap, Polyline, withGoogleMap} from 'react-google-maps';
 
 class Map extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentTrip : this.props.currentTrip
+        };
+    }
+
+    /* Rerenders the map when currentTrip is updated */
+    componentWillReceiveProps(nextProps) {
+        // You don't have to do this check first, but it can help prevent an unneeded render
+        if (nextProps.currentTrip !== this.props.currentTrip) {
+            this.setState({currentTrip: nextProps.currentTrip});
+        }
+    }
+
     // Render method of the Map component
     render() {
 
