@@ -128,20 +128,11 @@ public class SearchSQLDatabase {
    */
   private Destination readQueryResults(ResultSet rs, ResultSetMetaData meta, final int size)
       throws SQLException {
-    final String[] tables ={".continents", ".countries", ".regions", ""};
-    int tableCount = -1;// loop through the tables in search
     Destination des = new Destination();
     for (int i = 1; i < size; i++) {
       String field = meta.getColumnName(i);
       String info = rs.getString(i);
-      // Add the table to the search term to prevent overriding keys in designations
-      if(!field.equals("id")){
-        des.setValue(field+tables[tableCount], info);
-      }
-      else
-      {
-        tableCount++; // used to skip id in returns and move table count
-      }
+      des.setValue(field, info);
     }
     return des;
   }
