@@ -27,6 +27,13 @@ class Home extends React.Component {
     }
 
 
+    hide(){
+        if((Object.values(this.state.options).length > 0)) {
+            return <h3>Check the boxes below for additional info!</h3>
+        } else {
+            return <h3></h3>
+        }
+    }
 
     makeTable(){
         this.state.ps = this.props.allPairs.map((pp) => {
@@ -53,7 +60,7 @@ class Home extends React.Component {
         return <div className="home-container">
 
             <div className="inner">
-                <h3>Check the boxes below for additional info!</h3>
+                {this.hide()}
                 <ItinOptions options = {this.props.options} changeOpts = {this.changeOpts}/>
             </div>
             <div >

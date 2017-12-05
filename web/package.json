@@ -8,8 +8,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --progress --colors",
     "start": "node app.js",
-    "dev": "webpack-dev-server --hot --history-api-fallback --open",
-    "start": "node app.js"
+    "dev": "webpack-dev-server --hot --history-api-fallback --open"
   },
   "repository": {
     "type": "git"
@@ -29,6 +28,7 @@
     "react-bootstrap-table": "^4.1.0",
     "react-dom": "^15.5.4",
     "react-dropzone": "^4.1.0",
+    "react-google-maps": "^9.4.1",
     "selectly": "^0.5.0"
   },
   "devDependencies": {
@@ -50,12 +50,11 @@
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.2",
-
-    "dom-helpers":"^3.2.1",
-    "keycode":"^2.1.9",
-    "prop-types-extra":"^1.0.1",
-    "react-overlays":"^0.7.4",
-    "uncontrollable":"^4.1.0",
-    "warning":"^3.0.0"
+    "dom-helpers": "^3.2.1",
+    "keycode": "^2.1.9",
+    "prop-types-extra": "^1.0.1",
+    "react-overlays": "^0.7.4",
+    "uncontrollable": "^4.1.0",
+    "warning": "^3.0.0"
   }
 }
