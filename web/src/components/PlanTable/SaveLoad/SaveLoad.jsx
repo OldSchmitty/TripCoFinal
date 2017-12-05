@@ -41,21 +41,19 @@ class SaveLoad extends React.Component {
     }
 
     uploadButtonClicked(acceptedFiles) {
-        console.log("Accepting drop");
-        acceptedFiles.forEach(file => {
-            console.log("Filename:", file.name, "File:", file);
-            console.log(JSON.stringify(file));
-            let fr = new FileReader();
-            fr.onload = (function () {
-                return function (e) {
-                    let JsonObj = JSON.parse(e.target.result);
-                    console.log(JsonObj);
-                    this.browseFile(JsonObj);
-                };
-            })(file).bind(this);
+        if (!("dispatchConfig" in acceptedFiles)) {
+            acceptedFiles.forEach(file => {
+                let fr = new FileReader();
+                fr.onload = (function () {
+                    return function (e) {
+                        let JsonObj = JSON.parse(e.target.result);
+                        this.browseFile(JsonObj);
+                    };
+                })(file).bind(this);
 
-            fr.readAsText(file);
-        });
+                fr.readAsText(file);
+            });
+        }
     }
 
     saveButtonClicked(event) {
@@ -76,7 +74,7 @@ class SaveLoad extends React.Component {
         let pom = document.createElement('a');
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,'
             + encodeURIComponent(asJSONString));
-        pom.setAttribute('download', "download.json");
+        pom.setAttribute('download', "TripCoTrip.json");
 
         if (document.createEvent) {
             let event = document.createEvent('MouseEvents');
@@ -86,7 +84,9 @@ class SaveLoad extends React.Component {
             pom.click();
         }
 
-        pom.parentNode.removeChild(pom);
+       if(pom.parentNode) {
+           pom.parentNode.removeChild(pom);
+       }
     }
 
     async browseFile(file) {
@@ -94,8 +94,6 @@ class SaveLoad extends React.Component {
         this.setState({
             sysFile: file
         })
-
-        console.log("Loaded: " + this.state.sysFile.destinations);
         this.fetch2("upload", this.state.sysFile.destinations);
     }
 
@@ -106,8 +104,6 @@ class SaveLoad extends React.Component {
      * @returns {Promise.<void>}
      */
     async fetch2(type, input) {
-
-        console.log("entered fetch");
         let clientRequest;
         if (type === "query") {
             clientRequest = {

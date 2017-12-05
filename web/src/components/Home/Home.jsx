@@ -46,7 +46,7 @@ class Home extends React.Component {
                 }
             }
 
-            return <Pair {...finalData}/>;
+            return <Pair {...finalData} key = {pp["start name"]}/>;
         });
     }
 
@@ -55,12 +55,14 @@ class Home extends React.Component {
             /*since no actual function exists in javascript to search for substrings
               we use indexOf function which returns -1 if item not found
             */
-            if(this.props.allPairs[0][key].toLowerCase().indexOf(value.toLowerCase()) == -1){
-                let temp = this.props.allPairs[0]
-                this.props.allPairs.splice(this.props.allPairs[0], 1);
-                this.props.allPairs.push(temp);
+
+                if (!(key in this.props.allPairs[0]) ||
+                    this.props.allPairs[0][key].toLowerCase().indexOf(value.toLowerCase()) == -1) {
+                    let temp = this.props.allPairs[0]
+                    this.props.allPairs.splice(this.props.allPairs[0], 1);
+                    this.props.allPairs.push(temp);
+                }
             }
-        }
     }
 
 
@@ -71,7 +73,7 @@ class Home extends React.Component {
             this.reorderItinerary("start municipality", "fort collins")
         }
         else
-            // if location chosen, forces it to be the start
+            //if location chosen, forces it to be the start
             this.reorderItinerary("start name", this.state.startLocation)
 
         this.makeTable();
@@ -81,7 +83,7 @@ class Home extends React.Component {
                 <h3>Check the boxes below for additional info!</h3>
                 <ItinOptions options = {this.props.options} changeOpts = {this.changeOpts}/>
             </div>
-            <div >
+            <div key = "display">
                 <table className="pair-table">
                     {this.state.ps}
                     <tbody>

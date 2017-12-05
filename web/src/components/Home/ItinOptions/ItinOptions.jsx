@@ -12,7 +12,7 @@ class ItinOptions extends React.Component {
         let boxes = []
         for (let i in this.props.options) {
             boxes.push(
-                <label className ="checky">
+                <label className ="checky" key = {i}>
                     <input
                         type="checkbox"
                         value={i}

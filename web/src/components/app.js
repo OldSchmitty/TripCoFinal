@@ -20,7 +20,6 @@ export default class App extends React.Component {
         }
         this.updateCurrentTrip = (trip) => {
             this.setState({currentTrip: trip});
-            console.log("update trip ",this.state.currentTrip)
         }
         this.resetPage = this.resetPage.bind(this);
         this.handleInsertButtonClick = this.handleInsertButtonClick.bind(this);
@@ -173,7 +172,6 @@ export default class App extends React.Component {
             }
         }
         this.forceUpdate();
-        console.log(this.state.currentTrip);
     };
 
   // Checks for duplicates before inserting a destination

@@ -80,8 +80,7 @@ class PlanTable extends React.Component {
         return(
             <select
                 style={{height: 35}}
-                onChange = {this.handleChange}
-                defaultValue = "Choose an Algorithm">
+                onChange = {this.handleChange}>
                 <option value="None">None</option>
                 <option value="Nearest Neighbor">Nearest Neighbor</option>
                 <option value="2-Opt">2-Opt</option>
