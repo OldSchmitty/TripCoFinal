@@ -323,8 +323,15 @@ public class SearchSQLDatabase {
    * @return Starting select statement for all queries
    */
   private String getQueryJoinCommands() {
-    return "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
+    return getSearchedInfo()
+        + "INNER JOIN countries ON countries.continent = continents.code "
         + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
         + "ON airports.iso_region = regions.code WHERE ";
+  }
+
+  private String getSearchedInfo(){
+    return "SELECT airports.code, airports.name, airports.elevation, airports.latitude, "
+        + "airports.longitude, airports.home_link, airports.wikipedia_link, airports.type, "
+        + "airports.continent FROM continents ";
   }
 }
