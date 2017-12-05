@@ -63,6 +63,12 @@ export default class App extends React.Component {
                                query = {this.query}
                     />
                 </div>
+                {/* renders the map using google maps */}
+                <Map
+                    containerElement={<div style={{ height: `100%` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
+                    currentTrip = {this.state.serverReturned}
+                />
                 <Home
                     allPairs = {this.state.allPairs}
                     bottomRow = {this.state.bottomRow}
@@ -70,12 +76,7 @@ export default class App extends React.Component {
                     serverReturned = {this.state.serverReturned}
                     query = {this.query}
                 />
-                {/* renders the map using google maps */}
-                <Map
-                    containerElement={<div style={{ height: `100%` }} />}
-                    mapElement={<div style={{ height: `100%` }} />}
-                    currentTrip = {this.state.serverReturned}
-                />
+
             </div>
         )
     }
