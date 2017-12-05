@@ -30,12 +30,14 @@ class Home extends React.Component {
 
 
     makeTable(){
+        let cumulativeDistance = 0;
         this.state.ps = this.props.allPairs.map((pp) => {
             let finalData={};
             finalData["start name"] = pp["start name"];
             finalData["end name"] = pp["end name"];
             finalData["distance"] = pp["distance"];
-            finalData["cumulativeDistance"] = pp["cumulativeDistance"];
+            cumulativeDistance += parseInt(pp["distance"].substring(9))
+            finalData["cumulativeDistance"] = cumulativeDistance;
 
             for (let i in this.state.options) {
                 if (this.state.options[i]) {
