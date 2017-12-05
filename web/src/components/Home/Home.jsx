@@ -37,7 +37,7 @@ class Home extends React.Component {
             finalData["end name"] = pp["end name"];
             finalData["distance"] = pp["distance"];
             cumulativeDistance += parseInt(pp["distance"].substring(9))
-            finalData["cumulativeDistance"] = cumulativeDistance;
+            finalData["cumulativeDistance"] = "Cumulative Distance: " + cumulativeDistance;
 
             for (let i in this.state.options) {
                 if (this.state.options[i]) {
