@@ -17,6 +17,7 @@ public class ServerPlanTrip {
         this.svg = svg;
         this.items = items;
         this.itinerary = itinerary;
+        System.out.println("Keys in the destinations\n" +items[0].getKeys());
     }
 
 }

@@ -90,8 +90,10 @@ public class Server {
             Itinerary i = new Itinerary(trip, sRec.getOpt());
             ArrayList<Edge> edges = i.getShortestPath();
             View view = new View(buildPath);
-            String svg = view.drawMapString(trip,edges);
+            String svg = "";//view.drawMapString(trip,edges);
             ServerPlanTrip servP = new ServerPlanTrip(svg,trip,edges);
+            System.out.println("Items in the gson");
+            System.out.println(gson.toJson(servP, ServerPlanTrip.class));
             return gson.toJson(servP, ServerPlanTrip.class);
         }
         else if(sRec.getdoWhat().equals("upload")){
