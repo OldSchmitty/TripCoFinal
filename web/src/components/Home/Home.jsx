@@ -8,7 +8,8 @@ class Home extends React.Component {
 
         this.state = {
             options: this.props.options,
-            ps: []
+            ps: [],
+            startLocation: null
         };
 
         this.changeOpts = (i) => {
@@ -36,26 +37,50 @@ class Home extends React.Component {
     }
 
     makeTable(){
+        let cumulativeDistance = 0;
         this.state.ps = this.props.allPairs.map((pp) => {
             let finalData={};
             finalData["start name"] = pp["start name"];
             finalData["end name"] = pp["end name"];
             finalData["distance"] = pp["distance"];
-            finalData["cumulativeDistance"] = pp["cumulativeDistance"];
+            cumulativeDistance += parseInt(pp["distance"].substring(9))
+            finalData["cumulativeDistance"] = "Cumulative Distance: " + cumulativeDistance;
 
-            for (let i in this.state.options){
-                if(this.state.options[i]) {
+            for (let i in this.state.options) {
+                if (this.state.options[i]) {
                     finalData["start " + i] = pp["start " + i];
                     finalData["end " + i] = pp["end " + i];
                 }
             }
+
             return <Pair {...finalData}/>;
         });
+    }
+
+   reorderItinerary(key, value){
+        for (let i = 0; i < this.props.allPairs.length; i++){
+            /*since no actual function exists in javascript to search for substrings
+              we use indexOf function which returns -1 if item not found
+            */
+            if(this.props.allPairs[0][key].toLowerCase().indexOf(value.toLowerCase()) == -1){
+                let temp = this.props.allPairs[0]
+                this.props.allPairs.splice(this.props.allPairs[0], 1);
+                this.props.allPairs.push(temp);
+            }
+        }
     }
 
 
     render()
     {
+        if(!this.state.startLocation) {
+            // forces fort collins municipalities as start locations if no location has been chosen
+            this.reorderItinerary("start municipality", "fort collins")
+        }
+        else
+            // if location chosen, forces it to be the start
+            this.reorderItinerary("start name", this.state.startLocation)
+
         this.makeTable();
         return <div className="home-container">
 
