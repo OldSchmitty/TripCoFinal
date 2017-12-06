@@ -323,6 +323,6 @@ public class SearchSQLDatabase {
   private String getSearchedInfo(){
     return "SELECT airports.code, airports.name, airports.elevation, airports.latitude, "
         + "airports.longitude, airports.home_link, airports.wikipedia_link, airports.type, "
-        + "airports.continent FROM continents ";
+        + "airports.continent, airports.municipality FROM continents ";
   }
 }
