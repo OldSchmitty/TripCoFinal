@@ -39,6 +39,17 @@ class Home extends React.Component {
         }
     }
 
+    showChooseStart(locationNames){
+        if(this.state.ps.length > 0) {
+            return <select onChange={this.changeStartLocation} className='topColor'>
+                {locationNames.map(x => <option key={x}>{x}</option>)}</select>
+        } else{
+            return null
+        }
+
+
+    }
+
     makeTable(){
         let cumulativeDistance = 0;
         let locationNames = [];
@@ -60,6 +71,7 @@ class Home extends React.Component {
 
             return <Pair {...finalData}/>;
         });
+        this.startLocation = locationNames[0];
         return locationNames;
     }
 
@@ -79,8 +91,6 @@ class Home extends React.Component {
     }
 
     changeStartLocation(e){
-        if(e.target.value === "Select Your Start Location!")
-            console.log("Not changing start location.")
         this.startLocation = e.target.value;
         this.forceUpdate();
     }
@@ -92,7 +102,7 @@ class Home extends React.Component {
             // forces fort collins municipalities as start locations if no location has been chosen
             this.reorderItinerary("start municipality", "fort collins")
         }
-        else if(this.startLocation && this.startLocation != "Select Your Start Location!") {
+        else if(this.startLocation) {
             console.log("Forcing \"" + this.startLocation + "\" as new start of trip!");
             //if location chosen, forces it to be the start
             this.reorderItinerary("start name", this.startLocation)
@@ -102,11 +112,7 @@ class Home extends React.Component {
 
         return <div className="home-container">
 
-            <select onChange={this.changeStartLocation}
-                    className = 'topColor'>
-                <option>Select Your Start Location!</option>
-                {locationNames.map(x => <option key = {x}>
-                    {x}</option>)} Select Your Start Location</select>
+            {this.showChooseStart(locationNames)}
 
             <div className="inner"> {this.hide()}
                 <ItinOptions options = {this.props.options} changeOpts = {this.changeOpts}/></div>
