@@ -84,7 +84,7 @@ class PlanTable extends React.Component {
                 style={{height: 35}}
                 onChange = {this.handleChange}
                 value = {this.state.opt}>
-                <option value="None">None</option>
+                <option value="None">No Opt</option>
                 <option value="Nearest Neighbor">Nearest Neighbor</option>
                 <option value="2-Opt">2-Opt</option>
                 <option value="3-Opt">3-Opt</option>

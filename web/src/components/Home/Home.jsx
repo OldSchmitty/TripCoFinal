@@ -79,6 +79,8 @@ class Home extends React.Component {
     }
 
     changeStartLocation(e){
+        if(e.target.value === "Select Your Start Location!")
+            console.log("Not changing start location.")
         this.startLocation = e.target.value;
         this.forceUpdate();
     }
@@ -90,7 +92,7 @@ class Home extends React.Component {
             // forces fort collins municipalities as start locations if no location has been chosen
             this.reorderItinerary("start municipality", "fort collins")
         }
-        else if(this.startLocation) {
+        else if(this.startLocation && this.startLocation != "Select Your Start Location!") {
             console.log("Forcing \"" + this.startLocation + "\" as new start of trip!");
             //if location chosen, forces it to be the start
             this.reorderItinerary("start name", this.startLocation)
@@ -101,8 +103,8 @@ class Home extends React.Component {
         return <div className="home-container">
 
             <select onChange={this.changeStartLocation}
-                    className = 'top'>
-                <option selected>Select Your Start Location!</option>
+                    className = 'topColor'>
+                <option>Select Your Start Location!</option>
                 {locationNames.map(x => <option key = {x}>
                 {x}</option>)} Select Your Start Location</select>
 
