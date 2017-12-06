@@ -41,8 +41,10 @@ class Home extends React.Component {
 
     showChooseStart(locationNames){
         if(this.state.ps.length > 0) {
-            return <select onChange={this.changeStartLocation} className='topColor'>
-                {locationNames.map(x => <option key={x}>{x}</option>)}</select>
+            return <div>
+            <h3> Choose Your Start Location! </h3>
+            <select onChange={this.changeStartLocation} className='topColor'>
+                {locationNames.map(x => <option key={x}>{x}</option>)}</select> </div>
         } else{
             return null
         }
