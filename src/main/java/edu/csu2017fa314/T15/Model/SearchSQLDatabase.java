@@ -132,6 +132,9 @@ public class SearchSQLDatabase {
     for (int i = 1; i < size; i++) {
       String field = meta.getColumnName(i);
       String info = rs.getString(i);
+      if(info ==null){
+        info = " ";
+      }
       des.setValue(field, info);
     }
     return des;
