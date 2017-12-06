@@ -62,24 +62,28 @@ class Home extends React.Component {
             /*since no actual function exists in javascript to search for substrings
               we use indexOf function which returns -1 if item not found
             */
-            if(this.props.allPairs[0][key].toLowerCase().indexOf(value.toLowerCase()) == -1){
-                let temp = this.props.allPairs[0]
-                this.props.allPairs.splice(this.props.allPairs[0], 1);
-                this.props.allPairs.push(temp);
+
+                if (!(key in this.props.allPairs[0]) ||
+                    this.props.allPairs[0][key].toLowerCase().indexOf(value.toLowerCase()) == -1) {
+                    let temp = this.props.allPairs[0]
+                    this.props.allPairs.splice(this.props.allPairs[0], 1);
+                    this.props.allPairs.push(temp);
+                }
             }
-        }
     }
 
 
     render()
     {
-        if(!this.state.startLocation) {
+        if(!this.state.startLocation && this.props.opt != "None") {
             // forces fort collins municipalities as start locations if no location has been chosen
             this.reorderItinerary("start municipality", "fort collins")
         }
-        else
-            // if location chosen, forces it to be the start
+        else if(this.state.startLocation) {
+            console.log("Forcing " + this.state.startLocation + " as new start");
+            //if location chosen, forces it to be the start
             this.reorderItinerary("start name", this.state.startLocation)
+        }
 
         this.makeTable();
         return <div className="home-container">
@@ -88,7 +92,7 @@ class Home extends React.Component {
                 {this.hide()}
                 <ItinOptions options = {this.props.options} changeOpts = {this.changeOpts}/>
             </div>
-            <div >
+            <div key = "display">
                 <table className="pair-table">
                     {this.state.ps}
                     <tbody>

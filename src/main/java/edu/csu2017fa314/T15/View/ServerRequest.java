@@ -1,6 +1,8 @@
 package edu.csu2017fa314.T15.View;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+
 import edu.csu2017fa314.T15.Model.Destination;
 import edu.csu2017fa314.T15.Model.SearchSQLDatabase;
 
@@ -38,9 +40,11 @@ public class ServerRequest {
 
     @Override
     public String toString() {
-        return "Request{" +
-                "queries='" + queries + '\'' +
-                '}';
+        String ret = "";
+        for (String s: queries){
+            ret += s + ", ";
+        }
+        return ret.substring(0, ret.length()-2);
     }
 
     public String getdoWhat(){ return this.doWhat; }

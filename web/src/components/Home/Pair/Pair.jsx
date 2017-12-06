@@ -10,9 +10,8 @@ class Pair extends React.Component {
         };}
 
     render() {
-        //console.log("props are:", Object.values(this.props));
         this.state.data = Object.values(this.props).map((obj) => {
-            return <td><h5>{obj}</h5></td>;
+            return <td key = {obj}><h5>{obj}</h5></td>;
         });
 
         // Place the return statement from the stateless Pair here:
