@@ -75,13 +75,15 @@ class Home extends React.Component {
 
     render()
     {
-        if(!this.state.startLocation) {
+        if(!this.state.startLocation && this.props.opt != "None") {
             // forces fort collins municipalities as start locations if no location has been chosen
             this.reorderItinerary("start municipality", "fort collins")
         }
-        else
+        else if(this.state.startLocation) {
+            console.log("Forcing " + this.state.startLocation + " as new start");
             //if location chosen, forces it to be the start
             this.reorderItinerary("start name", this.state.startLocation)
+        }
 
         this.makeTable();
         return <div className="home-container">

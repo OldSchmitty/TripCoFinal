@@ -17,7 +17,7 @@ class Pair extends React.Component {
         // Place the return statement from the stateless Pair here:
         return (
             <tbody className="pair">
-            <tr >
+            <tr>
                 {this.state.data}
             </tr>
             </tbody>

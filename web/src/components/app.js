@@ -14,7 +14,8 @@ export default class App extends React.Component {
             serverReturned: null,
             bottomRow: [],
             locations: [],
-            currentTrip: []
+            currentTrip: [],
+            opt: "None"
         }
         this.returnList = (list) => {
             this.setState({locations : list});
@@ -27,6 +28,7 @@ export default class App extends React.Component {
         this.createCustomInsertButton = this.createCustomInsertButton.bind(this);
         this.getData = this.getData.bind(this);
         this.query = this.query.bind(this);
+        this.updateOpt = this.updateOpt.bind(this);
     };
 
 
@@ -60,6 +62,7 @@ export default class App extends React.Component {
                                resetPage = {this.resetPage}
                                serverReturned = {this.state.serverReturned}
                                query = {this.query}
+                               updateOpt = {this.updateOpt}
                     />
                 </div>
                 {/* renders the map using google maps */}
@@ -74,6 +77,7 @@ export default class App extends React.Component {
                     options = {this.state.options}
                     serverReturned = {this.state.serverReturned}
                     query = {this.query}
+                    opt = {this.state.opt}
                 />
 
             </div>
@@ -162,7 +166,7 @@ export default class App extends React.Component {
 
     resetPage() {
         this.setState({currentTrip: [], bottomRow: [],
-            pairs: [], options: [], allPairs: [], locations: []
+            pairs: [], options: [], allPairs: [], locations: [], opt: "None"
         });
         console.log("app reset", this.state);
     }
@@ -214,4 +218,8 @@ export default class App extends React.Component {
             />
         );
     };
+
+  updateOpt(newOpt){
+      this.setState({opt: newOpt});
+  }
 }
