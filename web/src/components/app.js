@@ -71,6 +71,7 @@ export default class App extends React.Component {
                     mapElement={<div style={{ height: `100%` }} />}
                     currentTrip = {this.state.serverReturned}
                 />
+                <div className = 'top'>
                 <Home
                     allPairs = {this.state.allPairs}
                     bottomRow = {this.state.bottomRow}
@@ -79,6 +80,7 @@ export default class App extends React.Component {
                     query = {this.query}
                     opt = {this.state.opt}
                 />
+                </div>
 
             </div>
         )
@@ -166,7 +168,7 @@ export default class App extends React.Component {
 
     resetPage() {
         this.setState({currentTrip: [], bottomRow: [],
-            pairs: [], options: [], allPairs: [], locations: [], opt: "None"
+            pairs: [], options: [], allPairs: [], locations: [], opt: "None", serverReturned: []
         });
         console.log("app reset", this.state);
     }

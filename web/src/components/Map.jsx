@@ -98,6 +98,7 @@ class Map extends React.Component {
         // Return the stuff we actually want rendered on the page
         return (
             { /*GoogleMap is an imported component from react-google-maps*/ },
+
             <GoogleMap
                 defaultCenter={{lat: 0, lng: 0} /*Sets the default center for the map to start at */}
                 defaultZoom={3 /* Sets the default zoom ie how much of the world is on the screen*/}

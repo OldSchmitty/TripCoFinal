@@ -8,14 +8,17 @@ class Home extends React.Component {
 
         this.state = {
             options: this.props.options,
-            ps: [],
-            startLocation: null
+            ps: []
         };
 
         this.changeOpts = (i) => {
             this.state.options[i] = !this.state.options[i];
             this.forceUpdate();
         }
+
+        this.changeStartLocation = this.changeStartLocation.bind(this);
+
+        this.startLocation = null;
 
     }
 
@@ -38,8 +41,10 @@ class Home extends React.Component {
 
     makeTable(){
         let cumulativeDistance = 0;
+        let locationNames = [];
         this.state.ps = this.props.allPairs.map((pp) => {
             let finalData={};
+            locationNames.push(pp["start name"].substring(11))
             finalData["start name"] = pp["start name"];
             finalData["end name"] = pp["end name"];
             finalData["distance"] = pp["distance"];
@@ -55,6 +60,7 @@ class Home extends React.Component {
 
             return <Pair {...finalData} key = {pp["start name"]}/>;
         });
+        return locationNames;
     }
 
    reorderItinerary(key, value){
@@ -72,21 +78,33 @@ class Home extends React.Component {
             }
     }
 
+    changeStartLocation(e){
+        this.startLocation = e.target.value;
+        this.forceUpdate();
+    }
 
     render()
     {
-        if(!this.state.startLocation && this.props.opt != "None") {
+
+        if(!this.startLocation && this.props.opt != "None") {
             // forces fort collins municipalities as start locations if no location has been chosen
             this.reorderItinerary("start municipality", "fort collins")
         }
-        else if(this.state.startLocation) {
-            console.log("Forcing " + this.state.startLocation + " as new start");
+        else if(this.startLocation) {
+            console.log("Forcing \"" + this.startLocation + "\" as new start of trip!");
             //if location chosen, forces it to be the start
-            this.reorderItinerary("start name", this.state.startLocation)
+            this.reorderItinerary("start name", this.startLocation)
         }
 
-        this.makeTable();
+        let locationNames = this.makeTable();
+
         return <div className="home-container">
+
+            <select onChange={this.changeStartLocation}
+                    className = 'top'>
+                <option selected>Select Your Start Location!</option>
+                {locationNames.map(x => <option key = {x}>
+                {x}</option>)} Select Your Start Location</select>
 
             <div className="inner">
                 {this.hide()}

@@ -23,14 +23,15 @@ class SaveLoad extends React.Component {
         return (
             <div className= "saveload">
                 <ButtonToolbar className= "Save-Load">
-                    <Dropzone className="dropzone-style" onDrop={this.uploadButtonClicked.bind(this)}>
+                    <Dropzone className="saveload" onDrop={this.uploadButtonClicked.bind(this)}>
                         <button type="button" onClick={this.uploadButtonClicked.bind(this)}>
                             Upload Planned Trip</button>
                     </Dropzone>
 
                     <button type="button" onClick={this.saveButtonClicked.bind(this)}>
                         Save Trip</button>
-                    <button type="button" onClick={this.resetPage.bind(this)}>Reset</button>
+                    <button type="button" onClick={this.resetPage.bind(this)}
+                            style={{width: "12.4%"}}>Reset</button>
                 </ButtonToolbar>
             </div>
         )

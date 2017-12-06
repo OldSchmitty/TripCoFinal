@@ -60,9 +60,11 @@ class PlanTable extends React.Component {
                                            dataFormat = {this.downButton.bind(this)}>Move Down
                         </TableHeaderColumn>
                     </BootstrapTable>
+                    <div className = 'topPlan'>
                     <PlanTripButton units = {this.state.units} opt = {this.state.opt} query = {this.props.query}
                             serverReturned = {this.state.serverReturned} getData = {this.props.getData}
                             getTripTableData = {this.getTripTableData} />
+                    </div>
                     <SaveLoad resetPage = {this.resetPage} units = {this.state.units}
                               getTripTableData = {this.getTripTableData} opt = {this.state.opt}
                               fillTripTable={this.fillTripTable}    clearTrip={this.clearTrip}
@@ -78,6 +80,7 @@ class PlanTable extends React.Component {
     createSelectButton(onClick) {
         return(
             <select
+                className ='selectBackgroundColor'
                 style={{height: 35}}
                 onChange = {this.handleChange}
                 value = {this.state.opt}>
