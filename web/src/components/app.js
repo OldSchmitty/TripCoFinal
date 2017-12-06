@@ -103,6 +103,8 @@ export default class App extends React.Component {
             this.setState({
                 serverReturned: JSON.parse(ret),
             });
+
+            console.log("Server Returned: ", this.state.serverReturned)
             this.forceUpdate();
         } catch (e) {
             console.error("Error talking to server");
@@ -142,9 +144,11 @@ export default class App extends React.Component {
 
             pairs.push(p); //add object to pairs array
         }
-        for(let k  in infoFile[0]['map']){
-            if(k != "name") {
-                this.state.options[k] = false;
+        for (let i in infoFile) {
+            for (let k  in infoFile[i]['map']) {
+                if (k != "name") {
+                    this.state.options[k] = false;
+                }
             }
         }
 
