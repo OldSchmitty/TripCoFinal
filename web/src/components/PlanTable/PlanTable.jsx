@@ -63,8 +63,7 @@ class PlanTable extends React.Component {
                     <div className = 'topPlan'>
                     <PlanTripButton units = {this.state.units} opt = {this.state.opt} query = {this.props.query}
                             serverReturned = {this.state.serverReturned} getData = {this.props.getData}
-                            getTripTableData = {this.getTripTableData} />
-                    </div>
+                            getTripTableData = {this.getTripTableData} /></div>
                     <SaveLoad resetPage = {this.resetPage} units = {this.state.units}
                               getTripTableData = {this.getTripTableData} opt = {this.state.opt}
                               fillTripTable={this.fillTripTable}    clearTrip={this.clearTrip}

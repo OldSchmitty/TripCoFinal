@@ -106,12 +106,10 @@ class Home extends React.Component {
                     className = 'topColor'>
                 <option>Select Your Start Location!</option>
                 {locationNames.map(x => <option key = {x}>
-                {x}</option>)} Select Your Start Location</select>
+                    {x}</option>)} Select Your Start Location</select>
 
-            <div className="inner">
-                {this.hide()}
-                <ItinOptions options = {this.props.options} changeOpts = {this.changeOpts}/>
-            </div>
+            <div className="inner"> {this.hide()}
+                <ItinOptions options = {this.props.options} changeOpts = {this.changeOpts}/></div>
             <div key = "display">
                 <table className="pair-table">
                     {this.state.ps}
