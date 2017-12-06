@@ -104,7 +104,6 @@ export default class App extends React.Component {
                 serverReturned: JSON.parse(ret),
             });
 
-            console.log("Server Returned: ", this.state.serverReturned)
             this.forceUpdate();
         } catch (e) {
             console.error("Error talking to server");
