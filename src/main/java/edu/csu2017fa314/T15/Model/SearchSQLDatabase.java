@@ -128,20 +128,14 @@ public class SearchSQLDatabase {
    */
   private Destination readQueryResults(ResultSet rs, ResultSetMetaData meta, final int size)
       throws SQLException {
-    final String[] tables ={".continents", ".countries", ".regions", ""};
-    int tableCount = -1;// loop through the tables in search
     Destination des = new Destination();
     for (int i = 1; i < size; i++) {
       String field = meta.getColumnName(i);
       String info = rs.getString(i);
-      // Add the table to the search term to prevent overriding keys in designations
-      if(!field.equals("id")){
-        des.setValue(field+tables[tableCount], info);
+      if(info ==null){
+        info = " ";
       }
-      else
-      {
-        tableCount++; // used to skip id in returns and move table count
-      }
+      des.setValue(field, info);
     }
     return des;
   }
@@ -323,8 +317,15 @@ public class SearchSQLDatabase {
    * @return Starting select statement for all queries
    */
   private String getQueryJoinCommands() {
-    return "SELECT * FROM continents INNER JOIN countries ON countries.continent = continents.code "
+    return getSearchedInfo()
+        + "INNER JOIN countries ON countries.continent = continents.code "
         + "INNER JOIN regions ON regions.iso_country = countries.code INNER JOIN airports "
         + "ON airports.iso_region = regions.code WHERE ";
+  }
+
+  private String getSearchedInfo(){
+    return "SELECT airports.code, airports.name, airports.elevation, airports.latitude, "
+        + "airports.longitude, airports.home_link, airports.wikipedia_link, airports.type, "
+        + "airports.continent, airports.municipality FROM continents ";
   }
 }
