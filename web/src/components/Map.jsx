@@ -27,96 +27,55 @@ class Map extends React.Component {
         }
     }
 
-    /* Path of lat and lng coordinates. Inorder for this to work path must be an array
-           that contains objects that have a lat and lng property. This array can have other
-           properties but it must at minimum have lat and lng.
-
-           From my testing polyline will not draw a line if the path is invalid.
-           Ie lat and lng must be valid cooridantes to work
-    */
+    /*
+     * returns an array of coordinate pairs for google maps to draw the trip on the map
+     */
     buildCoordinateArray() {
 
-        var trip = []
+        var trip = [];
 
+        // Add each coordinate pair to the trip
         if (this.state.allPairs) {
-            console.log('AllPairs Map', this.state.allPairs)
             for (let i in this.state.allPairs) {
-
-                trip.push(this.buildMapPath(i))
+                trip.push(this.buildCoordinatePair(i));
             }
-
-            /* builds the trip and sorts using the itinerary
-            if ("itinerary" in this.state.currentTrip){
-                trip = this.buildFromItinerary()
-            } */
         }
 
+        // make round trip again and update start location
         if (trip.length > 0) {
-            trip.push(trip[0])
-            this.startLocation = trip[0]
+            trip.push(trip[0]);
+            trip.push(this.buildCoordinatePair(0));
         }
 
         return trip
     }
 
-    buildMapPath(i){
-        let lng = this.getLongitude(i)
-        let lat = this.getLatitude(i)
+    /*
+     * Builds a pair of coordinates for a destination
+     */
+    buildCoordinatePair(i){
+        let lng = this.getLongitude(i);
+        let lat = this.getLatitude(i);
         return {lng: lng, lat: lat}
     }
 
-    //  start longitude: "Start longitude: 123.91799926757812"
-
-
+    /*
+     * returns Longitude of a destination
+     */
     getLongitude(i){
         return parseFloat(this.state.allPairs[i]['start longitude'].slice(17))
     }
 
+    /*
+     * returns Latitude of a destination
+     */
     getLatitude(i){
         return parseFloat(this.state.allPairs[i]['start latitude'].slice(16))
     }
 
-    /* Builds the coordinate array from the items, and sorts it using the itinerary*/
-    buildFromItinerary(){
-
-        var trip = this.buildFromItems()
-        var sortedTrip = []
-
-        /* remove last item - no longer round trip*/
-        trip.pop()
-
-        /* sort trip based on itinerary order */
-        for (let i in this.state.currentTrip['itinerary']){
-            var id = this.state.currentTrip['itinerary'][i]['sourceID']
-            sortedTrip.push(trip[id])
-        }
-
-        /* Make round trip again */
-        sortedTrip.push(sortedTrip[0])
-
-        this.startLocation = sortedTrip[0]
-        return sortedTrip
-    }
-
-    /* build from currentTrip.items - used when optimization has not been selected */
-    buildFromItems(){
-        var trip = []
-
-        /* For earh item, add its coordinates to the array */
-        for (let i in this.state.currentTrip.items) {
-            var lat = this.state.currentTrip.items[i].map.latitude
-            var lng = this.state.currentTrip.items[i].map.longitude
-            trip.push({lat: parseFloat(lat), lng: parseFloat(lng)})
-        }
-
-        /* Make round trip - add coordinates of start destination to end of array to return home */
-        trip.push({lat: parseFloat(this.state.currentTrip.items[0].map.latitude),
-            lng: parseFloat(this.state.currentTrip.items[0].map.longitude)})
-
-        return trip
-    }
-
-    /* returns the starting location coordinates */
+    /*
+     * returns the starting location coordinates
+     */
     getStartLocation(){
 
         if (this.startLocation){
