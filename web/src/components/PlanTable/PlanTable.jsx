@@ -80,7 +80,7 @@ class PlanTable extends React.Component {
             <select
                 style={{height: 35}}
                 onChange = {this.handleChange}
-                defaultValue = "Choose an Algorithm">
+                value = {this.state.opt}>
                 <option value="None">None</option>
                 <option value="Nearest Neighbor">Nearest Neighbor</option>
                 <option value="2-Opt">2-Opt</option>
@@ -200,6 +200,7 @@ class PlanTable extends React.Component {
     handleChange(e) {
         console.log("Changing Opt to",e.target.value);
         this.setState({opt:e.target.value});
+        this.props.updateOpt(e.target.value);
     }
 
     /**
@@ -239,7 +240,8 @@ class PlanTable extends React.Component {
             currentTrip: []
         });
         console.log("Plantable: ", this.state);
-        this.props.resetPage();
+        this.props.resetPage()
+        this.forceUpdate();
     }
 
     clearTrip(){
