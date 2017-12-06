@@ -68,6 +68,7 @@ export default class App extends React.Component {
                     containerElement={<div style={{ height: `100%` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     currentTrip = {this.state.serverReturned}
+                    allPairs = {this.state.allPairs}
                 />
                 <Home
                     allPairs = {this.state.allPairs}

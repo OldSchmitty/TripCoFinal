@@ -10,6 +10,7 @@ class Map extends React.Component {
         super(props);
         this.state = {
             currentTrip : this.props.currentTrip,
+            allPairs: this.props.allPairs
         };
 
         this.startLocation
@@ -20,6 +21,10 @@ class Map extends React.Component {
         if (nextProps.currentTrip !== this.props.currentTrip) {
             this.setState({currentTrip: nextProps.currentTrip});
         }
+
+        if (nextProps.allPairs !== this.props.allPairs) {
+            this.setState({allPairs: nextProps.allPairs});
+        }
     }
 
     /* Path of lat and lng coordinates. Inorder for this to work path must be an array
@@ -29,18 +34,46 @@ class Map extends React.Component {
            From my testing polyline will not draw a line if the path is invalid.
            Ie lat and lng must be valid cooridantes to work
     */
-    buildCoordinateArray(){
+    buildCoordinateArray() {
 
         var trip = []
 
-        if (this.state.currentTrip) {
-            /* builds the trip and sorts using the itinerary */
+        if (this.state.allPairs) {
+            console.log('AllPairs Map', this.state.allPairs)
+            for (let i in this.state.allPairs) {
+
+                trip.push(this.buildMapPath(i))
+            }
+
+            /* builds the trip and sorts using the itinerary
             if ("itinerary" in this.state.currentTrip){
                 trip = this.buildFromItinerary()
-            }
+            } */
+        }
+
+        if (trip.length > 0) {
+            trip.push(trip[0])
+            this.startLocation = trip[0]
         }
 
         return trip
+    }
+
+    buildMapPath(i){
+        let lng = this.getLongitude(i)
+        let lat = this.getLatitude(i)
+        return {lng: lng, lat: lat}
+    }
+
+    //  start longitude: "Start longitude: 123.91799926757812"
+
+
+    getLongitude(i){
+        return parseFloat(this.state.allPairs[i]['start longitude'].slice(17))
+    }
+
+    getLatitude(i){
+        return parseFloat(this.state.allPairs[i]['start latitude'].slice(16))
     }
 
     /* Builds the coordinate array from the items, and sorts it using the itinerary*/
