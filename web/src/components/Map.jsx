@@ -44,7 +44,8 @@ class Map extends React.Component {
         // make round trip again and update start location
         if (trip.length > 0) {
             trip.push(trip[0]);
-            trip.push(this.buildCoordinatePair(0));
+            trip.push(trip[0]);
+            this.startLocation = trip[0]
         }
 
         return trip
