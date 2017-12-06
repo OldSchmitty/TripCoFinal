@@ -53,7 +53,7 @@ class Home extends React.Component {
                 }
             }
 
-            return <Pair {...finalData} key = {pp["start name"]}/>;
+            return <Pair {...finalData}/>;
         });
     }
 
