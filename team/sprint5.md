@@ -58,7 +58,8 @@ Date | Tasks done now | Tasks done next | Impediments | Coverage | Smells | Dupl
 11-15 | #362 |  | None | 81 | 35 | 55 | 19.7
  11-27|#365 #364 #369 #368 #395 #330 #388| #383 #362 | Other classes, refactoring, React | 83 | 28 | 38 | 14.3 |
  11-29 | #382 #383 #381 #361 #363 #366 #399 #367 | #371 | Other Classes, React | 84 | 16 | 16 | 4.4
- 12-4 || #409 #371 #376 | Other Classes | 84 | 16 | 16 | 4.4 
+ 12-4 || #409 #371 #376 | Other Classes | 84 | 16 | 16 | 4.4
+ 12-6 | #371 #376 | #409 #415 #376 #418 | Other classes | 84 | 16 | 16 | 4.3
 
 ## Review
 
