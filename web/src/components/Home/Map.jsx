@@ -35,11 +35,11 @@ class Map extends React.Component {
         var trip = [];
 
         // Add each coordinate pair to the trip
-        if (this.state.allPairs) {
+        if (this.state.allPairs.length > 0) {
             for (let i in this.state.allPairs) {
                 trip.push(this.buildCoordinatePair(i));
             }
-        }
+        } else this.startLocation = null;
 
         // make round trip again and update start location
         if (trip.length > 0) {
@@ -47,8 +47,7 @@ class Map extends React.Component {
             trip.push(trip[0]);
             this.startLocation = trip[0]
         }
-
-        return trip
+            return trip
     }
 
     /*
