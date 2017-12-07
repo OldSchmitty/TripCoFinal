@@ -13,12 +13,23 @@ class Home extends React.Component {
 
         this.changeOpts = (i) => {
             this.state.options[i] = !this.state.options[i];
+            if(this.topRow["start " + i]) {
+                this.topRow["start " + i] = null
+            }
+            else
+                this.topRow["start " + i] = this.topRowBack["start " + i];
+            if(this.topRow["end " + i])
+                this.topRow["end " + i] = null
+            else
+                this.topRow["end " + i] = this.topRowBack["end " + i];
             this.forceUpdate();
         }
 
         this.changeStartLocation = this.changeStartLocation.bind(this);
 
         this.startLocation = null;
+        this.topRow = null;
+        this.topRowBack = null;
 
     }
 
@@ -43,8 +54,8 @@ class Home extends React.Component {
         if(this.state.ps.length > 0) {
             return <div>
             <h3> Choose Your Start Location! </h3>
-            <select onChange={this.changeStartLocation} className='topColor'>
-                {locationNames.map(x => <option key={x}>{x}</option>)}</select> </div>
+            <select onChange={this.changeStartLocation} className='topColor' value={this.startLocation}>
+                {locationNames.map(x => <option>{x}</option>)}</select> </div>
         } else{
             return null
         }
@@ -57,12 +68,12 @@ class Home extends React.Component {
         let locationNames = [];
         this.state.ps = this.props.allPairs.map((pp) => {
             let finalData={};
-            locationNames.push(pp["start name"].substring(11))
+            locationNames.push(pp["start name"])
             finalData["start name"] = pp["start name"];
             finalData["end name"] = pp["end name"];
             finalData["distance"] = pp["distance"];
-            cumulativeDistance += parseInt(pp["distance"].substring(9))
-            finalData["cumulativeDistance"] = "Cumulative Distance: " + cumulativeDistance;
+            cumulativeDistance += parseInt(pp["distance"])
+            finalData["cumulativeDistance"] = cumulativeDistance;
 
             for (let i in this.state.options) {
                 if (this.state.options[i]) {
@@ -73,8 +84,26 @@ class Home extends React.Component {
 
             return <Pair {...finalData}/>;
         });
+        this.makeTopRow();
+        if(this.state.ps.length > 0) this.state.ps.unshift(<Pair {...this.topRow} />);
         this.startLocation = locationNames[0];
         return locationNames;
+    }
+
+    makeTopRow(){
+        let topRow = {};
+            topRow["start name"] = "Start name";
+            topRow["end name"] = "End name";
+            topRow["Distance"] = "Distance";
+            topRow["Cumulative Distance"] = "Cumulative Distance";
+
+            for (let o in this.state.options) {
+                    topRow["start " + o] = "Start " + o;
+                    topRow["end " + o] = "End " + o;
+            }
+            this.topRowBack = topRow;
+            if(!this.topRow) this.topRow = topRow;
+            return topRow;
     }
 
    reorderItinerary(key, value){
@@ -105,9 +134,9 @@ class Home extends React.Component {
             this.reorderItinerary("start municipality", "fort collins")
         }
         else if(this.startLocation) {
-            console.log("Forcing \"" + this.startLocation + "\" as new start of trip!");
-            //if location chosen, forces it to be the start
-            this.reorderItinerary("start name", this.startLocation)
+                console.log("Forcing \"" + this.startLocation + "\" as new start of trip!");
+                //if location chosen, forces it to be the start
+                this.reorderItinerary("start name", this.startLocation)
         }
 
         let locationNames = this.makeTable();

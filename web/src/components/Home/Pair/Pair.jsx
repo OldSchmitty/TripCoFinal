@@ -11,7 +11,9 @@ class Pair extends React.Component {
 
     render() {
         this.state.data = Object.values(this.props).map((obj) => {
-            return <td key = {obj}><h5>{obj}</h5></td>;
+            if(obj != null) {
+                return <td><h5>{obj}</h5></td>;
+            }
         });
 
         // Place the return statement from the stateless Pair here:

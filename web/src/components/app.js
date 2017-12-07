@@ -137,13 +137,13 @@ export default class App extends React.Component {
             // add the extra info of the second JSON to p:
             let p = {};
             for (let key in start['map']) {
-                p["start " + key] = "Start " + key + ": " + start['map'][key];
+                p["start " + key] = start['map'][key];
             }
             for (let key in end['map']) {
-                p["end " + key] = "End " + key + ": " + end['map'][key];
+                p["end " + key] = end['map'][key];
             }
-            p["distance"] = "Distance: " + dist;
-            p["cumulativeDistance"] = "Cumulative: " + totalDist;
+            p["distance"] = dist;
+            p["cumulativeDistance"] = totalDist;
 
             pairs.push(p); //add object to pairs array
         }

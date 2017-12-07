@@ -31,7 +31,7 @@ class SaveLoad extends React.Component {
                     <button type="button" onClick={this.saveButtonClicked.bind(this)}>
                         Save Trip</button>
                     <button type="button" onClick={this.resetPage.bind(this)}
-                            style={{width: "12.4%"}}>Reset</button>
+                            style={{width: 68}}>Reset</button>
                 </ButtonToolbar>
             </div>
         )
