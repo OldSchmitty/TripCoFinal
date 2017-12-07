@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ItinOptions from "./ItinOptions/ItinOptions.jsx"
 import Pair from './Pair/Pair.jsx';
+import Map from "./Map.jsx";
 
 class Home extends React.Component {
     constructor(props) {
@@ -27,6 +28,7 @@ class Home extends React.Component {
         if (nextProps.options !== this.props.options) {
             this.setState({options: nextProps.options});
         }
+        this.startLocation = null;
         this.forceUpdate();
     }
 
@@ -100,6 +102,9 @@ class Home extends React.Component {
     render()
     {
 
+
+
+
         if(!this.startLocation && this.props.opt != "None") {
             // forces fort collins municipalities as start locations if no location has been chosen
             this.reorderItinerary("start municipality", "fort collins")
@@ -113,6 +118,13 @@ class Home extends React.Component {
         let locationNames = this.makeTable();
 
         return <div className="home-container">
+
+            {/* renders the map using google maps */}
+            <Map
+                containerElement={<div style={{ height: `100%` }} />}
+                mapElement={<div style={{ height: `100%` }} />}
+                allPairs = {this.props.allPairs}
+            />
 
             {this.showChooseStart(locationNames)}
 

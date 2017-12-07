@@ -3,7 +3,7 @@ import Home from './Home/Home.jsx';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SearchButton from './SearchButton/SearchButton.jsx';
 import PlanTable from './PlanTable/PlanTable.jsx';
-import Map from "./Map.jsx";
+import Map from "./Home/Map.jsx";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -65,12 +65,6 @@ export default class App extends React.Component {
                                updateOpt = {this.updateOpt}
                     />
                 </div>
-                {/* renders the map using google maps */}
-                <Map
-                    containerElement={<div style={{ height: `100%` }} />}
-                    mapElement={<div style={{ height: `100%` }} />}
-                    allPairs = {this.state.allPairs}
-                />
                 <div className = 'top'>
                 <Home
                     allPairs = {this.state.allPairs}
