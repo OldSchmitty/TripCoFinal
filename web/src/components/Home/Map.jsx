@@ -14,6 +14,7 @@ class Map extends React.Component {
         };
 
         this.startLocation
+        this.googleMap
     }
 
     /* Re-renders the map when currentTrip is updated*/
@@ -86,38 +87,46 @@ class Map extends React.Component {
 
     // Render method of the Map component
     render() {
-
+      this.setUpGoogleMap()
+      console.log("Google Map", this.googleMap.props.children[0].props["path"])
         // Return the stuff we actually want rendered on the page
         return (
-            { /*GoogleMap is an imported component from react-google-maps*/ },
-
-            <GoogleMap
-                defaultCenter={{lat: 0, lng: 0} /*Sets the default center for the map to start at */}
-                defaultZoom={3 /* Sets the default zoom ie how much of the world is on the screen*/}
-            >
-            {/* Everything that is in between <GoogleMap> and </GoogleMap> get rendered onto the
-                map. Polyline is an easy google library that draws lines from coordiates.*/ }
-                <Polyline
-                    visible={true /*Make sure the map is visable on screen*/}
-
-                    path={this.buildCoordinateArray()/* Set polyline path to the coordiates array*/}
-
-                    options={{
-                        /* This is a list of optional things line line color and line weight this does not
-                        need to be included. See documentation for more options*/
-                        strokeColor: '#ff31a6',
-                        strokeWeight: 4,
-                    }}
-                />
-                <Marker
-                    name = {"Start"}
-                    position = {this.getStartLocation() /* Set start location */}
-                />
-
-            { /*Close our GoogleMap*/}
-            </GoogleMap>
+            this.googleMap
         )
     }
+
+  setUpGoogleMap() {
+    this.googleMap =
+
+        <GoogleMap
+            defaultCenter={{
+              lat: 0,
+              lng: 0
+            } /*Sets the default center for the map to start at */}
+            defaultZoom={3 /* Sets the default zoom ie how much of the world is on the screen*/}
+        >
+          {/* Everything that is in between <GoogleMap> and </GoogleMap> get rendered onto the
+                map. Polyline is an easy google library that draws lines from coordiates.*/}
+            <Polyline
+                visible={true /*Make sure the map is visable on screen*/}
+
+                path={this.buildCoordinateArray()/* Set polyline path to the coordiates array*/}
+
+                options={{
+                  /* This is a list of optional things line line color and line weight this does not
+                        need to be included. See documentation for more options*/
+                  strokeColor: '#ff31a6',
+                  strokeWeight: 4,
+                }}
+            />
+            <Marker
+                name={"Start"}
+                position={this.getStartLocation() /* Set start location */}
+            />
+
+          {/*Close our GoogleMap*/}
+        </GoogleMap>;
+  }
 }
 // This is important what this does is it wraps the Map module in
 // a withGoogleMap module. Without this the map will not load
