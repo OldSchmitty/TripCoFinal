@@ -13,25 +13,22 @@ class Home extends React.Component {
         };
 
         this.changeOpts = (i) => {
-            this.state.options[i] = !this.state.options[i];
-            if(this.topRow["start " + i]) {
+            if(this.state.options[i]) {
                 this.topRow["start " + i] = null
-            }
-            else
-                this.topRow["start " + i] = this.topRowBack["start " + i];
-            if(this.topRow["end " + i])
                 this.topRow["end " + i] = null
-            else
-                this.topRow["end " + i] = this.topRowBack["end " + i];
+            }
+            else {
+                this.topRow["start " + i] = "start " + i;
+                this.topRow["end " + i] = "end " + i;
+            }
+            this.state.options[i] = !this.state.options[i];
             this.forceUpdate();
         }
 
         this.changeStartLocation = this.changeStartLocation.bind(this);
 
         this.startLocation = null;
-        this.topRow = null;
-        this.topRowBack = null;
-
+        this.topRow = {};
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,6 +37,9 @@ class Home extends React.Component {
             this.setState({options: nextProps.options});
         }
         this.startLocation = null;
+        if(nextProps.topRow) {
+            this.topRow = nextProps.topRow;
+        }
         this.forceUpdate();
     }
 
@@ -86,26 +86,9 @@ class Home extends React.Component {
 
             return <Pair {...finalData}/>;
         });
-        this.makeTopRow();
         if(this.state.ps.length > 0) this.state.ps.unshift(<Pair {...this.topRow} />);
         this.startLocation = locationNames[0];
         return locationNames;
-    }
-
-    makeTopRow(){
-        let topRow = {};
-            topRow["start name"] = "Start name";
-            topRow["end name"] = "End name";
-            topRow["Distance"] = "Distance";
-            topRow["Cumulative Distance"] = "Cumulative Distance";
-
-            for (let o in this.state.options) {
-                    topRow["start " + o] = "Start " + o;
-                    topRow["end " + o] = "End " + o;
-            }
-            this.topRowBack = topRow;
-            if(!this.topRow) this.topRow = topRow;
-            return topRow;
     }
 
    reorderItinerary(key, value){
@@ -130,10 +113,6 @@ class Home extends React.Component {
 
     render()
     {
-
-
-
-
         if(!this.startLocation && this.props.opt != "None") {
             // forces fort collins municipalities as start locations if no location has been chosen
             this.reorderItinerary("start municipality", "fort collins")
