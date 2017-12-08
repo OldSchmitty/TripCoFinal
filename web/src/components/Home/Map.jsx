@@ -167,11 +167,11 @@ class Map extends React.Component {
         if(this.googleMap.props.children[0].props.path.length > 0){
           console.log(this.getKmlString())
         }
+      }
         // Return the stuff we actually want rendered on the page
         return (
             this.googleMap
         )
-    }
     }
 
   setUpGoogleMap(){
