@@ -99,13 +99,17 @@ class Map extends React.Component {
     }
 
   getKmlStart() {
+      let cord = this.googleMap.props.children[1].props.position
+
     return '    </Placemark>\n'
         + '\t<Placemark>\n'
         + '\t    <name>Simple placemark</name>\n'
         + '\t    <description>Attached to the ground. Intelligently places itself \n'
         + '\t       at the height of the underlying terrain.</description>\n'
         + '\t    <Point>\n'
-        + '\t      <coordinates>9.290300369262695,47.40549850463867,0</coordinates>\n'
+        + '\t      <coordinates>\n'
+        +  '\t\t' + cord['lng'] + "," + cord['lat'] + "\n"
+        + '\n\t</coordinates>\n'
         + '\t    </Point>\n'
         + '\t  </Placemark>\n'
         + '  </Document>\n'
@@ -124,18 +128,20 @@ class Map extends React.Component {
   }
 
   getCords() {
-    return "\t\t9.290300369262695,47.40549850463867,2573\n"
-        + "\t\t7.8380556,51.8844444,2573\n"
-        + "\t\t10.8169444,50.7783333,2573\n"
-        + "\t\t-97.92030334472656,49.166900634765625,2573\n"
-        + "\t\t-103.65299987792969,38.055599212646484,2573\n"
-        + "\t\t-81.85559844970703,26.650800704956055,2573\n"
-        + "\t\t-83.90139770507812,43.186100006103516,2573\n"
-        + "\t\t-123.80500030517578,42.701499938964844,2573\n"
-        + "\t\t-103.090833,31.849722,2573\n"
-        + "\t\t-103.200996399,31.779600143399996,2573\n"
-        + "\t\t9.290300369262695,47.40549850463867,2573\n"
-        + "\t\t9.290300369262695,47.40549850463867,2573"
+    let path = this.googleMap.props.children[0].props.path
+    let rt = this.makeCordString(path);
+    console.log(rt)
+    return rt
+  }
+
+  makeCordString(path) {
+      console.log(path.length)
+    let rt = ""
+    for (let i = 0; i < path.length; i++) {
+      rt = rt + "\t\t" + path[i]['lng'] + "," + path[i]['lat'] + "\n"
+    }
+    console.log(rt)
+    return rt;
   }
 
   getKmlSetup() {
