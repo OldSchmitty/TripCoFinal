@@ -101,11 +101,9 @@ class Map extends React.Component {
   getKmlStart() {
       let cord = this.googleMap.props.children[1].props.position
 
-    return '    </Placemark>\n'
-        + '\t<Placemark>\n'
-        + '\t    <name>Simple placemark</name>\n'
-        + '\t    <description>Attached to the ground. Intelligently places itself \n'
-        + '\t       at the height of the underlying terrain.</description>\n'
+    return '\t<Placemark>\n'
+        + '\t    <name>Start Location</name>\n'
+        + '\t    <description>The staring location</description>\n'
         + '\t    <Point>\n'
         + '\t      <coordinates>\n'
         +  '\t\t' + cord['lng'] + "," + cord['lat'] + "\n"
@@ -148,13 +146,11 @@ class Map extends React.Component {
     return '<?xml version="1.0" encoding="UTF-8"?>\n'
         + '<kml xmlns="http://earth.google.com/kml/2.0">\n'
         + '  <Document>\n'
-        + '    <name>Paths</name>\n'
-        + '    <description>Examples of paths. Note that the tessellate tag is by default\n'
-        + '      set to 0. If you want to create tessellated lines, they must be authored\n'
-        + '      (or edited) directly in KML.</description>\n'
+        + '    <name>Stored Path</name>\n'
+        + '    <description>Your saved kml path from CS314 fall</description>\n'
         + '    <Placemark>\n'
-        + '      <name>Absolute Extruded</name>\n'
-        + '      <description>Transparent green wall with yellow outlines</description>\n'
+        + '      <name>Path</name>\n'
+        + '      <description>Your path around the world</description>\n'
         + '\t<Style>\n'
         + '\t<LineStyle>\n'
         + '<width>5</width>\n'
@@ -171,15 +167,14 @@ class Map extends React.Component {
         if(this.googleMap.props.children[0].props.path.length > 0){
           console.log(this.getKmlString())
         }
-      }
-
         // Return the stuff we actually want rendered on the page
         return (
             this.googleMap
         )
     }
+    }
 
-  setUpGoogleMap() {
+  setUpGoogleMap(){
     this.googleMap =
 
         <GoogleMap
