@@ -65,14 +65,14 @@ class Map extends React.Component {
      * returns Longitude of a destination
      */
     getLongitude(i){
-        return parseFloat(this.state.allPairs[i]['start longitude'].slice(17))
+        return parseFloat(this.state.allPairs[i]['start longitude'])
     }
 
     /*
      * returns Latitude of a destination
      */
     getLatitude(i){
-        return parseFloat(this.state.allPairs[i]['start latitude'].slice(16))
+        return parseFloat(this.state.allPairs[i]['start latitude'])
     }
 
     /*
