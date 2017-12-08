@@ -30,16 +30,16 @@
 
 Statistic | Planned | Completed
 --- | ---: | ---:
-Tasks |  28    | - 
-Story Points |  52  | -
+Tasks |  28    | 40
+Story Points |  52  | 70
 
 
 Statistic | Start | End
 --- | ---: | ---:
-Overall Test Coverage | 81 | - 
-Smells | 35 | -
-Duplication | 55 | -
-Technical Debt Ratio | 19.7 | -
+Overall Test Coverage | 81 | 84 
+Smells | 35 | 17
+Duplication | 55 | 16
+Technical Debt Ratio | 19.7 | 4.3
 
 ## Plan
 
@@ -60,31 +60,31 @@ Date | Tasks done now | Tasks done next | Impediments | Coverage | Smells | Dupl
  11-29 | #382 #383 #381 #361 #363 #366 #399 #367 | #371 | Other Classes, React | 84 | 16 | 16 | 4.4
  12-4 || #409 #371 #376 | Other Classes | 84 | 16 | 16 | 4.4
  12-6 | #371 #376 | #409 #415 #376 #418 | Other classes | 84 | 16 | 16 | 4.3
- |||||84||||
-
+ 12-8| #375 #376 #377 #409 #415 #417 #418 #423 #372 #413 #422 #358 #356 #357 #360 | | none| 84 | 17 | 16 | 4.3
 ## Review
 
 #### Completed user stories (epics) in Sprint Backlog 
-* *user story*:  *comments*
-* 
+* #358: Creating the kml file was more complicated than expected
+* #356: No major issues
+* #372: Very successful
+* #357: Slight impovement 81%-84%
+* #360: Significantly improvied reacts implemtation 
 
 #### Incomplete user stories / epics in Sprint Backlog 
-* *user story*: *Explanation...*
-*
-
+* None
 #### What went well
-* *something*
-*
+* Code clean up
+* Code coverage
 
 #### Problems encountered and resolutions
-* *something*
-*
+* React: hours of google searches
+* KML file saving: Build file from scratch
 
 ## Retrospective
 
 Topic | Teamwork | Process | Tools
 :--- | :--- | :--- | :---
 What we will change this time |Actively find a better way to communicate - possibly Slack | Using code climate better - don't push unless it looks pretty good, Stop putting up pull requests with multiple issues | Switch to Slack for Communication and possibly meeting in CS120 Lab for work
-What we did well |  |  | 
-What we need to work on |  |  |
-What we will change next time |  |  | 
+What we did well | Working together in the 120 lab make debuging easier | Better cooperation working together in the lab | meeting in person worked best for us
+What we need to work on | Communicating outside of meetings | Updating the zenboard | find a communication tool we actually use
+What we will change next time | more team building excersises | more commits | find a beeter communication tool
