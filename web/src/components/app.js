@@ -13,6 +13,7 @@ export default class App extends React.Component {
             options: {},
             serverReturned: null,
             bottomRow: [],
+            topRow: {},
             locations: [],
             currentTrip: [],
             opt: "None"
@@ -73,6 +74,7 @@ export default class App extends React.Component {
                     serverReturned = {this.state.serverReturned}
                     query = {this.query}
                     opt = {this.state.opt}
+                    topRow = {this.state.topRow}
                 />
                 </div>
 
@@ -112,6 +114,8 @@ export default class App extends React.Component {
     getData(idFile, infoFile) {
         let pairs = [];
         let totalDist = 0;
+        let ltopRow = {};
+        this.setState({options: []})
         for (let i  in idFile) {
             let start;
             let end;
@@ -130,24 +134,31 @@ export default class App extends React.Component {
 
             // add the extra info of the second JSON to p:
             let p = {};
+
             for (let key in start['map']) {
-                p["start " + key] = "Start " + key + ": " + start['map'][key];
+                p["start " + key] = start['map'][key];
             }
             for (let key in end['map']) {
-                p["end " + key] = "End " + key + ": " + end['map'][key];
+                p["end " + key] = end['map'][key];
             }
-            p["distance"] = "Distance: " + dist;
-            p["cumulativeDistance"] = "Cumulative: " + totalDist;
+            p["distance"] = dist;
+            p["cumulativeDistance"] = totalDist;
 
             pairs.push(p); //add object to pairs array
         }
+
+        ltopRow["start name"] = "Start name";
+        ltopRow["end name"] = "End name";
+        ltopRow["Distance"] = "Distance";
+        ltopRow["Cumulative Distance"] = "Cumulative Distance";
+
         for(let k  in infoFile[0]['map']){
             if(k != "name") {
                 this.state.options[k] = false;
+                ltopRow["start " + k] = null;
+                ltopRow["end " + k] = null;
             }
         }
-
-
 
         let totalRow =
             <tr>
@@ -156,7 +167,8 @@ export default class App extends React.Component {
             </tr>;
         this.setState({
             allPairs: pairs,
-            bottomRow: totalRow
+            bottomRow: totalRow,
+            topRow: ltopRow
         });
     }
 
