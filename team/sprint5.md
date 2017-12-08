@@ -60,6 +60,7 @@ Date | Tasks done now | Tasks done next | Impediments | Coverage | Smells | Dupl
  11-29 | #382 #383 #381 #361 #363 #366 #399 #367 | #371 | Other Classes, React | 84 | 16 | 16 | 4.4
  12-4 || #409 #371 #376 | Other Classes | 84 | 16 | 16 | 4.4
  12-6 | #371 #376 | #409 #415 #376 #418 | Other classes | 84 | 16 | 16 | 4.3
+ |||||84||||
 
 ## Review
 
