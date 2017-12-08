@@ -9,9 +9,15 @@ class SaveKML extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(this.state.KMLFile !== nextProps.KMLFile){
+            this.setState({KMLFile: nextProps.KMLFile});
+        }
+    }
+
     render() {
         return (
-            <div className="saveload">
+            <div>
                 <ButtonToolbar className="SaveKML">
                     <button type="button" onClick={this.saveButtonClicked.bind(this)}>
                         Save Trip as KML File
@@ -26,6 +32,7 @@ class SaveKML extends React.Component {
     }
 
     async getFile() {
+        console.log(this.state.KMLFile);
         if(this.state.KMLFile !== '') {
             let pom = document.createElement('a');
             pom.setAttribute('href', 'data:text/plain;charset=utf-8,'

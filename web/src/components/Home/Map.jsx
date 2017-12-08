@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // This imports all of the external functionality we want from react-google-maps
 import {GoogleMap, Marker, Polyline, withGoogleMap, KmlLayer} from 'react-google-maps';
+import SaveKML from './SaveKML/SaveKML.jsx';
 
 
 class Map extends React.Component {
@@ -10,7 +11,7 @@ class Map extends React.Component {
         super(props);
         this.state = {
             currentTrip : this.props.currentTrip,
-            allPairs: this.props.allPairs
+            allPairs: this.props.allPairs,
         };
 
         this.startLocation
@@ -20,12 +21,17 @@ class Map extends React.Component {
     /* Re-renders the map when currentTrip is updated*/
     componentWillReceiveProps(nextProps) {
         if (nextProps.currentTrip !== this.props.currentTrip) {
-            this.setState({currentTrip: nextProps.currentTrip});
+            this.setState({
+                currentTrip: nextProps.currentTrip,
+            });
         }
 
         if (nextProps.allPairs !== this.props.allPairs) {
-            this.setState({allPairs: nextProps.allPairs});
+            this.setState({
+                allPairs: nextProps.allPairs,
+            });
         }
+
     }
 
     /*
@@ -90,17 +96,16 @@ class Map extends React.Component {
       {
         return ""
       }
-      let setup = this.getKmlSetup()
-      let path  = this.getKmlPath()
-      let start = this.getKmlStart()
+      let setup = this.getKmlSetup();
+      let path  = this.getKmlPath();
+      let start = this.getKmlStart();
 
-      return setup + path + start
+      return setup + path + start;
 
     }
 
   getKmlStart() {
-    return '    </Placemark>\n'
-        + '\t<Placemark>\n'
+    return '\t<Placemark>\n'
         + '\t    <name>Simple placemark</name>\n'
         + '\t    <description>Attached to the ground. Intelligently places itself \n'
         + '\t       at the height of the underlying terrain.</description>\n'
@@ -163,13 +168,16 @@ class Map extends React.Component {
         //console.log("google path: ", this.googleMap.props.children[0])
         //console.log("google marker: ", this.googleMap.props.children[1])
         if(this.googleMap.props.children[0].props.path.length > 0){
-          console.log(this.getKmlString())
+          //console.log(this.getKmlString())
         }
       }
-
+        let kml = this.getKmlString()
         // Return the stuff we actually want rendered on the page
         return (
-            this.googleMap
+            <div className='table'>
+                {this.googleMap}
+                <SaveKML KMLFile = {kml}/>
+            </div>
         )
     }
 
@@ -204,7 +212,7 @@ class Map extends React.Component {
             />
 
           {/*Close our GoogleMap*/}
-        </GoogleMap>;
+        </GoogleMap>
   }
 }
 // This is important what this does is it wraps the Map module in
