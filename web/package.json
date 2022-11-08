@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
-    "babel-loader": "^6.4.1",
+    "babel-loader": "^9.1.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.24.1",
@@ -49,14 +49,14 @@
     "prop-types-extra": "^1.0.1",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-overlays": "^0.7.4",
-    "sass-loader": "^3.2.0",
+    "sass-loader": "^13.1.0",
     "simple-html-tokenizer": "^0.4.3",
     "style-loader": "^0.16.1",
-    "svg-inline-loader": "^0.8.0",
+    "svg-inline-loader": "^0.8.2",
     "uncontrollable": "^4.1.0",
     "url-loader": "^0.5.8",
     "warning": "^3.0.0",
-    "webpack": "^2.2.1",
+    "webpack": "^5.74.0",
     "webpack-dev-server": "^3.1.11"
   }
 }
